@@ -1,0 +1,246 @@
+body{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+@media (max-height: 630px){
+    body
+    {
+        height: 630px;
+    }
+}
+
+.left{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    /*height: 100%;*/
+    color: #fff;
+    background: #188eee url(../images/bg.png);
+}
+
+.right{
+    /*height: 100%;*/
+    width: 50%;
+    background: #fff;
+}
+
+.left .avatar{
+    display: block;
+    width: 100px;
+    height: 100px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 2px 5px rgb(93, 176, 242);
+}
+
+.avatar:hover{
+    animation: avataranimation 1s ease infinite;
+}
+
+@keyframes avataranimation{
+    25%{
+        box-shadow: none;
+    }
+    75%{
+        box-shadow: 0 0 20px 10px rgb(93, 176, 242);
+    }
+    100%{
+        box-shadow: 0 0 3px 5px rgb(93, 176, 242);        
+    }
+}
+
+.contact{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.contact li, .contact li a{
+    color: #fff;
+}
+
+.contact li{
+    margin-top: 10px;
+}
+
+.contact li span{
+    width: 18px;
+    height: 18px;
+    padding: 4px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+}
+
+.info{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 350px;
+    padding: 10px;
+    border: 1px solid rgb(14, 106, 184);
+    box-shadow: 0 0 1px  2px rgb(43,158, 255);
+    font-size: 13px;
+}
+
+.info span{
+    flex-basis: 50%;
+    line-height: 30px;
+}
+
+.right{
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+}
+
+.right header{
+    position: relative;
+    text-align: center;
+}
+
+.right .work, .right .skill{
+    flex-basis: 50%;
+    padding-top: 30px;
+}
+
+.right header::before{
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.5px;
+    width: 100%;
+    height: 1px;
+    background: rgb(204, 204, 204);
+}
+
+
+.right header h2{
+    display: inline-block;
+    position: relative;
+    padding: 0 10px;
+    background: #fff;
+    color: #188eee;
+    font-weight: bold;
+}
+
+.right ul{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.work-item{
+    position: relative;
+    display: block;
+}
+
+.work-experience{
+    background: linear-gradient(#ccc 80%, transparent) no-repeat left top;
+    background-size: 1px 100%;
+}
+
+.work-item::before{
+    content: "";
+    display: block;
+    position: absolute;
+    left: -29.5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #188eee;
+    border: 5px solid rgb(230, 243, 254);
+}
+
+.item-time, .item-company, .skill-item .name{
+    font-weight: bold;
+}
+
+.item-text{
+    color: #999;
+    font-size: 12px;
+    line-height: 20px
+}
+
+.work-item .item-text{
+    margin: 20px 0;
+}
+
+.skill-item{
+    position: relative;
+    padding: 10px 0;
+}
+
+.skill-item .item-text{
+    
+}
+
+.skill-item .item-skill{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.skill-item .level{
+    padding: 0 8px;
+    border: 1px solid #999;
+    border-radius: 16px;
+    line-height: 16px;
+    font-size: 12px;
+    color: #999;
+}
+
+.skill-item .item-text{
+    margin: 5px 0;
+}
+
+.skill-item .item-bar{
+    position: relative;
+    width: 100%;
+    height: 4px;
+    background: rgb(204, 204, 204);
+    border-radius: 2px;
+}
+
+.skill-item .item-bar span{
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    height: 4px;
+    background: #188eee;
+    border-radius: 2px;
+    transition: all 1s ease;
+    transform-origin: top left;
+}
+
+.skill-item .bar-know{
+    width: 20%;
+}
+
+.skill-item .bar-master{
+    width: 80%;
+}
+
+.skill-item .bar-well{
+    width: 60%;
+}
+
+.skill-item:hover .item-bar span{
+    animation: baranimation 0.75s ease;
+}
+
+@keyframes baranimation{
+    50%{
+        transform: scaleX(0);
+    }
+    100%{
+        transform: scaleX(1);
+    }
+}
+
+
+
+

@@ -1,0 +1,307 @@
+body{
+    display: flex;
+    width: 100%;
+    min-height: 100%;
+}
+
+@keyframes avataranimation{
+    25%{
+        box-shadow: none;
+    }
+    75%{
+        box-shadow: 0 0 20px 10px #5db0f2;
+    }
+    100%{
+        box-shadow: 0 0 3px 5px #5db0f2;     
+    }
+}
+
+@keyframes baranimation{
+    50%{
+        transform: scaleX(0);
+    }
+    100%{
+        transform: scaleX(1);
+    }
+}
+
+@keyframes workanimation{
+     25%{
+        box-shadow: none;
+    }
+    75%{
+        box-shadow: 0 0 10px 8px #e6f3fe;
+    }
+    100%{
+        box-shadow: 0 0 2px 5px #e6f3fe;        
+    }
+}
+
+.left{
+    position: relative;
+    width: 50%;
+    color: #fff;
+    background: #188eee url(../images/bg.png);
+}
+
+.left-wrapper{
+    /*个人信息采用flex布局*/
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /*vh使得当页面高度超过一屏时，个人信息仍保持在第一屏的中间*/
+    top: 50vh;
+    /*水平方向的居中只需要相对于左边div就可以了*/
+    left: 50%;
+    /*以自身的大小向左向上偏移一半，最后居中显示*/
+    transform: translate(-50%, -50%);
+}
+
+.right{
+    width: 50%;
+    background: #fff;
+}
+
+@media (max-width: 768px){
+    /*i当视窗宽度小于768px时*/
+    body{
+        flex-direction: column;
+    }
+
+    .left{
+        min-height: 100vh;
+        width: 100%;
+    }
+
+    .right{
+        width: 100%;
+    }
+}
+
+@media (max-height: 640px){
+    body{
+        min-height: 640px;
+    }
+
+    .left{
+        min-height: 640px;
+    }
+}
+
+.left .avatar{
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background: #fff;
+    border-radius: 50%;
+    /*阴影代替边框*/
+    box-shadow: 0 0 2px 5px #5db0f2;
+}
+
+.avatar:hover{
+    animation: avataranimation 0.75s ease infinite;
+}
+
+
+
+.contact{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.contact li, .contact li a{
+    color: #fff;
+}
+
+.contact li{
+    margin-top: 10px;
+}
+
+.contact li span{
+    width: 18px;
+    height: 18px;
+    padding: 4px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+}
+
+.info{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 320px;
+    padding: 5px;
+    border: 1px solid #0e6ab8;
+    box-shadow: 0 0 1px  2px #2b9eff;
+    font-size: 13px;
+}
+
+/*设置为两栏布局*/
+.info span{
+    flex-basis: 50%;
+    line-height: 30px;
+}
+
+.right{
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+}
+
+.right header{
+    position: relative;
+    text-align: center;
+}
+
+.right .work, .right .skill{
+    flex-basis: 50%;
+    padding-top: 30px;
+}
+
+/*用伪元素实现标题压线*/
+.right header::before{
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.5px;
+    width: 100%;
+    height: 1px;
+    background: #ccc;
+}
+
+
+.right header h2{
+    display: inline-block;
+    /*设置定位，使层次级别高于线*/
+    position: relative;
+    padding: 0 10px;
+    /*设置标题本身有背景，不然会被线直接穿过*/
+    background: #fff;
+    color: #188eee;
+    font-weight: bold;
+}
+
+.right ul{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.work-item{
+    position: relative;
+    display: block;
+}
+
+
+.work-experience{
+    /*时间轴，最后渐变为transparent为了适应不同的背景*/
+    background: linear-gradient(#ccc 80%, transparent) no-repeat left top;
+    /*高度为100%刚好等于覆盖*/
+    background-size: 1px 100%;
+}
+
+/*时间轴上每个工作前的小圆*/
+.work-item .item-circle{
+    content: "";
+    display: block;
+    position: absolute;
+    left: -24.5px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #188eee;
+    box-shadow: 0 0 2px 5px #e6f3fe;
+}
+
+.work-item:hover .item-circle{
+    animation: workanimation 1s ease infinite;
+}
+
+
+.item-time, .item-company, .skill-item .name{
+    font-weight: bold;
+}
+
+.item-text{
+    color: #999;
+    font-size: 12px;
+    line-height: 20px
+}
+
+.work-item .item-text{
+    margin: 20px 0;
+}
+
+.skill-item{
+    position: relative;
+    padding: 10px 0;
+}
+
+.skill-item .item-text{
+    
+}
+
+/*左边技能，右边掌握程度*/
+.skill-item .item-skill{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.skill-item .level{
+    padding: 0 8px;
+    border: 1px solid #999;
+    border-radius: 16px;
+    line-height: 16px;
+    font-size: 12px;
+    color: #999;
+}
+
+.skill-item .item-text{
+    margin: 5px 0;
+}
+
+/*技能条底部*/
+.skill-item .item-bar{
+    position: relative;
+    width: 100%;
+    height: 4px;
+    background: #ccc;
+    border-radius: 2px;
+}
+
+/*技能条上覆盖的蓝色条条*/
+.skill-item .item-bar span{
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    height: 4px;
+    background: #188eee;
+    border-radius: 2px;
+    transition: all 1s ease;
+    transform-origin: top left;
+}
+
+.skill-item .bar-know{
+    width: 20%;
+}
+
+.skill-item .bar-master{
+    width: 80%;
+}
+
+.skill-item .bar-well{
+    width: 60%;
+}
+
+.skill-item:hover .item-bar span{
+    animation: baranimation 0.75s ease;
+}
+
+
+
+
+

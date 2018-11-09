@@ -1,44 +1,116 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-	<title>h5爱心鱼游戏</title>
-  <meta charset= "utf-8"/>
-	<!-- <link rel="stylesheet" type="text/css" href="css/style.css"> -->
-<link href="styles.css" rel="stylesheet"></head>
+    <meta charset="utf-8">
+    <title>singing的简历</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/main-style.css">
+</head>
+
 <body>
-	<div class="introduce">
-		<p class="title">游戏规则：</p>
-		<ul>
-			<li>1. 大鱼跟着鼠标的位置移动而吃到果实，如吃到红色果实，身体变红，画布下方的个数加1；如吃到蓝色果实，身体变蓝，画布下方的倍数加1。</li>
-			<li>2. 画布右上角显示着小鱼的体力值，初始为10，身体为红色，随着时间的推移，体力值减小，身体颜色变淡。</li>
-			<li>3. 大鱼吃到果实之后可以喂小鱼，此时小鱼的体力值会根据大鱼果实的数量相应增加，画布上方的分值等于画布下方的倍数乘以个数的累加和。</li>
-			<li>4. 当小鱼体力值减到0时，游戏结束；点击画布，则可重新开始游戏。好了，拯救小鱼行动开始，躁起来吧！</li>
-		</ul>
-	</div>
-	<div class="page">
-		<div class="content" id="main">
-			<canvas id="canvas1" width="800" height="600">
 
-			</canvas>
-			<canvas id="canvas2" width="800" height="600">
 
-			</canvas>
-		</div>
-	</div>
-<script type="text/javascript" src="bundle.js"></script></body>
-<!-- <script type="text/javascript" src="js/util.js"></script>
-<script type="text/javascript" src="js/global.js"></script>
+   <div class="left">
+       
+       <div class="left-wrapper">
+           <img class="avatar" src="images/avatar.png">
+           <h1 class="name">Singing</h1>
+           <p class="feature">
+               念经(coding)、参禅(thinking)、化缘(searching)
+           </p>
 
-<script type="text/javascript" src="js/ane.js"></script>
-<script type="text/javascript" src="js/baby.js"></script>
-<script type="text/javascript" src="js/dust.js"></script>
-<script type="text/javascript" src="js/fruit.js"></script>
-<script type="text/javascript" src="js/halo.js"></script>
-<script type="text/javascript" src="js/mom.js"></script>
-<script type="text/javascript" src="js/score.js"></script>
-<script type="text/javascript" src="js/wave.js"></script>
 
-<script type="text/javascript" src="js/controller.js"></script>
-<script type="text/javascript" src="js/index.js"></script> -->
-<!-- <script type="text/javascript" src="../dist/bundle.js"></script> -->
+           <ul class="contact">
+
+
+               <li>
+                <span class="icon-contactphone"></span>
+                <a href="mailto:1040897973@qq.com">1040897973@qq.com</a>
+               </li>
+
+               <li>
+                <span class="icon-contactmail"></span>
+               18814122643</li>
+
+               <li>
+                <span class="icon-contactgithub"></span>
+                <a href="http://git.imweb.io/singing" target="_blank">http://git.imweb.io/singing</a>
+            </li>
+           </ul>
+
+            <div class="info">
+                <span>学历：本科</span>
+                <span>工作年限：2年</span>
+                <span>毕业院校：华南理工大学</span>
+                <span>出生年月：1995年10月</span>
+            </div>
+        </div>
+
+   </div>
+    
+    <div class="right">
+        <div class="work">
+            <header>
+                <h2>工作经历</h2>
+            </header>
+            <ul class="work-experience">
+           
+                <li class="work-item">
+                    <span class="item-circle"></span>
+                    <p class="item-time">2018.08 —— 至今</p>
+                    <p class="item-company">腾讯科技（深圳）有限公司/产品策划</p>
+                    <p class="item-text">
+                        负责腾讯课堂教研功能的策划；能熟练对接用户及运营侧，规划版本，推进需求落地，并根据数据及用户反馈优化功能；所负责功能覆盖PC客户端、PCWeb、APP、H5。
+                    </p>
+                </li>
+                <li class="work-item">
+                    <span class="item-circle"></span>
+                    <p class="item-time">2018.08 —— 至今</p>
+                    <p class="item-company">腾讯科技（深圳）有限公司/产品策划</p>
+                    <p class="item-text">
+                        负责腾讯课堂教研功能的策划；能熟练对接用户及运营侧，规划版本，推进需求落地，并根据数据及用户反馈优化功能；所负责功能覆盖PC客户端、PCWeb、APP、H5。
+                    </p>
+                </li>
+
+                
+            </ul>
+        </div>
+
+        <div class="skill">
+            <header>
+                <h2>技能特长</h2>
+            </header>
+            <ul class="skills">
+               <li class="skill-item">
+                   <div class="item-skill">
+                        <span class="name">PS</span>
+                        <span class="level">了解</span>
+                    </div>
+
+                   <p class="item-text">基本切图</p>
+                   <div class="item-bar"><span class="bar-know"></span></div>
+               </li>
+               <li class="skill-item">
+                   <div class="item-skill">
+                        <span class="name">HTML & CSS</span>
+                        <span class="level">精通</span>
+                    </div>
+                   <p class="item-text">语义化、CSS3、动画、响应式、移动端、预处理器...</p>
+                   <div class="item-bar"><span class="bar-master"></span></div>
+               </li>
+               <li class="skill-item">
+                   <div class="item-skill">
+                        <span class="name">Javascript</span>
+                        <span class="level">熟悉</span>
+                    </div>
+                   <p class="item-text">jquery、node、react、vue、webpack</p>
+                   <div class="item-bar"><span class="bar-well"></span></div>
+               </li>
+            </ul>
+        </div>
+    </div>
+
+</body>
 </html>

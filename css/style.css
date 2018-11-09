@@ -1,0 +1,35 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?a7qcl4');
+  src:  url('fonts/icomoon.eot?a7qcl4#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?a7qcl4') format('truetype'),
+    url('fonts/icomoon.woff?a7qcl4') format('woff'),
+    url('fonts/icomoon.svg?a7qcl4#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-contact"], [class*=" icon-contact"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-contactphone:before {
+  content: "\e942";
+}
+.icon-contactmail:before {
+  content: "\ea84";
+}
+.icon-contactgithub:before {
+  content: "\eab0";
+}
