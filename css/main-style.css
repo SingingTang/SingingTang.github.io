@@ -290,11 +290,11 @@ body{
 }
 
 .skill-item .bar-master{
-    width: 80%;
+    width: 90%;
 }
 
 .skill-item .bar-well{
-    width: 60%;
+    width: 80%;
 }
 
 .skill-item:hover .item-bar span{
