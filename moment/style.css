@@ -1,0 +1,336 @@
+
+.page-moments {
+    max-width: 640px;
+    margin: 0 auto;
+    background: #fff;
+}
+
+/* header */
+.header {
+    margin-bottom: 20px;
+}
+.header-banner {
+    padding-top: 100%;
+    position: relative;
+    margin-top: -25%;
+    background: url(./img/bg.png) no-repeat;
+    background-size: cover;
+}
+.header-user {
+    display: flex;
+    margin-top: -52px;
+    align-items: center;
+    text-shadow: 1px 1px #999;
+    justify-content: flex-end;
+    position: relative;
+}
+.header-user .user-name {
+    font-size: 16px;
+    color: #fff;
+}
+.header-user .user-link {
+    padding: 2px;
+    border: 1px solid #dfdfdf;
+    background: #fff;
+    margin: 0 10px;
+}
+
+/* moments */
+
+.moments-item {
+    display: flex;
+    padding: 20px 10px;
+    border-bottom: 1px solid #dfdfdf;
+    font-size: 14px;
+    position: relative;
+}
+.moments-item .item-left {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+.moments-item .item-right {
+    flex: 1;
+    overflow: hidden;
+}
+.moments-item .item-name {
+    color: #637ab4;
+    font-size: 14px;
+    line-height: 1.3;
+}
+
+.moments-item .item-share {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    background: #f3f3f3;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+.moments-item .item-share .share-img {
+    margin-right: 5px;
+    width: 40px;
+    height: 40px;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+.moments-item .item-share .share-tt {
+    line-height: 20px;
+    max-height: 40px;
+    overflow: hidden;
+}
+.moments-item .item-only-img {
+    max-width: 180px;
+    max-height: 180px;
+    margin-top: 10px;
+}
+.moments-item .item-pic {
+    display: inline-block;
+    vertical-align: middle;
+}
+.moments-item .pic-item {
+    float: left;
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+    margin-top: 10px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.moments-item .item-ft {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 36px;
+    position: relative
+}   
+.moments-item .item-ft .item-time {
+    color: #999;
+    font-size: 12px;
+}
+.moments-item .item-ft .item-reply-btn {
+    position: absolute;
+    right: 0px;
+    top: 0;
+    width: 36px;
+    text-align: right;
+    height: 36px;
+    z-index: 2;
+    background: #fff;
+}
+.moments-item .item-ft .item-reply {
+    background: currentColor;
+    width: 16px;
+    height: 12px;
+    display: inline-block;
+    position: relative;
+    color: #8c99c1;
+    vertical-align: middle;
+}
+.moments-item .item-ft .item-reply::before {
+    content: "";
+    width: 0;
+    height: 0;
+    border: 3px solid currentColor;
+    border-color: transparent currentColor transparent transparent;
+    border-width : 2px 3px;
+    position: absolute;
+    left: -6px;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+.moments-item .item-ft .item-reply::after {
+    content: "";
+    width: 3px;
+    height: 3px;
+    background: #fff;
+    border-radius: 1px;
+    box-shadow: 7px 0 0 #fff;
+    position: absolute;
+    top: 50%;
+    left: 3px;
+    transform: translate(0, -50%);
+}
+
+.moments-item .reply-zone {
+    background: #f0f0f0;
+    margin-top: 5px;
+    position: relative;
+}
+.moments-item .reply-zone .reply-who {
+    color: #637ab4;
+}
+.moments-item .reply-zone::before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 8px solid #f3f3f3;
+    border-color: transparent transparent #f3f3f3 transparent;
+    border-width: 8px 8px;
+    top: -14px;
+    left: 8px;
+}
+.moments-item .reply-like {
+    padding: 2px 8px 2px;
+    color: #637ab4;
+}
+.moments-item .icon-like-blue {
+    display: inline-block;
+    vertical-align: -3px;
+    width: 14px;
+    height: 14px;
+    margin-right: 2px;
+    background: url(./img/like-blue.png) no-repeat;
+    background-size: 14px;
+}
+.moments-item .icon-like {
+    background: url(./img/like.png) no-repeat;
+    position: relative;
+}
+
+/*.icon-like::after{
+    content: "";
+    display: block;
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: url(./img/like-blue.png) no-repeat;
+    background-size: cover;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 5s ease;
+}
+*/
+/*.like:active .icon-like::after{
+    color: red;
+    animation: iconLikeAnimation 1s ease infinite;
+}*/
+
+/* */
+
+.moments-item .icon-comment {
+    background: url(./img/comment.png) no-repeat;
+}
+.moments-item .icon-like,
+.moments-item .icon-comment {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-size: cover;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+.moments-item .reply-comment {
+    padding: 5px 8px;
+}
+.moments-item .reply-like+.reply-comment {
+    border-top: 1px solid #ccc;
+}
+
+.page-moments .reply-panel{
+    position: absolute;
+    display: flex;
+    top: 50%;
+    right: 60%;
+    transform: translateY(-50%);
+    align-items: center;
+    z-index: 99;
+    /*width: 160px;*/
+    width: 0;
+    height: 36px;
+    overflow: hidden;
+    background: #3f4046;
+    border-radius: 5px;
+    color: #fff;
+    /*visibility: hidden;*/
+    transition: width 0.25s ease;
+    cursor: pointer;
+
+}
+
+.reply-panel .like,
+.reply-panel .comment{
+    flex: 1;
+    height: 100%;
+    text-align: center;
+}
+
+.reply-panel .like{
+    position: relative;
+}
+
+.reply-panel .like::after{
+    content: "";
+    display: block;
+    position: absolute;
+    top: 20%;
+    bottom: 20%;
+    right: 0;
+    width: 1px;
+    background: #333;
+
+}
+
+.moments-item div.show{
+    visibility: visible;
+}
+
+.comment-form{
+    display: none;
+    position: fixed;
+    align-items: center;
+    bottom: 0;
+    left: 50%;
+    z-index: 999;
+    transform: translateX(-50%);
+    border-top: 1px solid #f1eff1;
+    width: 100%;
+    max-width: 640px;
+    height: 60px;
+    padding: 10px;
+    background: #fff;
+
+}
+
+.comment-form .comment-submit{
+    background: #808080cc;
+    text-align: center;
+    border-radius: 5px;
+    color: #fff;
+    border: 1px solid #ccc;
+    height: 100%;
+}
+
+.comment-form .comment-text{
+    flex: 1;
+    margin-right: 10px;
+    border: 1px solid #a9a9a9;
+    height: 100%;
+}
+
+.page-moments .layer{
+    position: absolute;
+    display: block;
+    margin: 0 auto;
+    top: 0;
+    width: 100%;
+    max-width: 640px;
+    height: 0;
+    background: #000;
+    z-index: 999;
+}
+
+.layer .pic-enlarge{
+    width: 100%;
+    max-width: 500px;
+    max-height: 500px;
+    position: fixed;
+    top: 50vh;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
