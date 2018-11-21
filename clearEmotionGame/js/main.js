@@ -38,6 +38,8 @@ window.onload = function(){
 
 	function createEmotion(speed){
 
+		// clearInterval(phrase.timer)
+
 		if(speed < 0)
 			speed = 1;
 
@@ -55,9 +57,7 @@ window.onload = function(){
 		// 设置随机位置
 		var width = parseInt(document.defaultView.getComputedStyle(game, null).width) - 80;
 		var random = Math.random();
-		console.log(random)
 		var left = Math.floor(random*width);
-		console.log(left);
 		phrase.style.left = left + "px";
 		phrase.style.top = "0px";
 
@@ -82,7 +82,8 @@ window.onload = function(){
 			this.onclick = null;
 
 			var emoH = parseInt(document.defaultView.getComputedStyle(phrase, null).height);
-			if(top + emoH != height){
+			var top = parseInt( phrase.style.top);
+			if(top + emoH < height){
 				setTimeout(function(){
 					createEmotion(Math.ceil(phrase.speed/1.3));
 				}, 500);
@@ -101,7 +102,6 @@ window.onload = function(){
 
 		var emoH = parseInt(document.defaultView.getComputedStyle(phrase, null).height);
 		var top = parseInt( phrase.style.top);
-
 		// 当到达底部时
 		if((emoH + top) == height){
 			// 清除计时器
