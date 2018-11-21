@@ -27,21 +27,6 @@ div.contain{
 	position: relative;
 }
 
-@media (max-width: 1000px){
-    /*i当视窗宽度小于768px时*/
-    div.contain {
-        width: 95vw;
-    }
-
-    .left{
-        min-height: 100vh;
-        width: 100%;
-    }
-
-    .right{
-        width: 100%;
-    }
-}
 
 
 div.countDiv{
@@ -66,3 +51,23 @@ div#game img{
 	display: none;
 }
 
+@media (max-width: 1000px){
+    /*i当视窗宽度小于768px时*/
+    div.contain {
+        width: 95vw;
+        height: 550px;
+    }
+
+    div.countDiv {
+        width: 95vw;
+        display: block;
+        height: 100px;
+        border-bottom: 1px solid #000;
+    }
+
+    div#game {
+        width: 95vw;
+        display: block;
+        height: 450px;
+    }
+}

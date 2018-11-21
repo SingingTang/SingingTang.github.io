@@ -4,7 +4,9 @@ window.onload = function(){
 	var score = document.getElementById("score");
 	var against = document.getElementById("against");
 	var game = document.getElementById("game");
-	var emotion = document.getElementById("emotion");
+	var phrase = document.getElementById("phrase");
+	var phrase = document.getElementById("phrase");
+	var phrases = ['行尸走肉', '金蝉脱壳', '百里挑一', '金玉满堂', '霸王别姬', '天上人间', '不吐不快', '海阔天空', '情非得已', '满腹经纶', '兵临城下']
 
 	begin.onclick = function(){
 		this.value = "游戏进行中.....";
@@ -23,10 +25,14 @@ window.onload = function(){
 	
 
 	function reset(){
-		emotion.src = "";
-		emotion.style.display = "none";
-		emotion.onclick = null;
+		phrase.src = "";
+		phrase.style.display = "none";
+		phrase.onclick = null;
 		alert("游戏结束，你共得" + score.innerHTML + "分");
+
+	}
+
+	function createPhrase(speed){
 
 	}
 
@@ -35,64 +41,72 @@ window.onload = function(){
 		if(speed < 0)
 			speed = 1;
 
-		emotion.speed = speed;
-		console.log(emotion.speed);
+		phrase.speed = speed;
+		console.log(phrase.speed);
 		
-		emotion.style.display = "block";
+		phrase.style.display = "inline-block";
+		phrase.style.position = "absolute";
+		phrase.style.background = "#000";
+		phrase.style.color = "#fff";
+		phrase.style.width = "80px";
+		phrase.style.height = "30px";
+		phrase.style.fontFamily = "Microsoft YaHei"
+		
 		// 选择随机表情
-		emotion.src = "img/" + Math.ceil(Math.random()*10) + ".png";
+		phrase.innerHTML = phrases[parseInt( Math.random()*10 )]
 		// 设置随机位置
 		var width = parseInt(document.defaultView.getComputedStyle(game, null).width);
 		var left = Math.floor(Math.random()*width);
-		emotion.style.left = left + "px";
-		emotion.style.top = "0px";
+		phrase.style.left = left + "px";
+		phrase.style.top = "0px";
 
 		// 获取游戏区域高度
 		var height = parseInt(document.defaultView.getComputedStyle(game, null).height);
 		// 产生动画
-		emotion.timer = setInterval(function(){
-			// alert(emotion);
-			fall(emotion, height);
-			// console.log(emotion.style.top);
+		phrase.timer = setInterval(function(){
+			// alert(phrase);
+			fall(phrase, height);
+			// console.log(phrase.style.top);
 			
-		}, emotion.speed);
+		}, phrase.speed);
 
 		// 设置鼠标点击事件
-		emotion.onclick = function(){
+		phrase.onclick = function(){
 			// console.log("click");
-			clearInterval(emotion.timer);
-			emotion.src = "img/qq.png";
+			clearInterval(phrase.timer);
+			phrase.innerHTML = '点中了'
 			score.innerHTML = parseInt(score.innerHTML) + 1;
 			
 			// 避免同时点击触发多个定时器
 			this.onclick = null;
 
-			var emoH = parseInt(document.defaultView.getComputedStyle(emotion, null).height);
-			var top = emotion.offsetTop;
+			var emoH = parseInt(document.defaultView.getComputedStyle(phrase, null).height);
 			if(top + emoH != height){
 				setTimeout(function(){
-					createEmotion(Math.ceil(emotion.speed/1.3));
+					createEmotion(Math.ceil(phrase.speed/1.3));
 				}, 500);
 			}else{
 				against.innerHTML = parseInt(against.innerHTML) - 1;
 				this.speed = Math.ceil(this.speed/1.3);
 			}
-			// shakeEmotion(emotion, 0, emotion.offsetTop);
+			// shakeEmotion(phrase, 0, phrase.offsetTop);
 		}
 
 
 
 	}
 
-	function fall(emotion, height){
+	function fall(phrase, height){
 
-		var emoH = parseInt(document.defaultView.getComputedStyle(emotion, null).height);
-		var top = emotion.offsetTop;
+		var emoH = parseInt(document.defaultView.getComputedStyle(phrase, null).height);
+		var top = parseInt( phrase.style.top);
+		console.log(emoH);
+		console.log('top ' + top);
 
 		// 当到达底部时
 		if((emoH + top) == height){
 			// 清除计时器
-			clearInterval(emotion.timer);
+			clearInterval(phrase.timer);
 
 			against.innerHTML = parseInt(against.innerHTML) + 1;
 
@@ -103,8 +117,9 @@ window.onload = function(){
 		}
 		else{
 			// 设置每次下降高度1,从而形成动画效果
-			emotion.style.top = (top + 1) + "px";
-			// console.log(emotion.style.top);
+			phrase.style.top = (top + 1) + "px";
+			console.log('offsetTop ' + phrase.offsetTop );
+			// console.log(phrase.style.top);
 
 			
 		}
@@ -116,9 +131,9 @@ window.onload = function(){
 			// console.log("8");
 			game.parentNode.style.top = "0px";
 			// 清除小表情
-			emotion.style.display = "none";
+			phrase.style.display = "none";
 			// 继续产生小表情
-			createEmotion(Math.ceil(emotion.speed*1.3));
+			createEmotion(Math.ceil(phrase.speed*1.3));
 			return;
 		}else{
 			game.parentNode.style.top = num%2==0?"-5px":"5px";
