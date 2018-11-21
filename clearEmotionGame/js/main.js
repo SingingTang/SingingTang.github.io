@@ -42,8 +42,6 @@ window.onload = function(){
 			speed = 1;
 
 		phrase.speed = speed;
-		console.log(phrase.speed);
-		
 		phrase.style.display = "inline-block";
 		phrase.style.position = "absolute";
 		phrase.style.background = "#000";
@@ -55,8 +53,11 @@ window.onload = function(){
 		// 选择随机表情
 		phrase.innerHTML = phrases[parseInt( Math.random()*10 )]
 		// 设置随机位置
-		var width = parseInt(document.defaultView.getComputedStyle(game, null).width);
-		var left = Math.floor(Math.random()*width);
+		var width = parseInt(document.defaultView.getComputedStyle(game, null).width) - 80;
+		var random = Math.random();
+		console.log(random)
+		var left = Math.floor(random*width);
+		console.log(left);
 		phrase.style.left = left + "px";
 		phrase.style.top = "0px";
 
@@ -100,8 +101,6 @@ window.onload = function(){
 
 		var emoH = parseInt(document.defaultView.getComputedStyle(phrase, null).height);
 		var top = parseInt( phrase.style.top);
-		console.log(emoH);
-		console.log('top ' + top);
 
 		// 当到达底部时
 		if((emoH + top) == height){
@@ -118,8 +117,6 @@ window.onload = function(){
 		else{
 			// 设置每次下降高度1,从而形成动画效果
 			phrase.style.top = (top + 1) + "px";
-			console.log('offsetTop ' + phrase.offsetTop );
-			// console.log(phrase.style.top);
 
 			
 		}
