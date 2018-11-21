@@ -27,6 +27,22 @@ div.contain{
 	position: relative;
 }
 
+@media (max-width: 1000px){
+    /*i当视窗宽度小于768px时*/
+    div.contain {
+        width: 95vw;
+    }
+
+    .left{
+        min-height: 100vh;
+        width: 100%;
+    }
+
+    .right{
+        width: 100%;
+    }
+}
+
 
 div.countDiv{
 	width: 150px;
