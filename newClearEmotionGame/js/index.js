@@ -78,7 +78,7 @@ class Phrase {
             left: left + 'px',
             top: top + 'px'
         })
-        this.$node.mousedown(() => this.onMouseDown())
+        this.$node.on({ touchstart: this.onTouchStart })
         this.$node.mouseup(() => this.onMouseUp())
         this.fall()
     }
