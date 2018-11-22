@@ -80,7 +80,7 @@ class Phrase {
         })
         $('.test').text('logging')
         this.$node.on({
-            touchstart: () => $('.test').text('on touch')
+            touchstart: this.onTouchStart 
         })
         this.$node.mousedown(() => console.log('down'));
         this.$node.mouseup(() => this.onMouseUp())
@@ -222,6 +222,7 @@ class Phrase {
     onTouchStart(event) {
         event.preventDefault();
         $('.test').text('touchstart')
+        cancelAnimationFrame(this.animation);
         wx.startRecord({
             success: function(res) {
                 $('.warm-tip').text('调起录音成功，录音中...');
@@ -231,7 +232,7 @@ class Phrase {
             }
         });
         $('.test').text('start_record')
-        cancelAnimationFrame(this.animation);
+        
     }
 
     onMouseUp() {
