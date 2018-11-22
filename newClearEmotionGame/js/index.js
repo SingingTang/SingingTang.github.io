@@ -80,7 +80,8 @@ class Phrase {
         })
         $('.test').text('logging')
         this.$node.on({
-            touchstart: this.onTouchStart 
+            touchstart: this.onTouchStart,
+            touchend: this.onTouchEnd
         })
         this.$node.mousedown(() => console.log('down'));
         this.$node.mouseup(() => this.onMouseUp())
@@ -233,6 +234,11 @@ class Phrase {
         });
         $('.test').text('start_record')
         
+    }
+
+    onTouchEnd () {
+        this.animation = requestAnimationFrame(this.fall.bind(this));
+
     }
 
     onMouseUp() {
