@@ -1,0 +1,81 @@
+
+
+body{
+	background: hsla(0, 36%, 6%, 0.77);
+	color: #fff;
+	text-align: center;
+}
+
+input[type="button"]{
+	width: 150px;
+    height: 40px;
+    line-height: 30px;
+    background: #a73f2d;
+    border: 1px #000000a3 solid;
+    box-shadow: 0 0 15px #7a2a1d;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 18px;
+}
+
+div.contain{
+	width: 1000px;
+	height: 450px;
+	color: #000;
+	background: #fff;
+	margin: 20px auto;
+	position: relative;
+}
+
+
+
+div.countDiv{
+	width: 150px;
+	height: 100%;
+	border-right: 2px solid #000;
+	float: left;
+}
+
+div#game{
+	width: 848px;
+	height: 100%;
+	display: inline-block;
+	float: left;
+	position: relative;
+}
+
+div#game img{
+	position: absolute;
+	width: 36px;
+	height: 36px;
+	display: none;
+}
+
+@media (max-width: 1000px){
+    /*i当视窗宽度小于768px时*/
+    div.contain {
+        width: 95vw;
+        height: 550px;
+    }
+
+    div.countDiv {
+        width: 95vw;
+        display: block;
+        height: 100px;
+        border-bottom: 1px solid #000;
+    }
+
+    div#game {
+        width: 95vw;
+        display: block;
+        height: 450px;
+    }
+}
+
+.phrase {
+    position: absolute;
+    width: 80px;
+    height: 30px;
+    background: #000;
+    color: #fff;
+}

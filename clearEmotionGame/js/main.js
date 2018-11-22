@@ -32,9 +32,7 @@ window.onload = function(){
 
 	}
 
-	function createPhrase(speed){
 
-	}
 
 	function createEmotion(speed){
 
@@ -55,6 +53,8 @@ window.onload = function(){
 		// 选择随机表情
 		phrase.innerHTML = phrases[parseInt( Math.random()*10 )]
 		// 设置随机位置
+
+        console.log(typeof $('#game').width())
 		var width = parseInt(document.defaultView.getComputedStyle(game, null).width) - 80;
 		var random = Math.random();
 		var left = Math.floor(random*width);
