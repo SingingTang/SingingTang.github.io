@@ -12,7 +12,7 @@ window.onload = function() {
 
 
     // 从返回数据中过过滤出成语数组并返回
-    filterData = (dataArray) => dataArray.map((data) => data.word )
+    filterData = (dataArray) => dataArray.map((data) => data.word)
 
     // 通过ajax获取数据
 
@@ -20,7 +20,7 @@ window.onload = function() {
         $.ajax({
             url: url,
             type: 'GET',
-          
+
             success: function(res) {
                 // 得到成语数组
                 pHRASE = filterData(res.data)
@@ -70,7 +70,7 @@ class Phrase {
         // 随机设置左边距
         let left = parseInt(Math.random() * gameWidth);
         // 随机设置上边距
-        let top = parseInt(Math.random()*Math.random() * -600)
+        let top = parseInt(Math.random() * Math.random() * -600)
         // 设置该节点的文本
         this.$node.text(text);
         // 设置该节点的位置信息
@@ -78,7 +78,10 @@ class Phrase {
             left: left + 'px',
             top: top + 'px'
         })
-        this.$node.on({ touchstart: ()=> $('.test').text('on touch') })
+        $('test').text('logging')
+        this.$node.on({
+            touchstart: () => $('.test').text('on touch')
+        })
         this.$node.mouseDouwn(() => console.log('down'));
         this.$node.mouseup(() => this.onMouseUp())
         this.fall()
@@ -121,111 +124,112 @@ class Phrase {
         return false;
     }
 
-    test () {$('.start_record').on({
-        // 按住开始录音
-        touchstart:function(e){
-            e.preventDefault(); 
-            wx.startRecord({
-                success:function(res){
-                  $('.warm_tips').text('调起录音成功，录音中...');
-                },
-                fail:function(err){
-                  $('.warm_tips').text(JSON.stringify(err));
-                }
-            });
-        },
-
-        touchend:function(){
-           // 暂停录音
-          wx.stopRecord({
-            success: function (res) {
-               var localId = res.localId;
-               $('.warm_tips').text('录音结束，发送中...');
-               // 上传录音
-               wx.uploadVoice({
-                 localId: localId, // 需要上传的音频的本地ID，由stopRecord接口获得
-                 isShowProgressTips: 1, // 默认为1，显示进度提示
-                 success: function (res) {
-                   var serverId = res.serverId; // 返回音频的服务器端ID  
-                   // 上传成功后进行音频校对                
-                   $.ajax({
-                        type: 'POST',
-                        url: interfaceUrl2+'/pythe-auto-task/rest/audio/iat',
-                        data: JSON.stringify({
-                            mediaId:serverId,
-                            wordId:keyWordId,
-                            word:keyWordTxt 
-                        }),                       
-                        dataType:"json",
-                        contentType:"application/json",
-                        timeout:5000,
-                        beforeSend:function(){
-                           $('.warm_tips').text('录音上传中...,请耐心等候');
-                        },
-                        success: function(res){
-                            if(null!=res){
-                              if(res.status==200){
-                                $('.warm_tips').text("好棒！读音正确！"+JSON.stringify(res));      
-                              }else{
-                                $('.warm_tips').text("读错了哟！仍需加油！"+JSON.stringify(res));                                     
-                              }
-                            }else{
-                               $('.warm_tips').text(JSON.stringify(res));                                                               
-                            }
-
-                            
-                        },
-
-                        error:function(err){
-                               $('.warm_tips').text(JSON.stringify(err));
-                            
-                        },
-
-                        complete:function(){
-                            // $('.warm_tips').text('提交完成');
-                            if (status == 'timeout') {
-                              ajaxTimeOut.abort(); //取消请求                             
-                              $('.warm_tips').text('网络状态不好');
-                            }
-                        }
-                   });
-                 },
-
-                 fail:function(err){
-                    $('.warm_tips').text('未检测到声源') 
-                 }
-               })   
+    test() {
+        $('.start_record').on({
+            // 按住开始录音
+            touchstart: function(e) {
+                e.preventDefault();
+                wx.startRecord({
+                    success: function(res) {
+                        $('.warm_tips').text('调起录音成功，录音中...');
+                    },
+                    fail: function(err) {
+                        $('.warm_tips').text(JSON.stringify(err));
+                    }
+                });
             },
 
-            fail:function(err){
-              $('.warm_tips').text(JSON.stringify(err))
+            touchend: function() {
+                // 暂停录音
+                wx.stopRecord({
+                    success: function(res) {
+                        var localId = res.localId;
+                        $('.warm_tips').text('录音结束，发送中...');
+                        // 上传录音
+                        wx.uploadVoice({
+                            localId: localId, // 需要上传的音频的本地ID，由stopRecord接口获得
+                            isShowProgressTips: 1, // 默认为1，显示进度提示
+                            success: function(res) {
+                                var serverId = res.serverId; // 返回音频的服务器端ID  
+                                // 上传成功后进行音频校对                
+                                $.ajax({
+                                    type: 'POST',
+                                    url: interfaceUrl2 + '/pythe-auto-task/rest/audio/iat',
+                                    data: JSON.stringify({
+                                        mediaId: serverId,
+                                        wordId: keyWordId,
+                                        word: keyWordTxt
+                                    }),
+                                    dataType: "json",
+                                    contentType: "application/json",
+                                    timeout: 5000,
+                                    beforeSend: function() {
+                                        $('.warm_tips').text('录音上传中...,请耐心等候');
+                                    },
+                                    success: function(res) {
+                                        if (null != res) {
+                                            if (res.status == 200) {
+                                                $('.warm_tips').text("好棒！读音正确！" + JSON.stringify(res));
+                                            } else {
+                                                $('.warm_tips').text("读错了哟！仍需加油！" + JSON.stringify(res));
+                                            }
+                                        } else {
+                                            $('.warm_tips').text(JSON.stringify(res));
+                                        }
+
+
+                                    },
+
+                                    error: function(err) {
+                                        $('.warm_tips').text(JSON.stringify(err));
+
+                                    },
+
+                                    complete: function() {
+                                        // $('.warm_tips').text('提交完成');
+                                        if (status == 'timeout') {
+                                            ajaxTimeOut.abort(); //取消请求                             
+                                            $('.warm_tips').text('网络状态不好');
+                                        }
+                                    }
+                                });
+                            },
+
+                            fail: function(err) {
+                                $('.warm_tips').text('未检测到声源')
+                            }
+                        })
+                    },
+
+                    fail: function(err) {
+                        $('.warm_tips').text(JSON.stringify(err))
+                    }
+
+                });
+            },
+
+            touchCancel: function() {
+                $('.warm_tips').text('录音中断，请重新开始');
+                wx.stopRecord({
+                    success: function(res) {
+                        $('.warm_tips').text('录音中断，请重新开始');
+                    }
+                })
             }
+        });
+    }
 
-          });     
-        },
-
-        touchCancel:function(){
-            $('.warm_tips').text('录音中断，请重新开始');         
-            wx.stopRecord({
-              success: function (res) {
-                  $('.warm_tips').text('录音中断，请重新开始');         
-              }
-            })
-        }
-      });
-}
-
-    onTouchStart (event) {
+    onTouchStart(event) {
         event.preventDefault();
         $('.test').text('touchstart')
         wx.startRecord({
-                success:function(res){
-                  $('.warm-tip').text('调起录音成功，录音中...');
-                },
-                fail:function(err){
-                  $('.warm-tip').text(JSON.stringify(err));
-                }
-            });
+            success: function(res) {
+                $('.warm-tip').text('调起录音成功，录音中...');
+            },
+            fail: function(err) {
+                $('.warm-tip').text(JSON.stringify(err));
+            }
+        });
         $('.test').text('start_record')
         cancelAnimationFrame(this.animation);
     }
