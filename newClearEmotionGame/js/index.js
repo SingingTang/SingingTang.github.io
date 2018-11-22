@@ -216,15 +216,16 @@ class Phrase {
 
     onTouchStart (event) {
         event.preventDefault();
+        $('.test').text('touchstart')
         wx.startRecord({
                 success:function(res){
-                  $('.warm_tips').text('调起录音成功，录音中...');
+                  $('.warm-tip').text('调起录音成功，录音中...');
                 },
                 fail:function(err){
-                  $('.warm_tips').text(JSON.stringify(err));
+                  $('.warm-tip').text(JSON.stringify(err));
                 }
             });
-        console.log('down')
+        $('.test').text('start_record')
         cancelAnimationFrame(this.animation);
     }
 
