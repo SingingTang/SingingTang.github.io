@@ -78,7 +78,7 @@ class Phrase {
             left: left + 'px',
             top: top + 'px'
         })
-        $('test').text('logging')
+        $('.test').text('logging')
         this.$node.on({
             touchstart: () => $('.test').text('on touch')
         })
