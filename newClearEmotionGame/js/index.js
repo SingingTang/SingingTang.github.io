@@ -82,7 +82,7 @@ class Phrase {
         this.$node.on({
             touchstart: () => $('.test').text('on touch')
         })
-        this.$node.mouseDouwn(() => console.log('down'));
+        this.$node.mousedown(() => console.log('down'));
         this.$node.mouseup(() => this.onMouseUp())
         this.fall()
     }
