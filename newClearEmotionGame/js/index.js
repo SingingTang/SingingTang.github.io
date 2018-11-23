@@ -249,7 +249,7 @@ class Phrase {
                 $('.warm-tip').text(JSON.stringify(err));
             }
         });
-        $('.test').text('start_record')
+        $('.test').text('start')
         
     }
 
