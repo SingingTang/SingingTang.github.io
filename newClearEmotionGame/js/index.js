@@ -95,13 +95,10 @@ class Phrase {
             left: left + 'px',
             top: top + 'px'
         })
-        $('.test').text('logging')
-        this.$node.on({
-            touchstart: this.onTouchStart,
-            touchend: this.onTouchEnd
-        })
-        this.$node.mousedown(() => console.log('down'));
-        this.$node.mouseup(() => this.onMouseUp())
+        $('.test').text('logging');
+        // 绑定对应的事件函数
+        this.$node.on({ touchstart: this.onTouchStart.bind(this), touchend: this.onTouchEnd.bind(this) })
+        
         this.fall()
     }
 
@@ -239,13 +236,16 @@ class Phrase {
 
     onTouchStart(event) {
         event.preventDefault();
-        $('.test').text('touchstart')
+        $('.test').text('touchstart');
+        console.dir(this);
         cancelAnimationFrame(this.animation);
         wx.startRecord({
             success: function(res) {
+                console.log('sucess');
                 $('.warm-tip').text('调起录音成功，录音中...');
             },
             fail: function(err) {
+                console.log('fail')
                 $('.warm-tip').text(JSON.stringify(err));
             }
         });
@@ -255,6 +255,7 @@ class Phrase {
 
     onTouchEnd () {
         // $('.warm-tip').text('end')
+        console.dir(this)
         this.animation = requestAnimationFrame(this.fall.bind(this));
 
     }
