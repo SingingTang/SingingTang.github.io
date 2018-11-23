@@ -254,7 +254,7 @@ class Phrase {
     }
 
     onTouchEnd () {
-        $('.warm-tip').text('end')
+        // $('.warm-tip').text('end')
         this.animation = requestAnimationFrame(this.fall.bind(this));
 
     }
