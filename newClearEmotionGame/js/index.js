@@ -9,6 +9,7 @@ window.onload = function() {
     // 存放Phrase类的数组
     var phrases = []
     var url = 'https://teacher.pythe.cn/pythe-auto-task/rest/chengyu/query/all'
+    var interfaceUrl = 'https://check.pythe.cn';
 
 
     // 从返回数据中过过滤出成语数组并返回
@@ -16,15 +17,20 @@ window.onload = function() {
 
     // 通过ajax获取数据
 
-    initConfig = () => {
+    initWXConfig = () => {
         $.ajax({
-            url: url,
-            type: 'GET',
-
-            success: function(res) {
-                // 得到成语数组
-                pHRASE = filterData(res.data)
-                wx.config({
+            url:interfaceUrl+'/pythe-rest/rest/link/share/signature',
+            type:'POST',
+            dataType:'JSON',
+            data:JSON.stringify({
+              "url":document.URL
+            }),
+            timeout:4000,
+            contentType:'application/json',
+            success:function(res){
+            console.log(res);
+            console.log(JSON.stringify({ 'url': document.URL}))
+                 wx.config({
                     debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                     appId: 'wx49e51570a28eef81', // 必填，公众号的唯一标识
                     timestamp: res.data.timestamp, // 必填，生成签名的时间戳
@@ -39,7 +45,31 @@ window.onload = function() {
                             'onMenuShareQZone',
                             
                     ] // 必填，需要使用的JS接口列表
-                 });    
+                 });           
+            },
+
+            error:function(err){
+                $('.warm_tips').text(JSON.stringify(err))
+            },
+
+            complete:function(status){
+               if (status == 'timeout') {
+                  ajaxTimeOut.abort(); //取消请求                     
+               }
+            }
+        });
+     };
+
+    initWXConfig();
+
+    initConfig = () => {
+        $.ajax({
+            url: url,
+            type: 'GET',
+
+            success: function(res) {
+                // 得到成语数组
+                pHRASE = filterData(res.data)
                 // 获取jquery元素
                 var phrasesNodes = document.querySelectorAll('.phrase');
                 // 生成相应的Phrase类
@@ -236,8 +266,6 @@ class Phrase {
 
     onTouchStart(event) {
         event.preventDefault();
-        $('.test').text('touchstart');
-        console.dir(this);
         cancelAnimationFrame(this.animation);
         wx.startRecord({
             success: function(res) {
@@ -249,7 +277,7 @@ class Phrase {
                 $('.warm-tip').text(JSON.stringify(err));
             }
         });
-        $('.test').text('start')
+        $('.test').text('record')
         
     }
 
