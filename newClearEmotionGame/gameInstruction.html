@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>成语大爆炸</title>
+    <link type="text/css" rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <script src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/jweixin-1.4.0.js"></script>
+    <script src="./js/util.js"></script>
+    <!-- <script src="./js/newIndex.js"></script> -->
+</head>
+
+<body>
+
+    <div class="game-bg">
+      <!-- <img class="bg" src="./images/game-bg.png" /> -->
+      <!-- <span class="icon life" src="./images/icon_life.png" /> -->
+      <span class="life">生命值<span>5</span></span>
+      <img class="icon xman" src="./images/icon_xman.png" />
+      <span class="score">分数<span>0</span></span>
+      <img class="icon tank" src="./images/icon_tank.png" />
+      <button class="quite"><img class="icon quite-text" src="./images/btn_text_quite.png" /></button>
+      <button class="tip"><img class="icon tip-text" src="./images/btn_text_tips.png" /></button>
+
+      <div class="game">
+        <span class="life-progress">
+          <img src="./images/life_progress.png" /> 
+        </span>
+        <span class="game-progress">0/30</span>
+        
+       <i class="phrase" id="phrase1"></i>
+       <i class="phrase" id="phrase2"></i>
+       <i class="phrase" id="phrase3"></i>
+       <i class="phrase" id="phrase4"></i>
+       <i class="phrase" id="phrase5"></i>
+
+       <i class="warm-tip" style="display: block; position: fixed; background: #000; color: #fff; width: 200px; height: 30px; top: 20px; left: 20px">1</i>
+      
+        
+    </div>
+
+    <div class="tip-container" >
+
+          <div class="radio-container">
+
+            <span class="tip-title"><img src="./images/popup_title_tip.png" /></span>
+
+            
+            <div class="phrase-container">
+              <span class="explain">选择词语</span>
+              
+              <input type="radio" name="tip-phrase" index=0 id="tip-phrase0"/>
+              <label class="tip-phrase" for="tip-phrase0"></label>
+
+              <input type="radio" name="tip-phrase" index=1 id="tip-phrase1"/>
+              <label class="tip-phrase" for="tip-phrase1"></label>
+
+              <input type="radio" name="tip-phrase" index=2 id="tip-phrase2"/>
+              <label class="tip-phrase" for="tip-phrase2"></label>
+
+              <input type="radio" name="tip-phrase" index=3 id="tip-phrase3"/>
+              <label class="tip-phrase" for="tip-phrase3"></label>
+
+              <input type="radio" name="tip-phrase" index=4 id="tip-phrase4"/>
+              <label class="tip-phrase" for="tip-phrase4"></label>
+
+             
+              <button class="tip-confirm" index=0><img src="./images/popup_btn_confirm.png" /></button>
+            </div>
+
+            <div class="tip-result">
+              <label class="tip-phrase-selected" index=0></label>
+              <span class="pinyin"></span>
+              <span class="annotation"></span>
+              <button class="close"></button>
+            </div>
+
+          </div>
+
+
+
+          <input type="text" readonly="readonly" class="tip-content"/>
+
+          <!-- <button class="tip-confirm">确定提示</button> -->
+
+          
+          
+          <button class="return-game">返回游戏</button>
+
+      </div>
+    </div>
+    <div class="instruction layer">
+        <img class="instruction1" src="./images/instruction1.png" />
+        <img class="instruction2" src="./images/instruction2.png" />
+        <img class="instruction3" src="./images/instruction3.png" />
+        <button class="instruction3 start-game"></button>
+       
+    </div>
+
+
+</body>
+
+<script>
+    //防止页面后退
+    history.pushState(null, null, document.URL);
+      window.addEventListener('popstate', function () {
+        history.pushState(null, null, document.URL);
+    });
+    // 根据屏幕高度设置游戏区域的大小
+    var width =$('.game-bg').width();
+    var height = $('.game-bg').height() - 92 -53;
+    console.log(height);
+    $('.game').css('backgroundSize', `${width}px ${height}px`);
+    $('.start-game').click(() => {
+      // 开始游戏
+      $('.instruction.layer').css('display', 'none');
+      $('.game *').css('display', 'block');
+      var script = document.createElement('script');
+      script.src = './js/newIndex.js';
+      document.body.append(script);
+    })
+
+   
+    document.body.onload = () => {
+
+      // var openid = getQueryString('code') || 'no';
+ 
+      // $('.warm-tip').text(openid);
+
+        var instructionArray = [$('.instruction1'), $('.instruction2'), $('.instruction3')];
+        // 记录当前进行到哪一步了
+        var step = 0;
+
+        $('.layer').click(() => {
+            console.log(instructionArray.length);
+            // 隐藏当前提示图片
+            instructionArray[0].css('display', 'none');
+
+            instructionArray.shift();
+            instructionArray[0].css('display', 'block');
+            
+            // 到达最后一步
+            if(instructionArray.length === 1) {
+                
+                $('.layer').unbind('click');
+                return;
+            }
+            
+
+        })
+
+    }
+
+    function getQueryString(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+      var r = window.location.search.substr(1).match(reg);
+      if (r != null) {
+        return unescape(r[2]);
+      }
+        return null;
+
+    }
+
+</script>
+
+</html>

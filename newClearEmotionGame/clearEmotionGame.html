@@ -2,38 +2,184 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>消除小表情游戏</title>
+	<title>成语大爆炸</title>
 	<link type="text/css" rel="stylesheet" href="css/style.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 	<script src="./js/jquery.min.js"></script>
-	<script type="text/javascript" src="./js/jweixin-1.4.0.js"></script>
-	<script src="./js/util.js"></script>
-	<script src="./js/index.js"></script>
+	<!-- <script type="text/javascript" src="./js/jweixin-1.4.0.js"></script> -->
+	<!-- <script src="./js/util.js"></script> -->
+	<!-- <script src="./js/index.js"></script> -->
 </head>
 
 <body>
 
+	<div class="enter-game">
+		<button id="start"></button>
+		<p>加载进度</p>
+	</div>
+	<div class="loading layer">
+		<span class="loading-bg"><span class="loading-progress"></span></span>
+	</div>
 
-	<h1>你的鼠标有多快</h1>
-	<p>游戏说明：点击“开始游戏”，随机掉下QQ表情，点中它，千万别让他掉下来！！
-	</p>
-	<input type="button" value="开始游戏" id="begin">
-	<div class="contain">
-		<div class="countDiv">
-			<p>得分:<span id="score">0</span>分</p>
-			<p>失分:<span id="against">0</span>分</p>
-			
+	<div class="playing">
+		<h1>成语大爆炸</h1>
+		<p>游戏说明：长按读成语，松手检测是否正确。正确得1分，跌到底，失1分。
+
+		</p>
+		<p>游戏底部会有相关的正确与错误信息.(仅限于微信)</p>
+		<!-- <input type="button" value="开始游戏" id="begin"> -->
+		<input type="button" value="提示" class="tip-button">
+		<div class="contain">
+			<div class="countDiv">
+				<p>得分:<span id="score">0</span>分</p>
+				<p>失分:<span id="against">0</span>分</p>
+				
+			</div>
+			<div id="game">
+				<i class="phrase"></i>
+				<i class="phrase"></i>
+				<i class="phrase"></i>
+				<i class="phrase"></i>
+				<i class="phrase"></i>
+				
+			</div>
 		</div>
-		<div id="game">
-			<i class="phrase"></i>
-			<i class="phrase"></i>
-			<i class="phrase"></i>
-			<i class="phrase"></i>
-			<i class="phrase"></i>
+		<i class="warm-tip">test</i>
+		<i class="test">1</i>
+		<i class="test1">1</i>
+		<div class="tip-container">
+			<div class="radio-container">
+
+				<label class="tip-phrase"><input type="radio" name="tip" value="提示" index=0 /></label>
+				<label class="tip-phrase"><input type="radio" name="tip" value="提示" index=1 /></label>
+				<label class="tip-phrase"><input type="radio" name="tip" value="提示" index=2 /></label>
+				<label class="tip-phrase"><input type="radio" name="tip" value="提示" index=3 /></label>
+				<label class="tip-phrase"><input type="radio" name="tip" value="提示" index=4 /></label>
+			</div>
+
+			<input type="text" readonly="readonly" class="tip-content"/>
+
+			<button class="tip-confirm">确定提示</button>
+
 			
+			
+			<button class="return-game">返回游戏</button>
 		</div>
 	</div>
-	<i class="warm-tip">test</i>
-	<i class="test">打印</i>
 </body>
+
+<script>
+
+	window.onload = () => {
+
+		var start = false;
+		console.log('加载')
+		// 所有需要加载的资源个数
+		let resourceTotalNum = 0;
+		let resourceLoadedNum = 0;
+		let rate = 0;
+
+		// 优先加载的图片资源
+		var imagesFirst = ['./images/loading_progress.png', './images/loading_bg.png', './images/loading_xman.gif'];
+
+		// 图片地址数组
+		var imagesSecond = ['./images/instruction3.png','./images/instruction1.png','./images/instruction2.png', './images/btn_text_quite.png', './images/btn_text_tips.png', './images/btn_word_bg.png', './images/game-bg.png', './images/icon_life.png', './images/icon_score.png', './images/icon_tank.png', './images/icon_xman.png', './images/start_game.png', './images/page-bg.png', './images/life_progress.png'];
+
+		var js = ['./js/jweixin-1.4.0.js', './js/util.js'];
+
+		resourceTotalNum = (imagesFirst.length + imagesSecond.length + js.length);
+
+		onload = () => {
+			resourceLoadedNum++;
+			rate = resourceLoadedNum/resourceTotalNum;
+			// $('.rate').text('已加载 ' + rate);
+			console.log('已加载 ' + rate);
+			$('.loading-progress').css('width', resourceLoadedNum/resourceTotalNum*100 + '%')
+			if(rate === 1 && start) {
+				console.log('跳转')
+				// setTimeout( () => reDirection, 300);
+				setTimeout( () => reDirection() , 300);
+
+			}
+		}
+
+
+
+		createImagesFirst = (images) =>{
+			images.forEach((image, index, images) => {
+				var imgNode = document.createElement('img');
+				imgNode.src = image;
+				imgNode.onload = () =>{
+					resourceLoadedNum++;
+					if( (index+1) === images.length ) {
+						console.log('OK');
+						// 当需要优先加载的图片加载好了，再加载其他的资源
+						creactImages(imagesSecond);
+						creactJs(js);
+					}
+				}
+			})
+		}
+		createImagesFirst(imagesFirst);
+
+		
+
+		
+		console.log(resourceTotalNum);
+
+			// 加载js资源函数
+		creactJs = (js) => {
+			js.forEach(item =>{
+				var script = document.createElement('script');
+				script.src = item;
+				document.body.append(script)
+				script.onload = onload;
+			})
+		}
+
+		
+		// 加载图片资源函数
+		function creactImages(images){
+			images.forEach((image, index) => {
+				var imgNode = document.createElement('img');
+				imgNode.src = image;
+				imgNode.onload = onload;
+			})
+		}
+
+		// 点击开始游戏才加载后面需要的图片，以及js文件
+		$('#start').click(() => { 
+
+			console.log('继续加载资源');
+			start = true;
+
+			// 显示layer
+			$('.loading.layer').css('display', 'block');
+			if(rate === 1 && start) {
+				console.log('跳转')
+				setTimeout( () => reDirection() , 300);
+						// window.location.href='./gameInstruction.html'
+					}
+			
+			// $('.rate').css('display', 'block') 
+			
+			// $('.enter-game').css('background', 'url(./images/3.png)')
+		})
+
+		function reDirection() {
+			console.log('redirect')
+			var appid = 'wx49e51570a28eef81';
+			var redirect_uri = encodeURIComponent('https://check.pythe.cn/newClearEmotionGame/gameInstruction.html');
+			var response_type = 'code';
+			var scope = 'snsapi_base';
+			// window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${redirect_uri}&response_type=${response_type}&scope=${scope}&#wechat_redirect`
+			window.location.href = './gameInstruction.html';
+		}
+
+	}
+
+
+
+</script>
+
 </html>
