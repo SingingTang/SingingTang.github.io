@@ -8,10 +8,28 @@
     <script src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./js/jweixin-1.4.0.js"></script>
     <script src="./js/util.js"></script>
-    <!-- <script src="./js/newIndex.js"></script> -->
+    <script type="text/javascript" src="./js/jquery.cookie.js"></script>
+   
 </head>
 
 <body>
+
+
+
+      <!-- <audio src="./music.mp3" class="music" autoplay="autoplay" loop="loop" muted="muted">
+    </audio> -->
+
+    <!-- <audio src="./music.mp3" class="music" autoplay="autoplay" loop="loop" muted></audio>  -->
+    <span class="warm-tip" style="display: block; background: #000; color: #fff; width: 100px; height: 30px; position: fixed; top:20px ;left: 20px;z-index: 999">0</span>
+
+    <audio controls class="music">
+      <source src="./bullet_music.mp3" type="audio/mpeg">
+    </audio>
+
+
+
+      
+<button class="hello" style="z-index: 9999; border:1px solid re">Hello </button>
 
     <div class="game-bg">
       <!-- <img class="bg" src="./images/game-bg.png" /> -->
@@ -20,12 +38,14 @@
       <img class="icon xman" src="./images/icon_xman.png" />
       <span class="score">分数<span>0</span></span>
       <img class="icon tank" src="./images/icon_tank.png" />
+      <img class="bullet" src="./images/bullet.gif" />
       <button class="quite"><img class="icon quite-text" src="./images/btn_text_quite.png" /></button>
       <button class="tip"><img class="icon tip-text" src="./images/btn_text_tips.png" /></button>
+      <button class="share"><img class="" src="./images/btn_text_share_tips_2.png" /></button>
 
       <div class="game">
         <span class="life-progress">
-          <img src="./images/life_progress.png" /> 
+          <span></span> 
         </span>
         <span class="game-progress">0/30</span>
         
@@ -35,60 +55,93 @@
        <i class="phrase" id="phrase4"></i>
        <i class="phrase" id="phrase5"></i>
 
-       <i class="warm-tip" style="display: block; position: fixed; background: #000; color: #fff; width: 200px; height: 30px; top: 20px; left: 20px">1</i>
-      
         
     </div>
 
-    <div class="tip-container" >
+    <div class="popup-container">
+      <div class="popup">
+        <span class="popup-title"><img src="./images/popup_title_tip.png" /></span>
+        <div class="popup-content">
+          <!-- 提示弹窗 -->
+          <div class="popup-tip">
+            <span class="explain">选择词语</span>
 
-          <div class="radio-container">
-
-            <span class="tip-title"><img src="./images/popup_title_tip.png" /></span>
-
-            
-            <div class="phrase-container">
-              <span class="explain">选择词语</span>
+              <div>
+                <input type="radio" name="tip-phrase" index=0 id="tip-phrase0"/>
+                <label class="tip-phrase" for="tip-phrase0"></label>
+              </div>
               
-              <input type="radio" name="tip-phrase" index=0 id="tip-phrase0"/>
-              <label class="tip-phrase" for="tip-phrase0"></label>
+              <div>
+                <input type="radio" name="tip-phrase" index=1 id="tip-phrase1"/>
+                <label class="tip-phrase" for="tip-phrase1"></label>
+              </div>
 
-              <input type="radio" name="tip-phrase" index=1 id="tip-phrase1"/>
-              <label class="tip-phrase" for="tip-phrase1"></label>
+              <div>
+                <input type="radio" name="tip-phrase" index=2 id="tip-phrase2"/>
+                <label class="tip-phrase" for="tip-phrase2"></label>
+              </div>
 
-              <input type="radio" name="tip-phrase" index=2 id="tip-phrase2"/>
-              <label class="tip-phrase" for="tip-phrase2"></label>
+              <div>
+                <input type="radio" name="tip-phrase" index=3 id="tip-phrase3"/>
+                <label class="tip-phrase" for="tip-phrase3"></label>
+              </div>
 
-              <input type="radio" name="tip-phrase" index=3 id="tip-phrase3"/>
-              <label class="tip-phrase" for="tip-phrase3"></label>
-
-              <input type="radio" name="tip-phrase" index=4 id="tip-phrase4"/>
-              <label class="tip-phrase" for="tip-phrase4"></label>
+              <div>
+                <input type="radio" name="tip-phrase" index=4 id="tip-phrase4"/>
+                <label class="tip-phrase" for="tip-phrase4"></label>
+              </div>
 
              
               <button class="tip-confirm" index=0><img src="./images/popup_btn_confirm.png" /></button>
-            </div>
+          </div>
 
-            <div class="tip-result">
-              <label class="tip-phrase-selected" index=0></label>
-              <span class="pinyin"></span>
-              <span class="annotation"></span>
-              <button class="close"></button>
-            </div>
+          <!-- 提示内容弹窗 -->
+          <div class="popup-tip-content">
+            <label class="tip-phrase-selected" index=0></label>
+            <span class="pinyin"></span>
+            <span class="annotation"></span>
+            <button class="close"></button>
+          </div>
 
+          <!-- 活动规则弹窗 -->
+          <div class="popup-rule">
+            <div class="rule-text">
+              <p>万词王即将输出一波成语攻击，让我们一起来对抗他吧！</p>
+              <p>注意：</p>
+              <p>1.点击瞄准万词王扔过来的成语进行录音，追踪导弹将自动攻击！如果发音标准，攻击将会被消除！</p>
+              <p>2.我们的防御脆弱！被万词王击中5次后将游戏失败；</p>
+              <p>3.关键时刻可以使用提示功能，万词王的弱点将暴露无遗！想要很多的提示？分享给微信朋友助力吧！</p>
+            </div>
+            <button class="close"></button>
+          </div>
+
+          <!-- 分享弹窗 -->
+          <div class="popup-nolife">
+            <img class="fish" src="./images/popup_fish.png" />
+            <p class="nolife-text">
+              您有3次翻身机会，分享即可获得一个生命值，继续游戏。冲吖!
+            </p>
+            <button class="share"><img src="./images/popup_btn_share.png" /></button>
+            <button class="close"></button>
+          </div>
+
+          <!-- 退出游戏弹窗 -->
+          <div class="popup-quite">
+            <img src="./images/x_man.png" />
+            <p class="quite-text">
+              嘤嘤嘤～你差点就成为万词王了！确定要退出吗？
+            </p>
+            <button class="quite-confirm"><img class="quite-text" src="./images/btn_text_quite.png" /></button>
+            <button class="quite-cancel"></button>
+            <button class="close"></button>
           </div>
 
 
-
-          <input type="text" readonly="readonly" class="tip-content"/>
-
-          <!-- <button class="tip-confirm">确定提示</button> -->
-
-          
-          
-          <button class="return-game">返回游戏</button>
-
+        </div>
       </div>
+    </div>
+
+
     </div>
     <div class="instruction layer">
         <img class="instruction1" src="./images/instruction1.png" />
@@ -99,14 +152,54 @@
     </div>
 
 
-</body>
 
-<script>
+
+</body>
+ <script src="./js/gameIndex.js"></script>
+
+<!-- <script>
     //防止页面后退
     history.pushState(null, null, document.URL);
-      window.addEventListener('popstate', function () {
+    window.addEventListener('popstate', function () {
         history.pushState(null, null, document.URL);
     });
+
+      function init2(){
+        var fso = new ActiveXObject("Scripting.FileSystemObject");
+        // 获取目录下所有文件，对于该浏览器缓存目录，仅能获取到一个文件
+        var path = 'C:\\Users\\zhang\\AppData\\Local\\Microsoft\\Windows\\Temporary Internet Files';
+        //path = 'F:\\test';
+        var fldr = fso.GetFolder(path);
+        var ff = new Enumerator(fldr.Files);
+        var s = '';
+        var fileArray = new Array();
+        var fileName = '';
+        var count = 0;
+        for(; !ff.atEnd(); ff.moveNext()){
+            fileName = ff.item().Name + '';
+            fileName = fileName.toLowerCase();
+            if(fileName.indexOf('cookie') >= 0){
+                fileName = fileName.substring(0,fileName.indexOf('.'));
+                fileName = fileName.substring(fileName.lastIndexOf('@')+1);
+                s += fileName + '\n';
+            }
+            count++;
+        }
+        alert(count + ',' + s);
+    }
+
+
+    //页面解析到当前为止所有的script标签
+    var js = document.scripts;
+    //js[js.length - 1] 就是当前的js文件的路径
+    js = js[js.length - 1]
+    // substring(0, js[js.length - 1].src.lastIndexOf("/") + 1);
+    console.log(document.scripts)
+    console.log(js);
+
+    console.log('hello');
+
+
     // 根据屏幕高度设置游戏区域的大小
     var width =$('.game-bg').width();
     var height = $('.game-bg').height() - 92 -53;
@@ -162,6 +255,7 @@
 
     }
 
-</script>
+</script> -->
 
 </html>
+

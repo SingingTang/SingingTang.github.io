@@ -14,6 +14,21 @@
 
     <h1>test</h1>
 
-
+<audio controls loop="loop" autoplay="autoplay" style="z-index: 999; border: 1px solid red" >
+    <source src="./music.mp3" type="audio/mpeg">
+    您的浏览器不支持音频播放
+</audio>
+  <!-- <video src="./music.mp3"autoplay="autoplay" loop="loop" muted></video>  -->
+    <!-- </audio> -->
+    <button>播放</button>
 </body>
+
+<script type="text/javascript">
+    var audio = document.querySelector('audio');
+    var button = document.querySelector('button');
+    button.onclick = () => {
+        console.log('onClick');
+        console.log(audio.play)
+    }
+</script>
 </html>

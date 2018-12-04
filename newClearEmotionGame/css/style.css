@@ -124,7 +124,7 @@ div#game img{
     display: block;
     font-family: MicrosoftYaHei;
     font-weight: bold;
-    -webkit-text-stroke: 1px #000;
+    /*-webkit-text-stroke: 1px #000;*/
     letter-spacing: 1px;
     font-style: normal;
 }
@@ -234,7 +234,7 @@ div#game img{
 
 .barrier {
     box-shadow: blue 0px 0px 10px;
-    background: url('../images/icon_protect_bg.png') no-repeat;
+    background: url('../images/icon_protect_bg.jpg') no-repeat;
     background-size: cover;
     display: block;
     width: 118px;
@@ -244,7 +244,7 @@ div#game img{
     position: absolute;
 }
 
-div.tip-container {
+div.popup-container {
     visibility: hidden;
     position: absolute;
     z-index: 99;
@@ -264,20 +264,22 @@ div.tip-container {
 }
 
 
-.radio-container {
+.popup {
     display: flex;
-    width: 80%;
-    height: 396px;
+    width: 331px;
+    height: 383px;
     flex-wrap: wrap;
     position: relative;
     background: #888;
     margin-top: 30px;
+    background: url(../images/popup_bg.png) no-repeat;
+    background-size: cover;
 }
 
 
 
 
-.tip-container .show {
+.popup-container .show {
     display: block;
 }
 
@@ -396,6 +398,8 @@ label.tip-phrase-selected {
     transform: translateX(-50%);
     width: 330px;
     height: 451px;
+    position: absolute;
+    top: 20px;
 
 }
 
@@ -408,8 +412,9 @@ button.start-game {
     height: 58px;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 70px;
-
+    /*bottom: 70px;*/
+    top: 490px;
+    
     background-size: cover;
 }
 
@@ -543,14 +548,17 @@ button.start-game {
     background-size: cover;
     text-align: center;
     line-height: 29px;
+    padding-left: 5px;
 }
 
-.life-progress img {
-    width: 332px;
+.life-progress span {
+    width: 338px;
     height: 20px;
     display: inline-block;
     margin-top: 4px;
     margin-left: 2.5px;
+    background: url('../images/life_progress.png');
+    background: contain;
 }
 
 .game *{
@@ -593,7 +601,7 @@ button.start-game {
     margin-top: -20px;
 }
 
-.tip-title {
+.popup-title {
     display: block;
     width: 209px;
     height: 56px;
@@ -605,7 +613,7 @@ button.start-game {
     transform: translate(-50%, -50%);
 }
 
-.tip-title img {
+.popup-title img {
     position: absolute;
     display: block;
     width: 58px;
@@ -623,15 +631,15 @@ button.start-game {
     display: block;
     height: 30px;
     position: absolute;
-    left: 18px;
+    left: 36px;
     top: 60px;
 }
 
-.phrase-container {
+.popup-content {
     width: 100%;
     display: flex;
     justify-content: space-around;
-    margin-top: 130px;
+    /*margin-top: 130px;*/
     height: 150px;
     flex-wrap: wrap;
 }
@@ -649,13 +657,16 @@ button.start-game {
     bottom: -70px;
 }
 
-.tip-result {
-    padding-left: 15px;
-    padding-right: 18px;
+.popup-tip-content {
     display: none;
+    width: 100%;
+    justify-content: space-around;
+    height: 150px;
+    flex-wrap: wrap;
+    padding: 0 36px;
 }
 
-.tip-result .tip-phrase-selected {
+.popup-tip-content .tip-phrase-selected {
     display: block;
     margin-top: 60px;
     margin-bottom: 17px;
@@ -668,7 +679,7 @@ button.start-game {
     color: #fff;
 }
 
-.tip-result .pinyin, .tip-result .annotation {
+.popup-tip-content .pinyin, .popup-tip-content .annotation, .popup-nolife .nolife-text, .popup-rule .rule-text {
     display: block;
     margin: 17px 0;
     color: width: 85px;
@@ -694,3 +705,155 @@ input[type="radio"]:checked + label {
     background-size: cover;
 }
 
+.popup-tip {
+    width: 100%;
+    display: none;
+    justify-content: space-around;
+    height: 150px;
+    flex-wrap: wrap;
+    margin-top: 100px;
+    padding: 0 36px;
+}
+
+.popup-tip div {
+    display: none;
+}
+
+.popup-rule {
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    display: none;
+    width: 100%;
+    justify-content: space-around;
+    height: 150px;
+    flex-wrap: wrap;
+    padding: 0 36px;
+}
+
+.popup-rule .close {
+    top: 50%;
+    transform: translate(-50%, 200px);
+}
+
+.popup-nolife {
+    width: 100%;
+    display: none;
+    justify-content: space-around;
+    height: 150px;
+    flex-wrap: wrap;
+    margin-top: 50px;
+    padding: 0 36px;
+}
+
+.popup-nolife .fish {
+    display: block;
+    width: 157px;
+    height: 152px;
+}
+
+.popup-nolife .share img {
+    display: block;
+    width: 157px;
+    height: 59px;
+}
+
+.popup-nolife .share {
+    display: block;
+    border: none;
+    background: none;
+}
+
+.popup-quite {
+    display: none; 
+    width: 100%;
+    justify-content: space-around;
+    height: 150px;
+    flex-wrap: wrap;
+    padding: 0 36px;
+    margin-top: 50px;
+}
+
+.popup-quite img { 
+    display: block;
+    width: 113px;
+    height: 164px;
+}
+
+.popup-quite p.quite-text {
+    display: block;
+    margin: 17px 0;
+    color: width: 85px;
+    height: 45px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    font-size: 17px;
+    font-weight: bold;
+    color: #203E94;
+    text-align: left;
+    line-height: 30px;
+    letter-spacing: 2px;
+}
+
+.popup-quite .quite-confirm, .popup-quite .quite-cancel {
+    display: block;
+    width: 85px;
+    height: 45px;
+    border: none;
+    padding: 0;
+    background: none;
+    background: url(../images/btn_word_bg.png);
+    background-size: cover;
+    display: flex;
+    justify-content: space-around;
+}
+
+.quite-confirm .quite-text {
+    width: 35px;
+    height: 17px;
+    line-height: 38px;
+    margin-top: -2px;
+}
+
+.popup-rule div.rule-text {
+    margin-top: 30px;
+}
+
+.popup-rule p {
+    margin: 10px 0;
+}
+
+.bullet {
+    display: none;
+    width: 50px;
+    height: 185px;
+    position: fixed;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+button.share {
+    /*display: none;*/
+    width: 140px;
+    height: 45px;
+    border: none;
+    background: none;
+    background: url(../images/btn_tip_share.png);
+    background-size: cover;
+    position: absolute;
+    display: none;
+    align-items: center;
+    justify-content: space-around;
+    bottom: 5px;
+    right: 10px;
+}
+
+button.share img {
+    width: 90%;
+}

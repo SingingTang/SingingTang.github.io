@@ -172,8 +172,10 @@
 			var redirect_uri = encodeURIComponent('https://check.pythe.cn/newClearEmotionGame/gameInstruction.html');
 			var response_type = 'code';
 			var scope = 'snsapi_base';
-			// window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${redirect_uri}&response_type=${response_type}&scope=${scope}&#wechat_redirect`
-			window.location.href = './gameInstruction.html';
+			window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${redirect_uri}&response_type=${response_type}&scope=${scope}&#wechat_redirect`
+			// alert('replace');
+			// window.location.replace('./gameInstruction.html');
+
 		}
 
 	}

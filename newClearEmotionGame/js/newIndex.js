@@ -12,11 +12,13 @@ var CONFIG = {
   lifeTotal: 5,
   life: $('.life span'),
   score: $('.score span'),
-  tipTotal: 2
-
+  tipTotal: 2,
+  phraseLose: [],
 }
 
 var GAME = {
+
+
 
   init: function() {
     this.phrases = [];
@@ -28,15 +30,36 @@ var GAME = {
     this.curLife = CONFIG.lifeTotal;
     // 当前剩余提示次数
     this.curTip = CONFIG.tipTotal;
+    this.wrongWord = {};
+    this.rightWord = {};
     // console.dir(this.getPhraseLevel)
     this.initWXConfig();
-    this.initPhraseArrayConfig();
-    this.bind();
+    this.initPhraseArrayConfig(this.bindAction.bind(this));
+    this.openid = getQueryString('code') || 'no';
+    $('.warm-tip').text(this.openid);
+
   },
 
   // 修改游戏的状态 
   setStatus: function(status) {
-    this.status = status;
+    // alert(status);
+    switch (status) {
+      case 'over':
+        // $('.warm-tip').text('gameOver')
+        this.gameOver();
+        break;
+
+    }
+  },
+
+  // 游戏结束
+  gameOver: function() {
+    // alert('in over');
+    // 将分数，错词本，词本，openid存进cookie
+    $.cookie('score', this.curScore);
+    $.cookie('wrongWord', JSON.stringify(this.wrongWord));
+    $.cookie('rightWord', JSON.stringify(this.rightWord));
+    $('.warm-tip').text($.cookie('rightWord'))
   },
 
   // 调用微信录音接口
@@ -64,6 +87,8 @@ var GAME = {
             'downloadVoice',
             'playVoice',
             'onMenuShareQZone',
+            'hideToolbar'
+
 
           ] // 必填，需要使用的JS接口列表
         });
@@ -94,30 +119,35 @@ var GAME = {
       timeout: 5000,
       success: (res) => {
         CONFIG[phraseArray] = res.data;
-        callback()
+        callback && callback()
       },
     })
   },
 
-  initPhraseArrayConfig: function() {
+  initPhraseArrayConfig: function(callback) {
     // 获取两个难度级别的成语
     // https://teacher.pythe.cn/pythe-auto-task/rest/chengyu/query/level
     var url = CONFIG.interfaceUrl2 + '/pythe-auto-task/rest/chengyu/query/level';
-
+    // 获取level1的成语
     this.getPhraseLevel({
       url: url,
       level: 1,
       phraseArray: 'phraseArrayLevel1',
       callback: () => {
-        this.getPhraseLevel({
-          url: url,
-          level: 2,
-          phraseArray: 'phraseArrayLevel2',
-          callback: () => this.initPhrase()
-        })
+        this.initPhrase();
+        callback();
       }
     })
+    // 获取level2的成语
+    this.getPhraseLevel({
+      url: url,
+      level: 2,
+      phraseArray: 'phraseArrayLevel2',
+    })
+
   },
+
+
 
   initPhrase: function() {
     // 初始化成语数组
@@ -128,55 +158,39 @@ var GAME = {
     console.log(this.phraseNum)
   },
 
-  // 提示按钮点击事件
-  bind: function() {
+  // 按钮点击事件
+  bindAction: function() {
+
     const self = this;
+
     $('.tip').click(() => {
-      console.log('click tip');
-      // 判断剩余提示次数，如果小于1，说明没有提示机会了，
-      if (this.curTip < 1) {
-        alert('提示次数不够');
+      console.log('剩余提示  ' + self.curTip)
+      // 判断剩余提示次数，如果小于1，说明没有提示机会了，则显示活动规则页面
+      if (self.curTip < 1) {
+        // 停止动画
+        self.phrases.forEach(phrase => cancelAnimationFrame(phrase.animation))
+        self.createPopup('rule');
         return;
       }
-      // 显示提示框
-      $('.tip-container').css('visibility', 'visible');
-      // 显示选择成语框
-      $('.phrase-container').css('display', 'flex');
-      // 隐藏解释框
-      $('.tip-result').css('display', 'none');
-      // 停止动画 
-      this.phrases.forEach((item, index) => {
+      // 判断当前页面中有没有成语，如果没有，直接返回，有，将其显示 
+      var hasPhrase = self.phrases.some(phrase => parseInt(phrase.$node.css('top')) > 92);
+      console.log(hasPhrase);
 
-        // 停止动画
-        cancelAnimationFrame(item.animation)
-        // 将当前画面中的成语显示出来
-        if (parseInt(item.$node.css('top')) > 92) {
-          // 设置radio值
-          var label = $($('.tip-container .tip-phrase')[index]);
-          label.addClass('show');
-          label.text(item.phrase.word)
-          // console.log( $('.tip-container .tip-phrase')[index])
-          // $('.tip-container .tip-phrase')[index].value(index);
-        }
-      });
+      if (!hasPhrase) return;
+      // 显示提示弹窗
+      self.createPopup('tip');
     });
 
     $('.tip-confirm').click((event) => {
-      var phraseIndex = parseInt($('input[type="radio"]:checked').attr('index'));
-      console.log(phraseIndex);
-      if (phraseIndex === undefined) return;
-      $('.phrase-container').css('display', 'none');
-      $('.tip-result').css('display', 'block');
-      var phrase = self.phrases[phraseIndex].phrase;
-      // 更新提示界面
-      $('.tip-result .annotation').text('释义: ' + phrase.annotation);
-      $('.tip-result .pinyin').text('拼音: ' + phrase.pinyin);
-      $('.tip-result .tip-phrase-selected').css('display', 'block').text(phrase.word);
+      // 显示具体提示内容
+      self.createPopup('tipContent')
     })
 
-    $('.close').click(() => {
-      // 隐藏提示框
-      $('.tip-container').css('visibility', 'hidden');
+    $('.close').click((event) => {
+      // 隐藏父元素内容
+      $(event.target).parent().css('display', 'none');
+      // 隐藏提示弹窗
+      $('.popup-container').css('visibility', 'hidden');
       self.phrases.forEach(phrase => {
         // 如果当前的动画锁住了,则说明在进行别的动作
         if (phrase.animationLock) {
@@ -185,10 +199,132 @@ var GAME = {
           phrase.animation = requestAnimationFrame(phrase.fall.bind(phrase));
         }
       })
+
+      // 判断此时剩余的提示次数，如果没有提示，则提示按钮变成分享按钮
+      if (self.curTip == 0) {
+        $('.tip').css('display', 'none');
+        $('.share').css('display', 'flex');
+        // $('.tip img').attr('src', './images/btn_text_rule.png');
+        // $('.tip img').attr('src', './images/popup_btn_share.png');
+      }
     })
 
+    // 游戏结束
+    $('.popup-nolife .close').click(() => window.location.href = './clearEmotionGame.html')
+
+    $('.quite-confirm').click(() => window.location.href = './clearEmotionGame.html')
+
+    $('.quite').click(() => {
+      self.stopAnimation();
+      self.createPopup('quite');
+    })
+
+  },
+
+  // 生成弹窗，参数，弹窗类型，有，tip, tipContent, share, quite
+  createPopup: function(type) {
+    // 
+    switch (type) {
+      case 'tip':
+        // 显示提示弹窗
+        // 设置title
+        $('.popup-title img').attr('src', './images/popup_title_tip.png');
+        // 显示提示弹窗
+        $('.popup-container').css('visibility', 'visible');
+        // 显示弹窗内容
+        $('.phrase-container').css('display', 'flex');
+        $('.popup-tip').css('display', 'flex')
+        // $('.')
+        this.phrases.forEach((item, index) => {
+          // 停止动画
+          cancelAnimationFrame(item.animation)
+          // 将当前画面中的成语显示出来
+          if (parseInt(item.$node.css('top')) > 92) {
+            // 设置radio值
+            var label = $($('.popup-tip .tip-phrase')[index]);
+            label.parent().css('display', 'block')
+            label.addClass('show');
+            label.text(item.phrase.word)
+          }
+        });
+        break;
+
+
+      case 'tipContent':
+        // 获取到具体被选中的成语的index
+        var phraseIndex = parseInt($('input[type="radio"]:checked').attr('index'));
+        // 取消选中状态
+        $('input[type="radio"]:checked').removeAttr('checked');
+        console.log(typeof phraseIndex);
+        // 如果没有选中成语，直接返回
+        if (phraseIndex !== phraseIndex) return;
+        // 有选中，说明用掉一次提示机会剩余提示次数-1
+        this.curTip--;
+        // 隐藏掉提示弹窗
+        $('.popup-tip').css('display', 'none');
+        // 显示提示内容弹窗
+        $('.popup-tip-content').css('display', 'block');
+        // 获取具体的成语
+        var phrase = this.phrases[phraseIndex].phrase;
+        // 显示内容
+        $('.popup-tip-content .annotation').text('释义: ' + phrase.annotation);
+        $('.popup-tip-content .pinyin').text('拼音: ' + phrase.pinyin);
+        $('.popup-tip-content .tip-phrase-selected').css('display', 'block').text(phrase.word);
+        break;
+
+      case 'rule':
+        console.log('rule')
+
+        $('.popup-container').css('visibility', 'visible');
+        $('.popup-title').attr('src', './images/popup_title_gamerule.png')
+        $('.popup-rule').css('display', 'block')
+        break;
+
+      case 'nolife':
+        $('.popup-container').css('visibility', 'visible');
+        $('.popup-title').attr('src', './images/popup_title_nolife.png');
+        $('.popup-nolife').css('display', 'flex');
+        break;
+
+      case 'quite':
+        $('.popup-container').css('visibility', 'visible');
+        $('.popup-title').attr('src', './images/popup_title_quite.png');
+        $('.popup-quite').css('display', 'flex');
+        break;
+
+      default:
+        console.log('default');
+
+    }
+
+  },
+
+  stopAnimation: function() {
+    this.phrases.forEach(phrase => cancelAnimationFrame(phrase.animation))
+  },
+
+  // 生命值减1
+  subCurLife: function() {
+    console.log(this.curLife)
+    // 如果生命值为0，则停止动画，出现分享界面
+    if (this.curLife === 0) {
+      // 没有血了
+      console.log('没有血了');
+      this.stopAnimation();
+      // 出现血槽已空分享弹窗
+      this.createPopup('nolife');
+      return false;
+    }
+
+    this.curLife--;
+    return true;
+
+  },
+
+  setCookie: function() {
 
   }
+
 }
 
 
@@ -202,12 +338,14 @@ class Phrase {
     this.timeStart = '';
     this.timeEnd = '';
     this.animationLock = false;
+    this.stop = false;
     // 绑定对应的事件函数，只能绑定一次
     this.$node.on({
-      touchstart: this.onTouchStart.bind(this),
+      touchstart: this.onStartRecord.bind(this),
       touchend: this.onTouchEnd.bind(this),
     })
     this.init();
+
 
   }
 
@@ -224,6 +362,8 @@ class Phrase {
 
     // 每重置一次,则生成一个成语,则phraseNum+1
     this.GAME.phraseNum++;
+    // 设置游戏进度条,
+    $('.life-progress span').css('width', this.GAME.phraseNum / CONFIG.phraseNumTotal * 100 + '%');
     // 每10个成语中，会有一个是level2的
     let phraseArray = this.GAME.phraseNum % 10 == 0 ? CONFIG.phraseArrayLevel2 : CONFIG.phraseArrayLevel1;
     // 随机生成成语对象
@@ -231,14 +371,18 @@ class Phrase {
     // 随机生成的文本
     let text = this.phrase.word;
 
-    // 设置游戏进度条,
-    $('.life-progress img').css('width', this.GAME.phraseNum / CONFIG.phraseNumTotal * 100 + '%');
+
 
     let gameWidth = CONFIG.gameWidth - 120;
+    // 
     // 随机设置左边距
-    let left = parseInt(Math.random() * gameWidth);
+    // gameWidth = parseInt(Math.random() * gameWidth);
+    // 产生随机的0或1
+    var n = parseInt(Math.random() * 2);
+    let left = parseInt(Math.random() * gameWidth / 2) + gameWidth / 2 * n;
+    // let left = parseInt(Math.random() * gameWidth);
     // 随机设置上边距
-    let top = parseInt(Math.random() * -60);
+    let top = parseInt(Math.random() * -300);
     // 如果是第一个成语，直接落下
     this.GAME.phraseNum === 1 && (top = 92);
     // top = 180;
@@ -268,16 +412,38 @@ class Phrase {
   // 下落函数
   fall() {
 
-    if (this.ifBootom()) {
-      // 重新设置新的成语
+    if (this.GAME.curLife <= 0) {
+      this.GAME.setStatus('over');
       cancelAnimationFrame(this.animation);
-      // 如果当前生命值为1，则游戏失败，否则生命值减1
-      if (this.GAME.curLife === 1) {
-        CONFIG.life.text('游戏失败');
+      return;
+    }
+
+    if (this.ifBootom()) {
+
+      // console.log(this.GAME.curLife)
+
+      // 停止动画
+      cancelAnimationFrame(this.animation);
+      // 将该读错的词语加进错词本
+      var keys = Object.keys(this.GAME.wrongWord);
+
+      this.GAME.wrongWord[keys.length] = {
+        id: this.phrase.id,
+        word: this.phrase.word
+      };
+
+      // 如果当前生命值为0，则游戏失败
+      if (this.GAME.curLife <= 0) {
+        // this.GAME.subCurLife();
+        // 游戏结束，
+        console.log('last life');
+        
         return;
       }
 
-      CONFIG.life.text(--this.GAME.curLife);
+      this.GAME.subCurLife();
+
+      CONFIG.life.text(this.GAME.curLife);
       this.init()
       return
     }
@@ -287,9 +453,15 @@ class Phrase {
     let top = this.$node.offset().top;
     // 0.3为其每次下落的高度
     this.$node.offset({
-      top: top + 0.3
-      // top: top + 3
+      // top: top + 0.3
+      top: top + 3
     })
+
+    // if (parseInt(this.$node.css('top')) > 92) {
+    //   this.GAME.phraseNum++;
+    //   // 设置游戏进度条,
+    //   $('.life-progress span').css('width', this.GAME.phraseNum / CONFIG.phraseNumTotal * 100 + '%');
+    // }
 
     // 如果当前的top小于92，即不在游戏区域则隐藏
     if (parseInt(this.$node.css('top')) < 92) {
@@ -328,7 +500,7 @@ class Phrase {
       <style>
       #${id}::before {
         display: block; 
-        background: url(./images/icon_protect_bg.png); 
+        background: url(./images/icon_protect_bg.gif); 
         background-size: cover 
       }
       </style>
@@ -338,6 +510,8 @@ class Phrase {
     wx.startRecord({
       success: function(res) {
         $('.warm-tip').text('调起录音成功，录音了...');
+        self.stop = false;
+        setTimeout(self.onTouchEnd.bind(self), 4000);
       },
       fail: function(err) {
         $('.warm-tip').text('调起录音失败');
@@ -347,7 +521,6 @@ class Phrase {
   }
 
   onTouchStart(event) {
-
     var self = this;
     // 生成开始时间戳
     self.timeStart = new Date().getTime();
@@ -358,17 +531,24 @@ class Phrase {
 
   onTouchEnd(event) {
 
-    event.preventDefault();
+    // event.preventDefault();
     const self = this;
 
     var result = false;
     // 生成结束时间戳
-    this.timeEnd = new Date().getTime();
-    // 如果按住时间不够200ms，则不录音
-    var during = this.timeEnd - this.timeStart;
-    $('.test').text(during);
-    if (during < 200) {
+    // this.timeEnd = new Date().getTime();
+    // // 如果按住时间不够200ms，则不录音
+    // var during = this.timeEnd - this.timeStart;
+    // $('.test').text(during);
+    // if (during < 200) {
+    //   return;
+    // }
+
+    if (self.stop) {
+      $('.warm-tip').text('已停止');
       return;
+    } else {
+      $('.warm-tip').text('未停止');
     }
 
     // 暂停录音
@@ -387,7 +567,11 @@ class Phrase {
           success: function(res) {
             // 返回音频的服务器端ID
             // var serverId = res.serverId;
-            // 上传成功后进行音频校对  
+            // 上传成功后进行音频校对
+            // 音效
+            var music = $('.music')[0];
+            music.play();
+
             self.onCheckRecord(res.serverId)
           },
 
@@ -404,7 +588,7 @@ class Phrase {
         $('.warm-tip').text('操作有点快，请重新说话');
       },
       complete: () => {
-
+        self.stop = true;
       }
 
     });
@@ -439,23 +623,36 @@ class Phrase {
             self.$node.empty();
             self.$node.text(self.phrase.word);
             $('.warm-tip').text('对了  ' + self.$node.text())
-            self.$node.append(`
+            // 发送子弹
+            $('.bullet').css('display', 'block');
+
+            setTimeout(() => {
+              $('.bullet').css('display', 'none');
+              self.$node.append(`
               <style>
                 #${id}::before {
                   display: block; 
-                  background: url(./images/icon_boom.png); 
+                  background: url(./images/icon_boom.gif); 
                   background-size: cover 
                 }
               </style>
-            `);
-            // 2秒后回复原状
-            setTimeout(() => {
-              // 分数加1
-              CONFIG.score.text(++self.GAME.curScore);
-              // 设置新成语
-              self.init();
+              `);
+              // 2秒后回复原状
+              setTimeout(() => {
+                // 分数加1
+                CONFIG.score.text(++self.GAME.curScore);
+                // 将对的词加进词本
+                var keys = Object.keys(self.GAME.rightWord);
 
-            }, 2000)
+                self.GAME.rightWord[keys.length] = {
+                  id: self.phrase.id,
+                  word: self.phrase.word
+                };
+                // 设置新成语
+                self.init();
+              }, 2000);
+            }, 666)
+
 
           } else {
             // $('.warm-tip').text('错了')
@@ -501,8 +698,16 @@ class Phrase {
     this.$node.append(`<style>#${id}::after{content: '读音有误'}</style>`);
     setTimeout(() => this.$node.append(`<style>#${id}::after{content: '按住念词'}</style>`), 1000);
   }
-
-
 }
 
 GAME.init();
+
+var username = document.cookie.split(";")[0].split("=")[1];
+//JS操作cookies方法!
+//写cookies
+function setCookie(name, value) {
+  var Days = 30;
+  var exp = new Date();
+  exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+  document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+}
