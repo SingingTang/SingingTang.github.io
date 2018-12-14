@@ -2,186 +2,266 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>成语大爆炸</title>
+	<title>挑战万词王</title>
 	<link type="text/css" rel="stylesheet" href="css/style.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+	<meta name="full-screen" content="yes">
+   <meta name="browsermode" content="application">
 	<script src="./js/jquery.min.js"></script>
 	<!-- <script type="text/javascript" src="./js/jweixin-1.4.0.js"></script> -->
-	<!-- <script src="./js/util.js"></script> -->
-	<!-- <script src="./js/index.js"></script> -->
+	
 </head>
 
 <body>
 
-	<div class="enter-game">
-		<button id="start"></button>
-		<p>加载进度</p>
-	</div>
-	<div class="loading layer">
-		<span class="loading-bg"><span class="loading-progress"></span></span>
-	</div>
-
-	<div class="playing">
-		<h1>成语大爆炸</h1>
-		<p>游戏说明：长按读成语，松手检测是否正确。正确得1分，跌到底，失1分。
-
-		</p>
-		<p>游戏底部会有相关的正确与错误信息.(仅限于微信)</p>
-		<!-- <input type="button" value="开始游戏" id="begin"> -->
-		<input type="button" value="提示" class="tip-button">
-		<div class="contain">
-			<div class="countDiv">
-				<p>得分:<span id="score">0</span>分</p>
-				<p>失分:<span id="against">0</span>分</p>
-				
-			</div>
-			<div id="game">
-				<i class="phrase"></i>
-				<i class="phrase"></i>
-				<i class="phrase"></i>
-				<i class="phrase"></i>
-				<i class="phrase"></i>
-				
-			</div>
+	<div class="prepare" style="width: 100vw; height: 100vh">
+		<audio controls preload="auto" loop="loop" class="prepareMusic" style="display: block; position: absolute; top: -99px;">
+	      <source src="./prepareMusic.mp3" type="audio/mp3" />
+	    </audio>
+		<div class="enter-game">
+			<button id="start"></button>
+			<img class="footer" src="./images/footer_pythe.png" />
 		</div>
-		<i class="warm-tip">test</i>
-		<i class="test">1</i>
-		<i class="test1">1</i>
-		<div class="tip-container">
-			<div class="radio-container">
-
-				<label class="tip-phrase"><input type="radio" name="tip" value="提示" index=0 /></label>
-				<label class="tip-phrase"><input type="radio" name="tip" value="提示" index=1 /></label>
-				<label class="tip-phrase"><input type="radio" name="tip" value="提示" index=2 /></label>
-				<label class="tip-phrase"><input type="radio" name="tip" value="提示" index=3 /></label>
-				<label class="tip-phrase"><input type="radio" name="tip" value="提示" index=4 /></label>
-			</div>
-
-			<input type="text" readonly="readonly" class="tip-content"/>
-
-			<button class="tip-confirm">确定提示</button>
-
-			
-			
-			<button class="return-game">返回游戏</button>
+		<div class="loading layer">
+			<span class="loading-bg"><span class="loading-progress"></span></span>
+			<!-- <p class="test" style="background: #000; color: red; width: 100px ;height: 25px; position: absolute; top: 100px; left: 100px"></p> -->
 		</div>
 	</div>
+
+	<div class="ready" style="width: 100vw; height: 100vh; display: none">
+		
+	    <audio controls preload="auto" class="music">
+	      <source src="./bullet_music.mp3" type="audio/mp3" />
+	    </audio>
+
+	    <audio controls preload="auto" loop="loop" class="gameStartMusic">
+	      <source src="./gameStartMusic.mp3" type="audio/mp3" />
+	    </audio>
+
+	    <audio controls preload="auto" class="gameOverMusic">
+	      <source src="./gameOverMusic.mp3" type="audio/mp3" />
+	    </audio>
+
+
+
+	      
+	<!-- <button class="hello" style="z-index: 9999; border:1px solid re">Hello </button> -->
+
+	    <div class="game-bg">
+	      <!-- <img class="bg" src="./images/game-bg.png" /> -->
+	      <!-- <span class="icon life" src="./images/icon_life.png" /> -->
+	      <span class="life">生命值<span>5</span></span>
+	      <img class="icon xman" src="./images/icon_xman.png" />
+	      <img class="halo" src="" />
+	      <span class="score">分数:<span>0</span></span>
+	      <img class="icon tank" src="./images/icon_tank.png" />
+	      <img class="bullet" src="./images/bullet.gif" />
+	      <button class="quite"><img class="icon quite-text" src="./images/btn_text_quite.png" /></button>
+	      <button class="tip"><img class="icon tip-text" src="./images/btn_text_tips.png" /></button>
+	      <button class="share"><img class="" src="./images/btn_text_share_tips_2.png" /></button>
+
+	      <div class="game">
+	        <span class="life-progress">
+	          <span></span> 
+	        </span>
+	        <!-- <span class="game-progress">0/30</span> -->
+	        
+	        <div class="phrase">
+	          <i class="phrase-text"></i>
+	          <span class="phrase-indicator">长按读词</span>
+	          <span class="phrase-layer"></span>
+	        </div>
+	        <div class="phrase">
+	          <i class="phrase-text"></i>
+	          <span class="phrase-indicator">长按读词</span>
+	          <span class="phrase-layer"></span>
+	        </div>
+	        <div class="phrase">
+	          <i class="phrase-text"></i>
+	          <span class="phrase-indicator">长按读词</span>
+	          <span class="phrase-layer"></span>
+	        </div>
+	        <div class="phrase">
+	          <i class="phrase-text"></i>
+	          <span class="phrase-indicator">长按读词</span>
+	          <span class="phrase-layer"></span>
+	        </div>
+	       <!--  <div class="phrase">
+	          <i class="phrase-text"></i>
+	          <span class="phrase-indicator">长按读词</span>
+	          <span class="phrase-layer"></span>
+	        </div> -->
+	      </div>
+
+	      <img class="game-over" src="./images/game_over.gif" />
+
+	      <div class="popup-container">
+	        <div class="popup">
+	          <span class="popup-title"><img src="./images/popup_title_tip.png" /></span>
+	          <div class="popup-content">
+	            <!-- 提示弹窗 -->
+	            <div class="popup-tip">
+                <span class="explain">选择词语</span>
+
+                  <div>
+                    <input type="radio" name="tip-phrase" index=0 id="tip-phrase0"/>
+                    <label class="tip-phrase" for="tip-phrase0">
+                      <img src="./images/btn_word_bg.png" />
+                      <span class="tip-phrase-text">第一个</span>
+                    </label>
+                  </div>
+                  
+                  <div>
+                    <input type="radio" name="tip-phrase" index=1 id="tip-phrase1"/>
+                    <label class="tip-phrase" for="tip-phrase1">
+                    <img src="./images/btn_word_bg.png" /><span class="tip-phrase-text">第一个</span></label>
+                  </div>
+
+                  <div>
+                    <input type="radio" name="tip-phrase" index=2 id="tip-phrase2"/>
+                    <label class="tip-phrase" for="tip-phrase2"><img src="./images/btn_word_bg.png" /><span class="tip-phrase-text">第一个</span></label>
+                  </div>
+
+                  <div>
+                    <input type="radio" name="tip-phrase" index=3 id="tip-phrase3"/>
+                    <label class="tip-phrase" for="tip-phrase3"><img src="./images/btn_word_bg.png" /><span class="tip-phrase-text">第一个</span></label>
+                  </div>
+
+                 
+                 
+                  <button class="tip-confirm" index=0>
+                    <img class="tip-confirm-btn-bg" src="./images/popup_btn.png" />
+                    <img class="tip-confirm-btn-text" src="./images/popup_btn_confirm.png" />
+                  </button>
+                  <button class="close"></button>
+              </div>
+
+	            <!-- 提示内容弹窗 -->
+	            <div class="popup-tip-content"> 
+	              <label class="tip-phrase-selected" index=0></label>
+	              <div class="pinyin">
+	              	<span class="pinyin"></span>
+		              <button class="pinyin-music-btn"></button>
+		              <audio controls preload="auto" class="pinyin-music" style="position: absolute; opacity: 0">
+		              	<source src="" type="audio/mp3" />
+		              </audio>
+	              </div>
+	              
+	              <span class="annotation"></span>
+	              <button class="close"></button>
+	            </div>
+
+	            <!-- 活动规则弹窗 -->
+	            <div class="popup-rule">
+	              <div class="rule-text">
+	                <p>万词王即将输出一波成语攻击，让我们一起来对抗他吧！</p>
+	                <p>注意：</p>
+	                <p>1.点击瞄准万词王扔过来的成语进行录音，追踪导弹将自动攻击！如果发音标准，攻击将会被消除！</p>
+	                <p>2.我们的防御脆弱！被万词王击中5次后将游戏失败；</p>
+	                <p>3.关键时刻可以使用提示功能，万词王的弱点将暴露无遗！想要很多的提示？分享给微信朋友助力吧！</p>
+	              </div>
+	              <button class="close"></button>
+	            </div>
+
+	            <!-- 分享弹窗 -->
+	            <div class="popup-nolife">
+	              <img class="fish" src="./images/popup_fish.png" />
+	              <p class="nolife-text">
+	                您有3次翻身机会，分享即可获得一个生命值，继续游戏。冲吖!
+	              </p>
+	              <img class="share-sign" src="./images/sign.gif" />
+	              <div class="share-text">
+	                <p>点击右上角分享</p>
+	                <p>获得一次翻身机会</p>
+	               </div>
+	              <!-- <button class="share"><img src="./images/popup_btn_share.png" /></button> -->
+	              <button class="close"></button>
+	            </div>
+
+	            <!-- 退出游戏弹窗 -->
+	            <div class="popup-quite">
+	              <img src="./images/x_man.png" />
+	              <p class="quite-text">
+	                嘤嘤嘤～你差点就成为万词王了！确定要退出吗？
+	              </p>
+	              <button class="quite-confirm"><img src="./images/popup_btn_quite.png" /></button>
+              	  <button class="quite-cancel"><img src="./images/popup_btn_continue.png" /></button>
+	              <button class="close"></button>
+	            </div>
+
+
+	          </div>
+	        </div>
+	      </div>
+
+
+	    </div>
+	    <div class="instruction layer">
+	        <img class="instruction1" src="./images/instruction1.png" />
+	        <img class="instruction2" src="./images/instruction2.png" />
+	        <img class="instruction3" src="./images/instruction3.png" />
+	        <button class="instruction3 start-game"></button>
+	       
+	    </div>
+
+	    <div class="share layer">
+	    	<img class="share-sign" src="./images/sign.gif" />
+	      <img class="share-tip" src="./images/share_tip.png"/>
+	      <button class="share-tip-btn"></button>
+	    </div>
+	</div>
+
+
 </body>
+<script src="./js/util.js"></script>
+<script type="text/javascript">
 
-<script>
-
-	window.onload = () => {
-
-		var start = false;
-		console.log('加载')
-		// 所有需要加载的资源个数
-		let resourceTotalNum = 0;
-		let resourceLoadedNum = 0;
-		let rate = 0;
-
-		// 优先加载的图片资源
-		var imagesFirst = ['./images/loading_progress.png', './images/loading_bg.png', './images/loading_xman.gif'];
-
-		// 图片地址数组
-		var imagesSecond = ['./images/instruction3.png','./images/instruction1.png','./images/instruction2.png', './images/btn_text_quite.png', './images/btn_text_tips.png', './images/btn_word_bg.png', './images/game-bg.png', './images/icon_life.png', './images/icon_score.png', './images/icon_tank.png', './images/icon_xman.png', './images/start_game.png', './images/page-bg.png', './images/life_progress.png'];
-
-		var js = ['./js/jweixin-1.4.0.js', './js/util.js'];
-
-		resourceTotalNum = (imagesFirst.length + imagesSecond.length + js.length);
-
-		onload = () => {
-			resourceLoadedNum++;
-			rate = resourceLoadedNum/resourceTotalNum;
-			// $('.rate').text('已加载 ' + rate);
-			console.log('已加载 ' + rate);
-			$('.loading-progress').css('width', resourceLoadedNum/resourceTotalNum*100 + '%')
-			if(rate === 1 && start) {
-				console.log('跳转')
-				// setTimeout( () => reDirection, 300);
-				setTimeout( () => reDirection() , 300);
-
-			}
-		}
-
-
-
-		createImagesFirst = (images) =>{
-			images.forEach((image, index, images) => {
-				var imgNode = document.createElement('img');
-				imgNode.src = image;
-				imgNode.onload = () =>{
-					resourceLoadedNum++;
-					if( (index+1) === images.length ) {
-						console.log('OK');
-						// 当需要优先加载的图片加载好了，再加载其他的资源
-						creactImages(imagesSecond);
-						creactJs(js);
-					}
-				}
-			})
-		}
-		createImagesFirst(imagesFirst);
-
-		
-
-		
-		console.log(resourceTotalNum);
-
-			// 加载js资源函数
-		creactJs = (js) => {
-			js.forEach(item =>{
-				var script = document.createElement('script');
-				script.src = item;
-				document.body.append(script)
-				script.onload = onload;
-			})
-		}
-
-		
-		// 加载图片资源函数
-		function creactImages(images){
-			images.forEach((image, index) => {
-				var imgNode = document.createElement('img');
-				imgNode.src = image;
-				imgNode.onload = onload;
-			})
-		}
-
-		// 点击开始游戏才加载后面需要的图片，以及js文件
-		$('#start').click(() => { 
-
-			console.log('继续加载资源');
-			start = true;
-
-			// 显示layer
-			$('.loading.layer').css('display', 'block');
-			if(rate === 1 && start) {
-				console.log('跳转')
-				setTimeout( () => reDirection() , 300);
-						// window.location.href='./gameInstruction.html'
-					}
-			
-			// $('.rate').css('display', 'block') 
-			
-			// $('.enter-game').css('background', 'url(./images/3.png)')
-		})
-
-		function reDirection() {
-			console.log('redirect')
-			var appid = 'wx49e51570a28eef81';
-			var redirect_uri = encodeURIComponent('https://check.pythe.cn/newClearEmotionGame/gameInstruction.html');
-			var response_type = 'code';
-			var scope = 'snsapi_base';
-			window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${redirect_uri}&response_type=${response_type}&scope=${scope}&#wechat_redirect`
-			// alert('replace');
-			// window.location.replace('./gameInstruction.html');
-
-		}
-
+	var code = getQueryString('code');
+	$('.gameStartMusic')[0].play();
+	// 已经有code,则说明获取到openid
+	if(code){
+		// 加载js文件
+		var script = document.createElement('script');
+	    script.src = './js/startIndex.js';
+	    $('body').append(script);
+	}else{
+		// 跳转到本页面,获取openid
+		reDirection();
 	}
 
+	// 跳转
+  function reDirection() {
+    var appid = 'wx49e51570a28eef81';
+    var redirect_uri = encodeURIComponent(document.URL);
+    var response_type = 'code';
+    var scope = 'snsapi_userinfo';
+    // 获取原来URl中的isPK和id值
+    var id = getQueryString('id');
+    if (id) {
 
+      var id = getQueryString('id');
+      redirect_uri += `?id=${id}`
+    } else {
 
+    }
+    
+    // 加载newIndex.js文件
+    // var script = document.createElement('script');
+    // script.src = './js/newIndex.js';
+    // $('body').append(script);
+    window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${redirect_uri}&response_type=${response_type}&scope=${scope}&#wechat_redirect`
+  }
+
+  // 获取URL中的参数
+  function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) {
+      return unescape(r[2]);
+    }
+    return null;
+  }
 </script>
 
+<!-- <script type="text/javascript" src="./js/startIndex.js"></script> -->
 </html>

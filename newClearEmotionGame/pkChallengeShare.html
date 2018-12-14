@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+	  <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" type="text/css" href="css/speechEvaluation.css">
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/vue.min.js"></script>   
+    <script type="text/javascript" src="js/swiper-3.4.2.jquery.min.js"></script>       
+    <script type="text/javascript" src='js/jweixin-1.4.0.js'></script>
+    <script type="text/javascript" src="js/compositionDetail.js"></script>  
+    <script type="text/javascript" src="js/jquery.cookie.js"></script> 
+    <script type="text/javascript" src="js/wxShare.js"></script> 
+	<title>万词王分享</title>
+</head>
+<body>
+    
+   <div class="pkChallengeShare"  v-bind:style="{'min-height':windowHeight+'px'}" v-cloak>
+   	    <div class="challenge_rankSort_title">
+        	<img src="images/share_pk_bg.png" class="">
+        </div>
+
+       <div style='padding: 0.1rem 0.1rem 0.1rem 0.1rem;position:relative;z-index:3;margin-top:-0.5rem;'>
+	   	    <div class="challenge_rankSort_dot">
+	                        
+	   	    	<div class="challenge_rank_containpadding">
+	   	    		<div class="pkAchievement_contain">
+	   	    			 <div class="user_pk_Achievement">
+	   	    			 	 <div class="userPK_photo ">
+			   	         	 	<div class="userPK_img">
+			   	         	 		 <img v-bind:src="currentUserDetail.userImg" >
+			   	         	 	</div>
+			   	         	 </div>
+	   	    			 	 <h1 class="challenger_original_score">{{currentUserDetail.username}}获得了{{currentUserDetail.record_score}}分</h1>
+	   	    			 </div>
+                 
+	   	    			 <div class="chagllenge_guys_contain" v-if='challengersData.length>=1'>	 
+	   	    			  <h1 class="chagllenge_guys">迎战小伙伴</h1>  	    			 	
+	   	    			 	<div class="swiper-container" id='chagllenge_guys_container'>
+  							    <div class="swiper-wrapper chagllenge_guys_list">
+  							        <div class="swiper-slide" v-for='item in challengersData'>
+                              <div class="guys_img">
+                                <img src='images/share_pk_win.png'  class="user_icon_cap" v-if='item.challenger_score>currentUserDetail.record_score'>
+                                <img src='images/share_pk_ping.png' class="user_icon_cap" v-else-if='item.challenger_score==currentUserDetail.record_score'>
+                                <img src='images/share_pk_lose.png' class="user_icon_cap" v-else>
+                              	<div class="chagllenge_guys_img">
+                                    <img v-bind:src="item.user_img" class=""> 
+                                </div>
+                              </div>
+                              <h1 class="per_challenger_name">{{item.username}}</h1>
+                              <h2 class="per_challenger_score">{{item.challenger_score}}分</h2>
+  							        </div>
+  							    </div>
+  							  </div>
+	   	    			 </div>
+
+	   	    			 <div class="is_acceptChallenge">
+	   	    			 	 <img src="images/btn_share_accept_pk.png" alt="" class="">
+	   	    			 	 <img src="images/btn_share_playalone.png" alt="" class="">
+	   	    			 </div>
+	   	    		</div>
+	   	    	</div> 
+	   	    </div> 
+   	   </div> 
+
+   </div>
+   
+   <script type="text/javascript">
+   	  // $('.challenge_score').css('min-height',$(window).height());
+
+   	  var challengeScore=new Vue({
+   	  	  "el":'.pkChallengeShare',
+   	  	  data:{
+   	  	  	windowHeight:0,
+   	  	  	isShowVocalConcertTips:false,
+            wxOpenId:'',
+            currentUserDetail:{},
+            challengersData:[]
+   	  	  },
+   	  	  methods:{
+              initGetOpenId:function(){
+                var correctComUrl=document.URL;
+                var correctComId={};
+                // 从url中获取传过来的作文id
+                if(correctComUrl.indexOf('?')!=-1){
+                    correctComUrl=correctComUrl.split('?')[1];
+                    correctComUrl=correctComUrl.split('&');
+                    for(var i=0;i<correctComUrl.length;i++){
+                       correctComId[(correctComUrl[i].split('='))[0]]=(correctComUrl[i].split('=')[1]);
+                    }
+                    this.wxOpenId=correctComId.id; 
+                    this.friendsListData(correctComId.id)
+                };
+              },
+
+             
+             // 小伙伴数据列表
+             friendsListData:function(wxOpenId){
+                 var that=this;
+                 $.ajax({
+                    type: 'POST',
+                    url: interfaceUrl2+'/pythe-auto-task/rest/match/wcw/challenge/query',
+                    data: JSON.stringify({
+                        defender:wxOpenId,
+                    }),
+                    async:false,
+                    dataType:"json",
+                    contentType:"application/json",
+                    timeout:5000,
+                    success: function(res){                 
+                       if(res.status==200){
+                        that.currentUserDetail=res.data.defender;
+                        that.challengersData=res.data.challengers;
+                        
+                         var mySwiper = new Swiper ('#chagllenge_guys_container', {
+                          // pagination : '.swiper-pagination', 
+                          centeredSlides: false,
+                          slidesPerView: "auto",
+                          spaceBetween: 10,
+                          // slidesPerGroup : 1,
+                              // observer:true, //修改swiper自己或子元素时，自动初始化swiper
+                              // observeParents:true,//修改swiper的父元素时，自动初始化swiper
+                              initialSlide:4
+                          });
+
+                       }else{
+                          pytheLayOutObj.pytheLayOutFun({
+                            setTime:3000,
+                            tips:'没有数据'
+                          }) 
+                       }                                 
+                    },
+
+                    error:function(err){
+                      pytheLayOutObj.pytheLayOutFun({
+                           setTime:3000,
+                           tips:'数据获取失败，请稍后重试'
+                      })   
+                    },
+                    complete:function(status){
+                      if (status == 'timeout') {
+                         ajaxTimeOut.abort(); //取消请求
+                         pytheLayOutObj.pytheLayOutFun({
+                           setTime:3000,
+                           tips:'数据获取失败，请稍后重试'
+                         })
+                      }
+                    }
+                 });
+             },
+
+   	  	  	 // 显示弹窗
+             showVocalConcertTip:function(){
+             	this.isShowVocalConcertTips=true;
+             },
+             // 关闭弹窗
+             hideVocalConcertTip:function(){
+             	this.isShowVocalConcertTips=false;
+             }
+   	  	  },
+   	  	  mounted:function(){
+             this.windowHeight=window.innerHeight;
+             this.initGetOpenId();
+             
+   	  	  }
+   	  })
+   </script>
+</body>
+</html>

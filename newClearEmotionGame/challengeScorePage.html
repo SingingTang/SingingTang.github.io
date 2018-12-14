@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/speechEvaluation.css">
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src='js/jweixin-1.4.0.js'></script>
+    <script type="text/javascript" src="js/compositionDetail.js"></script>  
+    <script type="text/javascript" src="js/jquery.cookie.js"></script> 
+    <script type="text/javascript" src="js/wxShare.js"></script> 
+    <script type="text/javascript" src="js/vue.min.js"></script>   
+	<title>万词王得分</title>
+</head>
+<body>
+    
+   <div class="challenge_score" v-bind:style="{'min-height':windowHeight+'px'}" v-cloak>
+   	    
+   	    <div class="got_score_contain">
+   	         <!-- 得分   -->
+   	         <template>
+               <!-- 得分在[80,100)区间;  -->
+   	    	   <img src="images/over_highscore_bg.png" alt="" class="got_score_decoration" v-if='userChallengeScore>=80'>
+
+               <!-- 得分在[0,80)区间;  -->
+   	    	   <img src="images/over_lowscore_bg.png" alt="" class="got_score_decoration" v-else>
+
+   	         </template>
+   	         <h1 class="show_score_number">{{userChallengeScore}}<span class="score_sub">分</span></h1>
+   	         
+   	         <div class="search_score_sortContain">
+   	         	 <div class="search_score_sortBtn" v-on:click='rankSortList'></div>
+   	         </div>
+             
+             <div class="for_padding">
+                
+                <!-- 重新挑战 分享按钮-->
+             	<div class="challengeAshare_btnContain clearFixed">
+	   	         	 <span class="challengeAshare_btn challenge_again_btn"><img src="images/btn_restart.png" alt="" class="" v-on:click='challengeAgain'></span>
+	   	         	 <span class="challengeAshare_btn contain_share_btn"><img src="images/btn_share.png" alt="" class="" v-on:click='commonShare'></span>
+	   	         </div>
+
+	   	         <!-- 邀请好友来PK -->
+	   	         <div class="invite_friend_pk">
+	   	         	 <img src="images/btn_pk.png" alt="" class="">
+	   	         </div>
+
+	   	         <!-- 错题本 词本-->
+	   	         <div class="seache_explain_contain">
+	   	         	 <div class="seache_explain_btn_contain clearFixed">
+	   	         	    <template>
+	   	         	 	  <img src="images/btn_note_wrongword_default.png" v-if='wordNote.wrongWordNote==0' v-on:click='wordNoteEvent()'>
+	   	         	 	  <img src="images/btn_note_wrongword_select.png" v-else>
+	   	         	 	</template>
+
+	   	         	 	<template>
+	   	         	    	<img src="images/btn_note_rightword_default.png" class="seache_explain_book" v-if='wordNote.rightWordNote==0' v-on:click='wordNoteEvent()'>
+	   	         	    	<img src="images/btn_note_rightword_select.png" class="seache_explain_book" v-else>	   	         	 		
+	   	         	 	</template>
+
+	   	         	 </div>
+
+	   	         	 <div class="seache_explain_wordContain">
+
+	   	         	     <!-- 错题本ul -->
+	   	         	 	 <ul class="seache_explain_wordUl" v-if='wordNote.wrongWordNote==1'>
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">博闻强识<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">博闻强识<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">博闻强识<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">博闻强识<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">博闻强识<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">博闻强识<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+	   	         	 	 </ul>
+
+	   	         	     <!-- 词本ul -->
+	   	         	 	 <ul class="seache_explain_wordUl" v-else>
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">一字不落<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">一字不落<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">一字不落<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">一字不落<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">一字不落<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">一字不落<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+	   	         	 	 </ul>
+	   	         	 </div>
+	   	         </div>
+
+             </div>
+
+             <div class="about_pythe_app">
+             	  <img src="images/footer.png" alt="" class="">            	  
+             </div>
+
+             <!-- <div class="about_pythe_app clearFixed">
+             	  <img src="images/icon_scan_wechat.png" alt="" class="pythe_app_wxCode">
+
+             	  <div class="pythe_app_txt">
+             	     <div class="flex_column">
+             	  	    <span class="">更多有趣的语文学习</span>
+             	  	    <span class="">来派知语文APP</span>
+             	  	 </div>
+             	  </div> 
+             </div> -->
+   	         
+
+   	    </div>
+
+   </div>
+   
+   <script type="text/javascript">
+   	  // $('.challenge_score').css('min-height',$(window).height());
+   	  var challengeScore=new Vue({
+   	  	  "el":'.challenge_score',
+   	  	  data:{
+   	  	  	windowHeight:0,
+   	  	  	userChallengeScore:60,
+   	  	  	wordNote:{
+   	  	  		wrongWordNote:1,
+   	  	  		rightWordNote:0
+   	  	  	},
+   	  	  	shareDec:{
+               title:"万词王游戏挑战赛",
+               dec:"你想来挑战试试看吗？"
+         	}
+   	  	  },
+   	  	  methods:{
+   	  	  	 // 切换词本、错题本
+             wordNoteEvent:function(){
+                var that=this;
+                console.log(that.wordNote.wrongWordNote+':'+that.wordNote.rightWordNote)
+                if(that.wordNote.wrongWordNote==0){
+                     that.wordNote.wrongWordNote=1;
+                     that.wordNote.rightWordNote=0;
+                }else if(that.wordNote.rightWordNote==0){
+                	 that.wordNote.wrongWordNote=0;
+                     that.wordNote.rightWordNote=1;
+                }
+             },
+
+             // 点击重新挑战
+             challengeAgain:function(){
+               window.location.assign('speechEvaluationIndex.html');
+             },
+             
+             // 普通分享
+             commonShare:function(){
+             	var that=this;
+                
+				WeixinJSBridge.invoke('sendAppMessage',{
+				"appid":'wx49e51570a28eef81',
+				"img_url":'https://check.pythe.cn/speechEvaluation/images/icon_xman.png',					
+				"link":'https://check.pythe.cn/speechEvaluation/pkChallengeShare.html',
+				"desc":that.shareDec.dec,
+				"title":that.shareDec.title
+				},function(res){
+                  alert(JSON.stringify(res))
+				});								
+	            
+             },
+
+             // pk分享
+             pkShare:function(){
+             	var obj={
+                   title:"您的好友xxx邀您PK万词王游戏",
+                   dec:"赶快应战吧！战加油拿到一个好成绩哦！"
+             	};
+                setPKShareInfo(obj.title,obj.dec);
+
+             },
+
+             // 点击排行榜
+             rankSortList:function(){
+             	window.location.href='challengeRankSort.html';
+             }
+   	  	  },
+   	  	  mounted:function(){
+             this.windowHeight=window.innerHeight; 
+             setWxShare();            
+		     setWxShareInfo(this.shareDec.title,this.shareDec.dec)
+
+   	  	  }
+   	  })
+   </script>
+</body>
+</html>

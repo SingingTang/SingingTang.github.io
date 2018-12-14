@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/speechEvaluation.css">
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/vue.min.js"></script>   
+    <script type="text/javascript" src='js/jweixin-1.4.0.js'></script>
+    <script type="text/javascript" src="js/compositionDetail.js"></script>  
+    <script type="text/javascript" src="js/jquery.cookie.js"></script> 
+    <script type="text/javascript" src="js/wxShare.js"></script> 
+	<title>万词王PK得分比较</title>
+</head>
+<body>
+    
+   <div class="challenge_score" id='userPK_challenge' v-bind:style="{'min-height':windowHeight+'px'}" v-cloak>
+   	    
+   	    <div class="got_score_contain">
+   	         <!-- 两个用户显示的结果不一样    -->
+   	         <template>
+               <!-- 该用户赢了 -->
+   	    	   <img src="images/pk_win_bg.png" alt="" class="got_score_decoration" v-if='currentUserDetail.record_score>otherUserDetail.record_score'>
+
+   	    	   <img src="images/pk_ping_bg.png" alt="" class="got_score_decoration" v-else-if='currentUserDetail.record_score==otherUserDetail.record_score'>
+
+               <!-- 该用户输了  -->
+   	    	   <img src="images/pk_lose_bg.png" alt="" class="got_score_decoration" v-else>
+
+   	         </template>
+   	         
+   	         <!-- pk用户的头像 -->
+   	         <div class="userPK_photoContain clearFixed">
+   	             <div class="userPK_info original_challenge">
+	   	         	 <div class="userPK_photo ">
+	   	         	 	<div class="userPK_img">
+	   	         	 		<img v-bind:src="currentUserDetail.user_img" alt="" class="">
+	   	         	 	</div>
+	   	         	 </div>
+	   	         	
+   	         	  </div>
+
+   	             <div class="userPK_info second_challenge">
+	   	         	 <div class="userPK_photo ">
+	   	         	 	<div class="userPK_img">
+	   	         	 		
+	   	         	 		<img v-bind:src="otherUserDetail.user_img" alt="" class="">
+	   	         	 	</div>
+	   	         	 </div>
+
+	   	         </div>
+   	         </div>
+
+   	         <!-- 姓名+得分 -->
+   	         <div class="pkScore_andUser clearFixed">
+   	         	  <div class="userPK_info" >
+   	         	  	 <h2 class="pk_userName"><span>{{currentUserDetail.username}}</span></h2>
+	   	         	 <h1 class="pk_contrastScore">{{currentUserDetail.record_score}}<span class="score_specialTxt">分</span></h1>
+   	         	  </div>
+
+   	         	  <div class="userPK_info">
+   	         	  	 <h2 class="pk_userName"><span>{{otherUserDetail.username}}</span></h2>
+	   	         	 <h1 class="pk_contrastScore">{{otherUserDetail.record_score}}<span class="score_specialTxt">分</span></h1>
+   	         	  </div>
+   	         </div>
+   	         
+   	         <div class="search_score_sortContain">
+   	         	 <div class="search_score_sortBtn" v-on:click='rankSortList'></div>
+   	         </div>
+             
+             <div class="for_padding">
+                
+                <!-- 重新挑战 分享按钮-->
+             	<div class="challengeAshare_btnContain clearFixed">
+	   	         	 <span class="challengeAshare_btn challenge_again_btn"><img src="images/btn_restart.png" alt="" class=""></span>
+	   	         	 <span class="challengeAshare_btn contain_share_btn"><img src="images/btn_share.png" alt="" class=""></span>
+	   	         </div>
+
+	   	         <!-- 邀请好友来PK -->
+	   	         <div class="invite_friend_pk">
+	   	         	 <img src="images/btn_pk.png" alt="" class="">
+	   	         </div>
+
+	   	         <!-- 错题本 词本-->
+	   	         <div class="seache_explain_contain">
+	   	         	 <div class="seache_explain_btn_contain clearFixed">
+	   	         	    <template>
+	   	         	 	  <img src="images/btn_note_wrongword_default.png" v-if='wordNote.wrongWordNote==0' v-on:click='wordNoteEvent()'>
+	   	         	 	  <img src="images/btn_note_wrongword_select.png" v-else>
+	   	         	 	</template>
+
+	   	         	 	<template>
+	   	         	    	<img src="images/btn_note_rightword_default.png" class="seache_explain_book" v-if='wordNote.rightWordNote==0' v-on:click='wordNoteEvent()'>
+	   	         	    	<img src="images/btn_note_rightword_select.png" class="seache_explain_book" v-else>	   	         	 		
+	   	         	 	</template>
+
+	   	         	 </div>
+
+	   	         	 <div class="seache_explain_wordContain">
+
+	   	         	     <!-- 错题本ul -->
+	   	         	 	 <ul class="seache_explain_wordUl" v-if='wordNote.wrongWordNote==1'>
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">博闻强识<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">博闻强识<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">博闻强识<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">博闻强识<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">博闻强识<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">博闻强识<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+	   	         	 	 </ul>
+
+	   	         	     <!-- 词本ul -->
+	   	         	 	 <ul class="seache_explain_wordUl" v-else>
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">一字不落<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">一字不落<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">一字不落<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">一字不落<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">一字不落<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+
+	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	    <div class="clearFixed">
+	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <div class="seache_explain_right">
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">一字不落<span class="seache_explainBtn">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	  </div>
+	   	         	 	 	 	 </div>
+	   	         	 	 	 </li>
+	   	         	 	 </ul>
+	   	         	 </div>
+	   	         </div>
+
+             </div>
+
+             <div class="about_pythe_app">
+             	  <img src="images/footer.png" alt="" class="">            	  
+             </div>
+
+             <!-- <div class="about_pythe_app clearFixed">
+             	  <img src="images/icon_scan_wechat.png" alt="" class="pythe_app_wxCode">
+
+             	  <div class="pythe_app_txt">
+             	     <div class="flex_column">
+             	  	    <span class="">更多有趣的语文学习</span>
+             	  	    <span class="">来派知语文APP</span>
+             	  	 </div>
+             	  </div> 
+             </div> -->
+   	         
+
+   	    </div>
+
+   </div>
+   
+   <script type="text/javascript">
+   	  // $('.challenge_score').css('min-height',$(window).height());
+            
+   	  var challengeScore=new Vue({
+   	  	  "el":'.challenge_score',
+   	  	  data:{
+   	  	  	windowHeight:0,
+   	  	  	userPKScore:{
+               originalChallengeScore:74,
+               secondChallengeScore:90
+   	  	  	},
+   	  	  	wordNote:{
+   	  	  		wrongWordNote:1,
+   	  	  		rightWordNote:0
+   	  	  	},
+   	  	  	wxOpenId:'',
+   	  	  	currentUserDetail:{},
+   	  	  	otherUserDetail:{}
+   	  	  },
+   	  	  methods:{
+   	  	  	 initGetOpenId:function(){
+   	  	  	  var correctComUrl=document.URL;
+		      var correctComId={};
+		      // 从url中获取传过来的作文id
+		      if(correctComUrl.indexOf('?')!=-1){
+		          correctComUrl=correctComUrl.split('?')[1];
+		          correctComUrl=correctComUrl.split('&');
+		          for(var i=0;i<correctComUrl.length;i++){
+		             correctComId[(correctComUrl[i].split('='))[0]]=(correctComUrl[i].split('=')[1]);
+		          }
+		          this.wxOpenId=correctComId.id;
+                  this.getOtherUserDetail(correctComId.id);
+
+		      };
+   	  	  	 },
+
+             wordNoteEvent:function(){
+                var that=this;
+                console.log(that.wordNote.wrongWordNote+':'+that.wordNote.rightWordNote)
+                if(that.wordNote.wrongWordNote==0){
+                     that.wordNote.wrongWordNote=1;
+                     that.wordNote.rightWordNote=0;
+                }else if(that.wordNote.rightWordNote==0){
+                	 that.wordNote.wrongWordNote=0;
+                     that.wordNote.rightWordNote=1;
+                }
+             },
+
+             getOwnerDetail:function(){
+             	var that=this;
+                 $.ajax({
+	              type: 'POST',
+	              url: interfaceUrl2+'/pythe-auto-task/rest/match/wcw/participant/info',
+	              data: JSON.stringify({
+	                  wxOpenId:$.cookie('wxOpenId'),
+	              }),
+	              async:false,
+	              dataType:"json",
+	              contentType:"application/json",
+	              timeout:5000,
+	              success: function(res){                 
+	                 if(res.status==200){
+	                 	that.currentUserDetail=res.data;
+	                 }else{
+	                    pytheLayOutObj.pytheLayOutFun({
+	                      setTime:3000,
+	                      tips:'没有数据'
+	                    }) 
+	                 }                                 
+	              },
+
+	              error:function(err){
+	                pytheLayOutObj.pytheLayOutFun({
+	                     setTime:3000,
+	                     tips:'数据获取失败，请稍后重试'
+	                })   
+	              },
+	              complete:function(status){
+	                if (status == 'timeout') {
+	                   ajaxTimeOut.abort(); //取消请求
+	                   pytheLayOutObj.pytheLayOutFun({
+	                     setTime:3000,
+	                     tips:'数据获取失败，请稍后重试'
+	                   })
+	                }
+	              }
+	            });
+             },
+
+             getOtherUserDetail:function(wxOpenId){
+             	var that=this;
+                 $.ajax({
+	              type: 'POST',
+	              url: interfaceUrl2+'/pythe-auto-task/rest/match/wcw/participant/info',
+	              data: JSON.stringify({
+	                  wxOpenId:wxOpenId,
+	              }),
+	              async:false,
+	              dataType:"json",
+	              contentType:"application/json",
+	              timeout:5000,
+	              success: function(res){                 
+	                 if(res.status==200){
+	                 	that.otherUserDetail=res.data;
+	                 }else{
+	                    pytheLayOutObj.pytheLayOutFun({
+	                      setTime:3000,
+	                      tips:'没有数据'
+	                    }) 
+	                 }                                 
+	              },
+
+	              error:function(err){
+	                pytheLayOutObj.pytheLayOutFun({
+	                     setTime:3000,
+	                     tips:'数据获取失败，请稍后重试'
+	                })   
+	              },
+	              complete:function(status){
+	                if (status == 'timeout') {
+	                   ajaxTimeOut.abort(); //取消请求
+	                   pytheLayOutObj.pytheLayOutFun({
+	                     setTime:3000,
+	                     tips:'数据获取失败，请稍后重试'
+	                   })
+	                }
+	              }
+	            });
+             },
+
+             // 点击排行榜
+             rankSortList:function(){
+             	window.location.href='challengeRankSort.html';
+             }
+   	  	  },
+   	  	  mounted:function(){
+             this.windowHeight=window.innerHeight;
+             this.initGetOpenId()
+             this.getOwnerDetail();
+   	  	  }
+   	  })
+   </script>
+</body>
+</html>

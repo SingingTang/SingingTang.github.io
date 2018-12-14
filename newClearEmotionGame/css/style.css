@@ -17,9 +17,9 @@ button {
 }
 
 body{
-	background: hsla(0, 36%, 6%, 0.77);
-	color: #fff;
-	text-align: center;
+    background: hsla(0, 36%, 6%, 0.77);
+    color: #fff;
+    text-align: center;
     position: relative;
 
 }
@@ -29,6 +29,7 @@ body{
     height: 100vh;
     background: url('../images/enter-bg.png');
     background-size: cover;
+    background-position: center;
 }
 
 #start {
@@ -49,7 +50,7 @@ body{
 }
 
 input[type="button"]{
-	width: 150px;
+    width: 150px;
     height: 40px;
     line-height: 30px;
     background: #a73f2d;
@@ -61,36 +62,36 @@ input[type="button"]{
 }
 
 div.contain{
-	width: 1000px;
-	height: 450px;
-	color: #000;
-	background: #fff;
-	margin: 20px auto;
-	position: relative;
+    width: 1000px;
+    height: 450px;
+    color: #000;
+    background: #fff;
+    margin: 20px auto;
+    position: relative;
 }
 
 
 
 div.countDiv{
-	width: 150px;
-	height: 100%;
-	border-right: 2px solid #000;
-	float: left;
+    width: 150px;
+    height: 100%;
+    border-right: 2px solid #000;
+    float: left;
 }
 
 div#game{
-	width: 848px;
-	height: 100%;
-	display: inline-block;
-	float: left;
-	position: relative;
+    width: 848px;
+    height: 100%;
+    display: inline-block;
+    float: left;
+    position: relative;
 }
 
 div#game img{
-	position: absolute;
-	width: 36px;
-	height: 36px;
-	display: none;
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    display: none;
 }
 
 @media (max-width: 1000px){
@@ -129,7 +130,7 @@ div#game img{
     font-style: normal;
 }
 
-.phrase::after {
+.phrase .phrase-indicator {
     content: '按住念词';
     display: block;
     position: absolute;
@@ -147,7 +148,34 @@ div#game img{
     text-align: center;
 }
 
-.phrase::before {
+/*.phrase::after {
+    content: '按住念词';
+    display: block;
+    position: absolute;
+    width: 69px;
+    height: 38px;
+    line-height: 38px;
+    color: #fff;
+    background: url(../images/indicator_bg.png);
+    background-size: cover;
+    top: 50px;
+    left: 10px;
+    font-weight: normal;
+    -webkit-text-stroke: 0;
+    font-size: 14px;
+    text-align: center;
+}*/
+
+.phrase .phrase-text {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    font-style: normal;
+    /*background: #000;*/
+}
+
+.phrase-layer{
     content: '';
     display: none;
     position: absolute;
@@ -156,9 +184,10 @@ div#game img{
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background: url('../images/icon_protect_bg.png');
+    background: url('../images/icon_protect_bg.gif') no-repeat;
     background-size: cover;
 }
+
 
 
 .phrase-bg1 {
@@ -169,12 +198,12 @@ div#game img{
     background-size: cover;
 }
 
-.phrase-bg1::before {
+.phrase-bg1 .phrase-layer {
     top: 35%;
     left: 55%;
 }
 
-.phrase-bg1::after {
+.phrase-bg1 .phrase-indicator{
     top: 45px;
     left: 0px;
 }
@@ -187,17 +216,17 @@ div#game img{
     background-size: cover;
 }
 
-.phrase-bg2::before {
+.phrase-bg2 .phrase-layer {
     left: 52%;
     top: 
 }
 
-.phrase-bg2::after {
+.phrase-bg2 .phrase-indicator {
     left: 20px;
     top: 48px;
 }
 
-.phrase-bg4::after {
+.phrase-bg4 .phrase-indicator {
     top: 65px;
     left: 15px;
 }
@@ -212,7 +241,15 @@ div#game img{
     text-align: left;
 }
 
-.phrase-bg3::before {
+.phrase-bg3 .phrase-text {
+    padding-left: 8px;
+}
+
+.phrase-bg1 .phrase-text {
+    padding-left: 4px;
+}
+
+.phrase-bg3 .phrase-layer {
     left: 35%;
 }
 
@@ -253,7 +290,7 @@ div.popup-container {
     transform: translate(-50%, -50%);
     width: 100vw;
     height: 100vh;
-    background: rgba(204, 204, 204, 0.8);
+    background: rgba(0, 0, 0, 0.5);
     color: #000;
     text-align: center;
     display: flex;
@@ -261,10 +298,11 @@ div.popup-container {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding-bottom: 50px;
 }
 
 
-.popup {
+/*.popup {
     display: flex;
     width: 331px;
     height: 383px;
@@ -274,6 +312,24 @@ div.popup-container {
     margin-top: 30px;
     background: url(../images/popup_bg.png) no-repeat;
     background-size: cover;
+}
+*/
+.popup {
+    display: flex;
+    width: 331px;
+    width: 80%;
+    /* height: 383px; */
+    min-height: 383px;
+    flex-wrap: wrap;
+    position: relative;
+    background: #888;
+    /*margin-top: 30px;*/
+    /* background: url(../images/popup_bg.png) no-repeat; */
+    background-size: cover;
+    border: 2px solid #000;
+    background: #F9D55B;
+    border-radius: 30px;
+    padding: 12px;
 }
 
 
@@ -296,16 +352,34 @@ div.popup-container {
 }
 
 .tip-phrase {
-    display: none;
-    width: 85px;
-    height: 45px;
-    background: url('../images/btn_word_bg.png');
+    display: block;
+    width: 100%;
+    /* height: 45px; */
+    /* background: url(../images/btn_word_bg.png); */
     background-size: cover;
     text-align: center;
-    line-height: 40px;
+    /* line-height: 40px; */
     font-size: 16px;
     font-weight: bold;
     color: #fff;
+    position: relative;
+}
+
+.tip-phrase img {
+    width: 100%;
+    height: auto;
+    position: relative;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+.tip-phrase span {
+    position: absolute;
+    display: block;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
 }
 
 label.tip-phrase-selected {
@@ -317,7 +391,7 @@ label.tip-phrase-selected {
     display: none;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.5);
     position: fixed;
     z-index: 99;
     top: 0;
@@ -476,17 +550,18 @@ button.start-game {
 .score {
     display: block;
     position: absolute;
-    background: url('../images/icon_score.png') no-repeat;
+    background: url(../images/icon_score.png) no-repeat;
     background-size: 31px;
     top: 15px;
     right: 0px;
     height: 31px;
     line-height: 31px;
-    width: 100px;
+    min-width: 50px;
+    text-align: left;
     text-align: center;
     color: #000;
-    /*padding-left: 40px;*/
-    /*transform: translateX(50px);*/
+    padding-left: 31px;
+    padding-right: 21px;
 }
 
 
@@ -581,25 +656,31 @@ button.start-game {
 .tip-confirm {
     display: block;
     position: absolute;
-    background: url(../images/popup_btn.png);
-    width: 255px;
-    height: 61px;
-    background-size: cover;
+    width: 70%;
     bottom: 33px;
     border: none;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
-    line-height: 50px;
+    outline: none;
+    background: none;
 }
 
-.tip-confirm img {
-    display: block;
-    width: 71px;
-    height: 32px;
-    margin: -10px auto;
-    margin-top: -20px;
+.tip-confirm-btn-bg {
+    width: 100%;
+    height: auto;
 }
+
+.tip-confirm-btn-text {
+    height: 60%;
+    width: auto;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
 
 .popup-title {
     display: block;
@@ -608,7 +689,7 @@ button.start-game {
     background: url(../images/popup_title_bg.png);
     background-size: cover;
     position: absolute;
-    top: 0;
+    top: 6px;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -616,7 +697,7 @@ button.start-game {
 .popup-title img {
     position: absolute;
     display: block;
-    width: 58px;
+    width: auto;
     height: 28px;
     left: 50%;
     top: 45%;
@@ -634,14 +715,26 @@ button.start-game {
     left: 36px;
     top: 60px;
 }
-
+/*
 .popup-content {
     width: 100%;
     display: flex;
     justify-content: space-around;
-    /*margin-top: 130px;*/
     height: 150px;
     flex-wrap: wrap;
+}*/
+
+.popup-content {
+        width: 100%;
+    display: flex;
+    justify-content: space-around;
+    /* margin-top: 130px; */
+    /* height: 150px; */
+    flex-wrap: wrap;
+    background: #fff;
+    border: 2px solid rgba(0,0,0,1);
+    box-shadow: 0px 5px 0px 0px rgba(146,89,30,1);
+    border-radius: 30px;
 }
 
 .close {
@@ -654,16 +747,17 @@ button.start-game {
     border: none;
     left: 50%;
     transform: translateX(-50%);
-    bottom: -70px;
+    bottom: -60px;
 }
 
 .popup-tip-content {
     display: none;
     width: 100%;
     justify-content: space-around;
-    height: 150px;
+    /*height: 150px;*/
     flex-wrap: wrap;
     padding: 0 36px;
+    min-height: 383px;
 }
 
 .popup-tip-content .tip-phrase-selected {
@@ -679,11 +773,12 @@ button.start-game {
     color: #fff;
 }
 
+
 .popup-tip-content .pinyin, .popup-tip-content .annotation, .popup-nolife .nolife-text, .popup-rule .rule-text {
     display: block;
     margin: 17px 0;
     color: width: 85px;
-    height: 45px;
+    min-height: 45px;
     text-align: center;
     line-height: 40px;
     font-size: 16px;
@@ -696,19 +791,25 @@ button.start-game {
     line-height: 25px;
 }
 
+.popup-tip-content .annotation {
+    height: 150px;
+    overflow: scroll;
+}
+
 input[type='radio'] {
     visibility: hidden;
 }
 
-input[type="radio"]:checked + label {
+/*input[type="radio"]:checked + label {
     background: url('../images/btn_word_bg_select.png');
     background-size: cover;
-}
+}*/
 
 .popup-tip {
     width: 100%;
     display: none;
-    justify-content: space-around;
+    /*justify-content: space-around;*/
+    justify-content: left;
     height: 150px;
     flex-wrap: wrap;
     margin-top: 100px;
@@ -716,8 +817,11 @@ input[type="radio"]:checked + label {
 }
 
 .popup-tip div {
-    display: none;
+    display: flex;
+    width: 50%;
 }
+
+
 
 .popup-rule {
     display: none;
@@ -725,27 +829,31 @@ input[type="radio"]:checked + label {
     height: 100vh;
     top: 0;
     left: 0;
-    display: none;
     width: 100%;
     justify-content: space-around;
-    height: 150px;
+    height: 350px;
+    overflow: scroll;
     flex-wrap: wrap;
     padding: 0 36px;
+    margin-bottom: 0px;
 }
 
 .popup-rule .close {
     top: 50%;
-    transform: translate(-50%, 200px);
+    transform: translate(-50%, 210px);
 }
 
 .popup-nolife {
-    width: 100%;
-    display: none;
-    justify-content: space-around;
-    height: 150px;
+    width: 50%;
+     display: none; 
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
     flex-wrap: wrap;
-    margin-top: 50px;
+    /* margin-top: 50px; */
+    width: 100%;
     padding: 0 36px;
+    /* padding-top: 50px; */
 }
 
 .popup-nolife .fish {
@@ -785,13 +893,7 @@ input[type="radio"]:checked + label {
 .popup-quite p.quite-text {
     display: block;
     margin: 17px 0;
-    color: width: 85px;
-    height: 45px;
-    text-align: center;
-    line-height: 40px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #fff;
+    min-height: 45px;
     font-size: 17px;
     font-weight: bold;
     color: #203E94;
@@ -800,17 +902,29 @@ input[type="radio"]:checked + label {
     letter-spacing: 2px;
 }
 
-.popup-quite .quite-confirm, .popup-quite .quite-cancel {
-    display: block;
-    width: 85px;
-    height: 45px;
+.popup-quite .quite-confirm {
+    width: 45%;
+    display: inline-block;
     border: none;
     padding: 0;
     background: none;
-    background: url(../images/btn_word_bg.png);
+    padding: none;
+    outline: none;
+}
+
+.quite-cancel {
+    display: inline-block;
+    width: 45%;
+    border: none;
+    padding: 0;
     background-size: cover;
-    display: flex;
-    justify-content: space-around;
+    background: none;
+    outline: none;
+}
+
+.quite-confirm img, .quite-cancel img {
+    width: 100%;
+    height: auto;
 }
 
 .quite-confirm .quite-text {
@@ -856,4 +970,141 @@ button.share {
 
 button.share img {
     width: 90%;
+}
+
+.halo {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 25px;
+    transform: translateX(-50%);
+    width: 88px;
+    height: 88px;
+    z-index: 999
+}
+
+.popup-nolife button.share {
+    position: relative;
+}
+
+.share.layer {
+    display: none;
+}
+
+.share-layer-know {
+        color: red;
+    top: 100px;
+    display: block;
+    position: absolute;
+    left: 100px;
+}
+
+.share.layer img, .share-sign{
+    display: block;
+    width: 375px;
+    height: 100px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.popup-nolife .share-sign {
+    position: absolute;
+    top: -50px;
+}
+
+
+.share.layer .share-tip {
+    top: 85px;
+}
+
+.share.layer .share-sign, .share-sign{
+    width: 85px;
+    height: 100px;
+}
+
+.share-tip-btn {
+    display: block;
+    width: 152px;
+    height: 47px;
+    background: url(../images/share_tip_btn.png);
+    background-size: cover;
+    position: absolute;
+    top: 300px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: none;
+}
+
+.share-line {
+    display: block;
+    width: 142px;
+    height: 142px;
+    position: fixed;
+    top: 0px;
+    right: 20px;
+}
+
+.footer {
+    display: block;
+    width: 117px;
+    height: 18px;
+    position: fixed;
+    top: 100%;
+    /* bottom: 0; */
+    left: 50%;
+    transform: translateX(-50%);
+    transform: translate(-50%, -100%);
+}
+
+.game-over {
+    display: none;
+    width: 345px;
+    height: 340px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.pinyin .pinyin {
+    display: inline-block;
+}
+
+.pinyin-music-btn {
+    border: none;
+    display: block;
+    width: 25px;
+    height: 25px;
+    background: url(../images/pinyin_play_btn.png);
+    background-size: cover;
+    display: inline-block;
+    position: relative;
+    top: 6px;
+    left: 10px;
+}
+
+.share-text {
+    position: absolute;
+    color: #fff;
+    top: -90px;
+    font-size: 18px;
+    line-height: 32px;
+    letter-spacing: 3px;
+}
+
+@media (max-height: 600px){
+    .share-text {
+        top: -75px;
+        line-height: 28px;
+    }
+
+    .popup {
+        margin-top: 15%;
+        /*height: */
+    }
+
+    .popup-tip {
+        padding: 0 5%;
+    }
 }

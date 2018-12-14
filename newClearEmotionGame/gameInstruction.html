@@ -7,8 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <script src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./js/jweixin-1.4.0.js"></script>
-    <script src="./js/util.js"></script>
+    <!-- <script src="./js/util.js"></script> -->
     <script type="text/javascript" src="./js/jquery.cookie.js"></script>
+    <!-- <script type="text/javascript" src="./js/gameIndex.js"></script> -->
    
 </head>
 
@@ -20,23 +21,32 @@
     </audio> -->
 
     <!-- <audio src="./music.mp3" class="music" autoplay="autoplay" loop="loop" muted></audio>  -->
-    <span class="warm-tip" style="display: block; background: #000; color: #fff; width: 100px; height: 30px; position: fixed; top:20px ;left: 20px;z-index: 999">0</span>
+    <!-- <span class="warm-tip" style="display: block; background: #000; color: red; width: 100px; height: 30px; position: fixed; top:20px ;left: 200px;z-index: 999">0</span> -->
 
     <audio controls class="music">
-      <source src="./bullet_music.mp3" type="audio/mpeg">
+      <source src="./bullet_music.mp3" type="audio/mp3" />
+    </audio>
+
+    <audio controls preload="auto" loop="loop" class="gameStartMusic">
+      <source src="./gameStartMusic.mp3" type="audio/mp3" />
+    </audio>
+
+    <audio controls preload="auto" class="gameOverMusic">
+      <source src="./gameOverMusic.mp3" type="audio/mp3" />
     </audio>
 
 
 
       
-<button class="hello" style="z-index: 9999; border:1px solid re">Hello </button>
+<!-- <button class="hello" style="z-index: 9999; border:1px solid re">Hello </button> -->
 
     <div class="game-bg">
       <!-- <img class="bg" src="./images/game-bg.png" /> -->
       <!-- <span class="icon life" src="./images/icon_life.png" /> -->
       <span class="life">生命值<span>5</span></span>
       <img class="icon xman" src="./images/icon_xman.png" />
-      <span class="score">分数<span>0</span></span>
+      <img class="halo" src="./images/halo.gif" />
+      <span class="score">分数:<span>123564</span></span>
       <img class="icon tank" src="./images/icon_tank.png" />
       <img class="bullet" src="./images/bullet.gif" />
       <button class="quite"><img class="icon quite-text" src="./images/btn_text_quite.png" /></button>
@@ -49,97 +59,132 @@
         </span>
         <span class="game-progress">0/30</span>
         
-       <i class="phrase" id="phrase1"></i>
-       <i class="phrase" id="phrase2"></i>
-       <i class="phrase" id="phrase3"></i>
-       <i class="phrase" id="phrase4"></i>
-       <i class="phrase" id="phrase5"></i>
-
-        
-    </div>
-
-    <div class="popup-container">
-      <div class="popup">
-        <span class="popup-title"><img src="./images/popup_title_tip.png" /></span>
-        <div class="popup-content">
-          <!-- 提示弹窗 -->
-          <div class="popup-tip">
-            <span class="explain">选择词语</span>
-
-              <div>
-                <input type="radio" name="tip-phrase" index=0 id="tip-phrase0"/>
-                <label class="tip-phrase" for="tip-phrase0"></label>
-              </div>
-              
-              <div>
-                <input type="radio" name="tip-phrase" index=1 id="tip-phrase1"/>
-                <label class="tip-phrase" for="tip-phrase1"></label>
-              </div>
-
-              <div>
-                <input type="radio" name="tip-phrase" index=2 id="tip-phrase2"/>
-                <label class="tip-phrase" for="tip-phrase2"></label>
-              </div>
-
-              <div>
-                <input type="radio" name="tip-phrase" index=3 id="tip-phrase3"/>
-                <label class="tip-phrase" for="tip-phrase3"></label>
-              </div>
-
-              <div>
-                <input type="radio" name="tip-phrase" index=4 id="tip-phrase4"/>
-                <label class="tip-phrase" for="tip-phrase4"></label>
-              </div>
-
-             
-              <button class="tip-confirm" index=0><img src="./images/popup_btn_confirm.png" /></button>
-          </div>
-
-          <!-- 提示内容弹窗 -->
-          <div class="popup-tip-content">
-            <label class="tip-phrase-selected" index=0></label>
-            <span class="pinyin"></span>
-            <span class="annotation"></span>
-            <button class="close"></button>
-          </div>
-
-          <!-- 活动规则弹窗 -->
-          <div class="popup-rule">
-            <div class="rule-text">
-              <p>万词王即将输出一波成语攻击，让我们一起来对抗他吧！</p>
-              <p>注意：</p>
-              <p>1.点击瞄准万词王扔过来的成语进行录音，追踪导弹将自动攻击！如果发音标准，攻击将会被消除！</p>
-              <p>2.我们的防御脆弱！被万词王击中5次后将游戏失败；</p>
-              <p>3.关键时刻可以使用提示功能，万词王的弱点将暴露无遗！想要很多的提示？分享给微信朋友助力吧！</p>
-            </div>
-            <button class="close"></button>
-          </div>
-
-          <!-- 分享弹窗 -->
-          <div class="popup-nolife">
-            <img class="fish" src="./images/popup_fish.png" />
-            <p class="nolife-text">
-              您有3次翻身机会，分享即可获得一个生命值，继续游戏。冲吖!
-            </p>
-            <button class="share"><img src="./images/popup_btn_share.png" /></button>
-            <button class="close"></button>
-          </div>
-
-          <!-- 退出游戏弹窗 -->
-          <div class="popup-quite">
-            <img src="./images/x_man.png" />
-            <p class="quite-text">
-              嘤嘤嘤～你差点就成为万词王了！确定要退出吗？
-            </p>
-            <button class="quite-confirm"><img class="quite-text" src="./images/btn_text_quite.png" /></button>
-            <button class="quite-cancel"></button>
-            <button class="close"></button>
-          </div>
-
-
+        <div class="phrase">
+          <i class="phrase-text"></i>
+          <span class="phrase-indicator">长按读词</span>
+          <span class="phrase-layer"></span>
+        </div>
+        <div class="phrase">
+          <i class="phrase-text"></i>
+          <span class="phrase-indicator">长按读词</span>
+          <span class="phrase-layer"></span>
+        </div>
+        <div class="phrase">
+          <i class="phrase-text"></i>
+          <span class="phrase-indicator">长按读词</span>
+          <span class="phrase-layer"></span>
+        </div>
+        <div class="phrase">
+          <i class="phrase-text"></i>
+          <span class="phrase-indicator">长按读词</span>
+          <span class="phrase-layer"></span>
+        </div>
+        <div class="phrase">
+          <i class="phrase-text"></i>
+          <span class="phrase-indicator">长按读词</span>
+          <span class="phrase-layer"></span>
         </div>
       </div>
-    </div>
+
+      <img class="game-over" src="./images/game_over.png" />
+
+      <div class="popup-container">
+        <div class="popup">
+          <span class="popup-title"><img src="./images/popup_title_tip.png" /></span>
+          <div class="popup-content">
+            <!-- 提示弹窗 -->
+              <div class="popup-tip">
+                <span class="explain">选择词语</span>
+
+                  <div>
+                    <input type="radio" name="tip-phrase" index=0 id="tip-phrase0"/>
+                    <label class="tip-phrase" for="tip-phrase0">
+                      第一个哈
+                    </label>
+                  </div>
+                  
+                  <div>
+                    <input type="radio" name="tip-phrase" index=1 id="tip-phrase1"/>
+                    <label class="tip-phrase" for="tip-phrase1">第一个哈</label>
+                  </div>
+
+                  <div>
+                    <input type="radio" name="tip-phrase" index=2 id="tip-phrase2"/>
+                    <label class="tip-phrase" for="tip-phrase2">第一个哈</label>
+                  </div>
+
+                  <div>
+                    <input type="radio" name="tip-phrase" index=3 id="tip-phrase3"/>
+                    <label class="tip-phrase" for="tip-phrase3"><img src="./images/btn_word_bg.png" /><span>第一个</span></label>
+                  </div>
+
+                 
+                 
+                  <button class="tip-confirm" index=0>
+                    <img class="tip-confirm-btn-bg" src="./images/popup_btn.png" />
+                    <img class="tip-confirm-btn-text" src="./images/popup_btn_confirm.png" />
+                  </button>
+                  <button class="close"></button>
+              </div>
+
+            <!-- 提示内容弹窗 -->
+            <div class="popup-tip-content"> 
+              <label class="tip-phrase-selected" index=0></label>
+              <div class="pinyin">
+                  <span class="pinyin">woshishui</span>
+                  <button class="pinyin-music-btn"></button>
+                  <audio controls preload="auto" class="pinyin-music" style="position: absolute; opacity: 0">
+                    <source src="" type="audio/mp3" />
+                  </audio>
+                </div>
+              <span class="annotation">
+                开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈
+              </span>
+              <button class="close"></button>
+            </div>
+
+            <!-- 活动规则弹窗 -->
+            <div class="popup-rule">
+              <div class="rule-text">
+                <p>万词王即将输出一波成语攻击，让我们一起来对抗他吧！</p>
+                <p>注意：</p>
+                <p>1.点击瞄准万词王扔过来的成语进行录音，追踪导弹将自动攻击！如果发音标准，攻击将会被消除！</p>
+                <p>2.我们的防御脆弱！被万词王击中5次后将游戏失败；</p>
+                <p>3.关键时刻可以使用提示功能，万词王的弱点将暴露无遗！想要很多的提示？分享给微信朋友助力吧！</p>
+              </div>
+              <button class="close"></button>
+            </div>
+
+           <!-- 分享弹窗 -->
+              <div class="popup-nolife">
+                <img class="fish" src="./images/popup_fish.png" />
+                <p class="nolife-text">
+                  您有3次翻身机会，分享即可获得一个生命值，继续游戏。冲吖!
+                </p>
+                <img class="share-sign" src="./images/sign.gif" />
+                <div class="share-text">
+                  <p>点击右上角分享</p>
+                  <p>获得一次翻身机会</p>
+                </div>
+                <!-- <button class="share"><img src="./images/popup_btn_share.png" /></button> -->
+                <button class="close"></button>
+              </div>
+
+            <!-- 退出游戏弹窗 -->
+            <div class="popup-quite">
+              <img src="./images/x_man.png" />
+              <p class="quite-text">
+                嘤嘤嘤～你差点就成为万词王了！确定要退出吗？
+              </p>
+              <button class="quite-confirm"><img src="./images/popup_btn_quite.png" /></button>
+              <button class="quite-cancel"><img src="./images/popup_btn_continue.png" /></button>
+              <button class="close"></button>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
 
 
     </div>
@@ -151,11 +196,31 @@
        
     </div>
 
+    <div class="share layer">
+      <img class="share-tip" src="./images/share_tip.png"/>
+      <button class="share-tip-btn"></button>
+    </div>
+
 
 
 
 </body>
- <script src="./js/gameIndex.js"></script>
+<script type="text/javascript">
+  console.log($('fdjsafdsa'));
+  // setInterval(()=>{
+  //   if($('.halo').css('display') === 'none'){
+  //     $('.halo').css('display', 'block')
+  //     $('.halo').attr('src', './images/halo.gif')
+  //   }else{
+  //     $('.halo').css('display', 'none')
+  //     $('.halo').attr('src', '')
+  //   }
+  //   console.log($('.halo').css('display'))
+  // }, 2000)
+  // alert('203 ' + JSON.stringify(CONFIG))
+</script>
+ <!-- <script src="./js/gameIndex.js"></script> -->
+ <!-- <script type="text/javascript" src="./js/newIndex.js"></script> -->
 
 <!-- <script>
     //防止页面后退

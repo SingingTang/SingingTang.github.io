@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+	  <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/speechEvaluation.css">
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/vue.min.js"></script>   
+    <script type="text/javascript" src='js/jweixin-1.4.0.js'></script>
+    <script type="text/javascript" src="js/compositionDetail.js"></script>  
+    <script type="text/javascript" src="js/jquery.cookie.js"></script> 
+    <script type="text/javascript" src="js/wxShare.js"></script> 
+	<title>万词王排行榜</title>
+</head>
+<body>
+    
+   <div class="challenge_rankSort"  v-bind:style="{'min-height':windowHeight+'px'}" v-cloak>
+   	    <div class="challenge_rankSort_title">
+        	<img src="images/rank_title_bg.png" class="">
+        </div>
+
+       <div style='padding: 0.1rem 0.1rem 0.1rem 0.1rem;position:relative;z-index:1;margin-top:-0.83rem;'>
+	   	    <div class="challenge_rankSort_dot">
+	                        
+	   	    	<div class="challenge_rank_containpadding">
+	   	    		<div class="challenge_rank_contain">
+	   	    			 <h1 class="about_userRank_sort">我的排名：第{{currentUserDetail.rank_seq}}名</h1>
+	   	    			 <ul class="challenge_rank_ul">
+	   	    			     <template v-for='(item,index) in rankSortListDatas'>
+	   	    			 	 <li class="challenge_rank_li clearFixed" v-if='index<=2'>
+	   	    			 	 	 <span class="sort_index sort_beforeThree"></span>
+	   	    			 	 	 <div class="challenge_rank_photo">
+	   	    			 	 	 	<img v-bind:src='item.user_img' >
+	   	    			 	 	 </div>
+	   	    			 	 	 <span class="challenge_rankScore">{{item.record_score}}</span>
+	   	    			 	 	 <div class="challenge_rank_userName">{{item.username}}</div>
+	   	    			 	 </li>
+	   	    			 		                         
+	                         <!-- 第四个之后沿用的格式 -->
+	   	    			 	 <li class="challenge_rank_li clearFixed" v-else>
+	   	    			 	 	 <span class="sort_index sort_indexStyle">{{index+1}}</span>
+	   	    			 	 	 <div class="challenge_rank_photo">
+	   	    			 	 	 	<img v-bind:src='item.user_img' >
+	   	    			 	 	 </div>
+	   	    			 	 	 <span class="challenge_rankScore">{{item.record_score}}</span>
+	   	    			 	 	 <div class="challenge_rank_userName">{{item.username}}</div>
+	   	    			 	 </li>
+	   	    			 	 </template>
+
+	   	    			 </ul>
+	   	    		</div>
+	   	    	</div> 
+	   	    </div> 
+   	   </div> 
+
+   	   <div class="vocal_concert_ticket">
+   	   	   <img src="images/rank_btn_reward.png" v-on:click='showVocalConcertTip'>
+   	   </div>
+
+   	   <!-- <span class="close_"></span> -->
+       
+       <!-- 演唱会抽奖弹窗 -->
+   	   <div class="vocal_concert_luckDraw" v-bind:style="{'height':windowHeight+'px'}" v-if='isShowVocalConcertTips'>
+   	   	  <div class="vocal_concert_ld">
+   	   	  	   <div class="vocal_concert_content">
+   	   	  	   	   <img src="images/rank_reward_popup.png" alt="" class="">
+   	   	  	   	   <span class="close_vc_contain" v-on:click='hideVocalConcertTip'></span>
+   	   	  	   </div>
+   	   	  </div>
+   	   </div>
+   </div>
+   
+   <script type="text/javascript">
+   	  
+   	  var challengeScore=new Vue({
+   	  	  "el":'.challenge_rankSort',
+   	  	  data:{
+   	  	  	currentUserDetail:{},
+   	  	  	rankSortListDatas:[],
+   	  	  	windowHeight:0,
+   	  	  	isShowVocalConcertTips:false,
+   	  	  	setPageNum:1
+   	  	  },
+   	  	  methods:{
+   	  	  	 // 获取当前用户的排名情况
+   	  	  	 currentUserRankSort:function(){
+   	  	  	 	var that=this;
+                $.ajax({
+	              type: 'POST',
+	              url: interfaceUrl2+'/pythe-auto-task/rest/match/wcw/participant/info',
+	              data: JSON.stringify({
+	                  wxOpenId:$.cookie('wxOpenId'),
+	              }),
+	              async:false,
+	              dataType:"json",
+	              contentType:"application/json",
+	              timeout:5000,
+	              success: function(res){                 
+	                 if(res.status==200){
+	                 	that.currentUserDetail=res.data;
+	                 }else{
+	                    pytheLayOutObj.pytheLayOutFun({
+	                      setTime:3000,
+	                      tips:'部分数据获取失败，请稍后重试'
+	                    }) 
+	                 }                                 
+	              },
+
+	              error:function(err){
+	                pytheLayOutObj.pytheLayOutFun({
+	                     setTime:3000,
+	                     tips:'部分数据获取失败，请稍后重试'
+	                })   
+	              },
+	              complete:function(status){
+	                if (status == 'timeout') {
+	                   ajaxTimeOut.abort(); //取消请求
+	                   pytheLayOutObj.pytheLayOutFun({
+	                     setTime:3000,
+	                     tips:'部分数据获取失败，请稍后重试'
+	                   })
+	                }
+	              }
+	            });
+   	  	  	 },
+
+   	  	  	 // 排行榜数据列表
+   	  	  	 rankSortListData:function(){
+   	  	  	 	var that=this;
+                $.ajax({
+	              type: 'POST',
+	              url: 'https://teacher.pythe.cn/pythe-auto-task/rest/match/wcw/rankList',
+	              data: JSON.stringify({
+	                  pageNum:that.setPageNum,
+	                  pageSize:15
+	              }),
+	              async:false,
+	              dataType:"json",
+	              contentType:"application/json",
+	              timeout:5000,
+	              success: function(res){                 
+	                 if(res.status==200){
+	                 	for(var i=0;i<res.data.length;i++){
+	                      that.rankSortListDatas.push(res.data[i])  ;   
+	                 	};
+	                 }else{
+
+	                    pytheLayOutObj.pytheLayOutFun({
+	                      setTime:3000,
+	                      tips:'没有更多数据了'
+	                    }) 
+	                 }                                 
+	              },
+
+	              error:function(err){
+	                pytheLayOutObj.pytheLayOutFun({
+	                     setTime:3000,
+	                     tips:'获取数据失败，请稍后重试'
+	                })   
+	              },
+	              complete:function(status){
+	                if (status == 'timeout') {
+	                   ajaxTimeOut.abort(); //取消请求
+	                   pytheLayOutObj.pytheLayOutFun({
+	                     setTime:3000,
+	                     tips:'获取数据失败，请稍后重试'
+	                   })
+	                }
+	              }
+	            }); 
+   	  	  	 },
+   	  	  	 // 显示弹窗
+             showVocalConcertTip:function(){
+             	this.isShowVocalConcertTips=true;
+             },
+             // 关闭弹窗
+             hideVocalConcertTip:function(){
+             	this.isShowVocalConcertTips=false;
+             }
+   	  	  },
+   	  	  mounted:function(){
+             this.windowHeight=window.innerHeight;
+             this.currentUserRankSort();
+             this.rankSortListData();
+   	  	  }
+   	  });
+
+   	  $(window).scroll(function(){
+	        if($(window).scrollTop() + $(window).height() >= $(document).height()){  	                       
+               challengeScore.setPageNum++;  
+               challengeScore.rankSortListData();                  	      	     	          
+	        };
+	   });
+   </script>
+</body>
+</html>
