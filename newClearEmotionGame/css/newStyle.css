@@ -1,5 +1,4 @@
-
-*{
+﻿*{
     -webkit-touch-callout:none;
     padding: 0;
     margin: 0;
@@ -27,7 +26,7 @@ body{
 .enter-game {
     width: 100vw;
     height: 100vh;
-    background: url('../images/enter-bg.png');
+    background: url('http://web.pythe.cn/images/game/emotion/enter-bg.png');
     background-size: cover;
     background-position: center;
 }
@@ -41,7 +40,7 @@ body{
     bottom: 66px;
     width: 306px;
     height: 83px;
-    background: url('../images/start.png');
+    background: url('http://web.pythe.cn/images/game/emotion/start.png');
     background-size: cover;
 }
 
@@ -138,7 +137,7 @@ div#game img{
     height: 38px;
     line-height: 38px;
     color: #fff;
-    background: url(../images/indicator_bg.png);
+    background: url(http://web.pythe.cn/images/game/emotion/indicator_bg.png);
     background-size: cover;
     top: 50px;
     left: 10px;
@@ -148,23 +147,6 @@ div#game img{
     text-align: center;
 }
 
-/*.phrase::after {
-    content: '按住念词';
-    display: block;
-    position: absolute;
-    width: 69px;
-    height: 38px;
-    line-height: 38px;
-    color: #fff;
-    background: url(../images/indicator_bg.png);
-    background-size: cover;
-    top: 50px;
-    left: 10px;
-    font-weight: normal;
-    -webkit-text-stroke: 0;
-    font-size: 14px;
-    text-align: center;
-}*/
 
 .phrase .phrase-text {
     display: block;
@@ -184,7 +166,7 @@ div#game img{
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background: url('../images/icon_protect_bg.gif') no-repeat;
+    background: url('http://web.pythe.cn/images/game/emotion/icon_protect_bg.gif') no-repeat;
     background-size: cover;
 }
 
@@ -194,13 +176,13 @@ div#game img{
     width: 114px;
     height: 114px;
     line-height: 80px;
-    background:  url('../images/game_word_bg_1.png');
+    background:  url('http://web.pythe.cn/images/game/emotion/game_word_bg_1.png');
     background-size: cover;
 }
 
 .phrase-bg1 .phrase-layer {
-    top: 35%;
-    left: 55%;
+    top: 30%;
+    left: 47%;
 }
 
 .phrase-bg1 .phrase-indicator{
@@ -212,7 +194,7 @@ div#game img{
     width: 112px;
     height: 84px;
     line-height: 84px;
-    background-image:  url('../images/game_word_bg_2.png');
+    background-image:  url('http://web.pythe.cn/images/game/emotion/game_word_bg_2.png');
     background-size: cover;
 }
 
@@ -233,9 +215,9 @@ div#game img{
 
 .phrase-bg3 {
     width: 125px;
-    height: 77px;
+    height: 67px;
     line-height: 70px;
-    background:  url('../images/game_word_bg_3.png');
+    background:  url('http://web.pythe.cn/images/game/emotion/game_word_bg_3.png');
     background-size: cover;
     padding-left: 5px;
     text-align: left;
@@ -246,23 +228,20 @@ div#game img{
 }
 
 .phrase-bg1 .phrase-text {
-    padding-left: 4px;
+    margin-left: -4px;
 }
 
 .phrase-bg3 .phrase-layer {
     left: 35%;
 }
 
-/*.phrase-bg3::after {
-    left: 4px;
-    top: 42px;
-}*/
+
 
 .phrase-bg4 {
     width: 100px;
     height: 100px;
     line-height: 100px;
-    background: url('../images/game_word_bg_4.png');
+    background: url('http://web.pythe.cn/images/game/emotion/game_word_bg_4.png');
     background-size: cover;
 
 }
@@ -271,7 +250,7 @@ div#game img{
 
 .barrier {
     box-shadow: blue 0px 0px 10px;
-    background: url('../images/icon_protect_bg.jpg') no-repeat;
+    background: url('http://web.pythe.cn/images/game/emotion/icon_protect_bg.jpg') no-repeat;
     background-size: cover;
     display: block;
     width: 118px;
@@ -301,39 +280,20 @@ div.popup-container {
     padding-bottom: 50px;
 }
 
-
-/*.popup {
-    display: flex;
-    width: 331px;
-    height: 383px;
-    flex-wrap: wrap;
-    position: relative;
-    background: #888;
-    margin-top: 30px;
-    background: url(../images/popup_bg.png) no-repeat;
-    background-size: cover;
-}
-*/
 .popup {
     display: flex;
     width: 331px;
     width: 80%;
-    /*min-height: 383px;*/
     min-height: 325px;
     flex-wrap: wrap;
     position: relative;
     background: #888;
-    /*margin-top: 30px;*/
-    /* background: url(../images/popup_bg.png) no-repeat; */
     background-size: cover;
     border: 2px solid #000;
     background: #F9D55B;
     border-radius: 30px;
     padding: 12px;
 }
-
-
-
 
 .popup-container .show {
     display: block;
@@ -353,12 +313,9 @@ div.popup-container {
 
 .tip-phrase {
     display: block;
-    width: 100%;
-    /* height: 45px; */
-    /* background: url(../images/btn_word_bg.png); */
+    width: 70%;
     background-size: cover;
     text-align: center;
-    /* line-height: 40px; */
     font-size: 16px;
     font-weight: bold;
     color: #fff;
@@ -380,10 +337,11 @@ div.popup-container {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
+    font-size: 16px;
 }
 
 label.tip-phrase-selected {
-    background: url('../images/btn_word_bg_select.png');
+    background: url('http://web.pythe.cn/images/game/emotion/btn_word_bg_select.png');
     background-size: cover;
 }
 
@@ -411,7 +369,7 @@ label.tip-phrase-selected {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: url('../images/loading_bg.png');
+    background: url('http://web.pythe.cn/images/game/emotion/loading_bg.png');
     line-height: 40px;
     display: flex;
     align-items: center;
@@ -422,7 +380,7 @@ label.tip-phrase-selected {
     display: block;
     height: 33px;
     border-radius: 20px;
-    background: url('../images/loading_progress.png');
+    background: url('http://web.pythe.cn/images/game/emotion/loading_progress.png');
     background-size: cover;
     width: 0%;
     position: absolute;
@@ -439,7 +397,7 @@ label.tip-phrase-selected {
     transform: translate(50%, -50%);
     width: 49px;
     height: 51px;
-    background: url('../images/loading_xman.gif');
+    background: url('http://web.pythe.cn/images/game/emotion/loading_xman.gif');
     background-size: cover;
 }
 
@@ -478,7 +436,7 @@ label.tip-phrase-selected {
 }
 
 button.start-game {
-    background: url('../images/start_game.png');
+    background: url('http://web.pythe.cn/images/game/emotion/start_game.png');
     border: none;
     display: none;
     position: absolute;
@@ -498,20 +456,19 @@ button.start-game {
     height: 100vh;
     top: 0;
     left: 0;
-    background: #F9D55B url('../images/page-bg.png')
+    background: #F9D55B url('http://web.pythe.cn/images/game/emotion/page-bg.png');
     background-size: cover;
     
 }
 
 .game {
     display: block;
-    /*position: relative;*/
     z-index: 10;
     left: 0;
     width: 100%;
     height: 100%;
     padding: 92px 0 53px 0;
-    background: url('../images/game-bg.png') no-repeat;
+    background: url('http://web.pythe.cn/images/game/emotion/game-bg.png') no-repeat;
     background-origin: content-box;
     background-size: 200px 300px;
     box-sizing: border-box;
@@ -526,12 +483,10 @@ button.start-game {
 .life {
     display: block;
     position: absolute;
-    background: url('../images/icon_life.png') no-repeat;
+    background: url('http://web.pythe.cn/images/game/emotion/icon_life.png') no-repeat;
     background-size: 31px;
     top: 15px;
     left: 21px;
-    /*width: 31px;
-    height: 31px;*/
     height: 31px;
     line-height: 31px;
     width: 100px;
@@ -550,7 +505,7 @@ button.start-game {
 .score {
     display: block;
     position: absolute;
-    background: url(../images/icon_score.png) no-repeat;
+    background: url(http://web.pythe.cn/images/game/emotion/icon_score.png) no-repeat;
     background-size: 31px;
     top: 15px;
     right: 0px;
@@ -575,11 +530,11 @@ button.start-game {
 }
 
 .quite, .tip {
-    background: url('../images/btn_word_bg.png');
+    background: url('http://web.pythe.cn/images/game/emotion/btn_word_bg.png');
     position: absolute;
     display: flex;
     align-items: center;
-    width: 83px;
+    width: 85px;
     height: 45px;
     justify-content: space-around;
     background-size: cover;
@@ -619,7 +574,7 @@ button.start-game {
     left: 50%;
     z-index: 10;
     transform: translateX(-50%);
-    background: url('../images/life_progress_bg.png');
+    background: url('http://web.pythe.cn/images/game/emotion/life_progress_bg.png');
     background-size: cover;
     text-align: center;
     line-height: 29px;
@@ -632,7 +587,7 @@ button.start-game {
     display: inline-block;
     margin-top: 4px;
     margin-left: 2.5px;
-    background: url('../images/life_progress.png');
+    background: url('http://web.pythe.cn/images/game/emotion/life_progress.png');
     background: contain;
 }
 
@@ -655,9 +610,8 @@ button.start-game {
 
 .tip-confirm {
     display: block;
-    position: absolute;
-    width: 70%;
-    bottom: 23px;
+    position: relative;
+    width: 100%;
     border: none;
     left: 50%;
     transform: translateX(-50%);
@@ -686,7 +640,7 @@ button.start-game {
     display: block;
     width: 209px;
     height: 56px;
-    background: url(../images/popup_title_bg.png);
+    background: url(http://web.pythe.cn/images/game/emotion/popup_title_bg.png);
     background-size: cover;
     position: absolute;
     top: 6px;
@@ -711,9 +665,17 @@ button.start-game {
     font-weight: bold;
     display: block;
     height: 30px;
-    position: absolute;
-    left: 36px;
-    top: 40px;
+    width: 100%;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.tip-phrase-wrap {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 60px;
+    justify-content: left;
 }
 
 
@@ -734,12 +696,12 @@ button.start-game {
     position: absolute;
     display: block;
     width: 15%;
-    padding: 0;
-    border: none;
     background: none;
+    background-size: cover;
+    border: none;
     left: 50%;
     transform: translateX(-50%);
-    bottom: -16%;
+    bottom: -60px;
 }
 
 .close img {
@@ -749,17 +711,17 @@ button.start-game {
 .popup-tip-content {
     display: none;
     width: 100%;
-    justify-content: space-around;
-    flex-direction: column;
+    justify-content: left;
+    height: 90%;
     flex-wrap: wrap;
-    padding: 0 36px;
-    min-height: 383px;
+    padding: 0 18px;
+    margin: 5% 0;
+    flex-direction: row;
 }
 
 .popup-tip-content .tip-phrase-selected {
     display: block;
-    margin-top: 60px;
-    margin-bottom: 17px;
+    margin-top: 20px;
     width: 85px;
     height: 45px;
     text-align: center;
@@ -769,13 +731,20 @@ button.start-game {
     color: #fff;
 }
 
-.popup-tip-content div.pinyin {
-    height: 25px;
-    margin: 5px 0;
+.popup-tip-content .pinyin {
+    width: 100%;
+    height: 30px;
+    margin: 0;
+    line-height: 30px;
+    display: block;
+    color: #fff;
+    font-size: 17px;
+    font-weight: bold;
+    color: #203E94;
+    text-align: left;
 }
 
-
-.popup-tip-content .pinyin, .popup-tip-content .annotation, .popup-nolife .nolife-text, .popup-rule .rule-text {
+.popup-tip-content .annotation, .popup-nolife .nolife-text, .popup-rule .rule-text {
     display: block;
     margin: 17px 0;
     color: width: 85px;
@@ -793,63 +762,62 @@ button.start-game {
 }
 
 .popup-tip-content .annotation {
-    height: 150px;
-    overflow: scroll;
+    height: 200px;
+    max-height: 50%;
+    overflow: auto;
+    text-align: justify;
 }
 
 input[type='radio'] {
     visibility: hidden;
+    position: absolute;
 }
 
-/*input[type="radio"]:checked + label {
-    background: url('../images/btn_word_bg_select.png');
-    background-size: cover;
-}*/
+
 
 .popup-tip {
     width: 100%;
     display: none;
     justify-content: left;
-    height: 200px;
+    align-items: center;
     flex-wrap: wrap;
-    margin-top: 60px;
-    margin-bottom: 70px;
-    padding: 0 36px;
+    margin: 10% 0 0;
+    padding: 0 18px;
 }
 
-.popup-tip div {
+.tip-phrase-wrap div {
     display: flex;
+    text-align: left;
+    justify-content: center;
     width: 50%;
+    margin-bottom: 30px;
 }
 
 
 
 .popup-rule {
     display: none;
-    width: 100vw;
     top: 0;
     left: 0;
     width: 100%;
+    height: 90%;
+    margin: 5% 0 5%;
     justify-content: space-around;
-    min-height: 150px;
-    max-height: 350px;
-    overflow: scroll;
+    overflow: auto;
     flex-wrap: wrap;
-    padding: 0 18px;
-    margin-bottom: 15px;
+    padding: 0 12px;
+    margin-bottom: 0px;
 }
 
-.popup-rule .close {
-    top: 50%;
-    transform: translate(-50%, 210px);
-}
+
 
 .popup-nolife {
     width: 50%;
     display: none;
     justify-content: center;
     align-items: center;
-    min-height: 100%;
+    min-height: 90%;
+    margin: 8% 0 2%;
     flex-wrap: wrap;
     width: 100%;
     padding: 0 18px;
@@ -877,20 +845,20 @@ input[type='radio'] {
     display: none;
     width: 100%;
     justify-content: space-around;
-    min-height: 200px;
     flex-wrap: wrap;
-    padding: 0 10px;
-    margin-top: 50px;
-    margin-bottom: 20px;
+    padding: 0 18px;
+    margin: 20px 0 10px;   
+
 }
 
-.popup-quite div {
-    width: 40%;
+.popup-quite > div {
+    width: 45%;
 }
 
-.popup-quite img { 
+.popup-quite > div img {
     width: 100%;
 }
+
 
 .popup-quite p.quite-text {
     display: block;
@@ -904,32 +872,34 @@ input[type='radio'] {
     letter-spacing: 2px;
 }
 
-.popup-quite .quite-confirm {
-    width: 40%;
+.quite-confirm, .quite-cancel {
+    width: 50%;
     display: inline-block;
     border: none;
-    padding: 0;
     background: none;
     padding: none;
-    margin-left: -5%;
     outline: none;
+}
+
+.quite-confirm img , .quite-cancel img {
+    width: 90%;
+}
+
+.quite-cancel img {
+    padding-left: 10%;
+}
+
+.popup-quite .quite-confirm {
+
 }
 
 .quite-cancel {
-    display: inline-block;
-    width: 40%;
-    margin-right: -5%;
-    border: none;
-    padding: 0;
-    background-size: cover;
-    background: none;
-    outline: none;
+
 }
 
-.quite-confirm img, .quite-cancel img {
-    width: 100%;
-    height: auto;
-}
+
+
+
 
 .quite-confirm .quite-text {
     width: 35px;
@@ -939,7 +909,7 @@ input[type='radio'] {
 }
 
 .popup-rule div.rule-text {
-    margin-top: 30px;
+    margin: 0;
 }
 
 .popup-rule p {
@@ -962,7 +932,7 @@ button.share {
     height: 45px;
     border: none;
     background: none;
-    background: url(../images/btn_tip_share.png);
+    background: url(http://web.pythe.cn/images/game/emotion/btn_tip_share.png);
     background-size: cover;
     position: absolute;
     display: none;
@@ -981,10 +951,10 @@ button.share img {
     position: absolute;
     left: 50%;
     top: 25px;
-    transform: translateX(-50%);
-    width: 88px;
-    height: 88px;
-    z-index: 999
+    width: 70px;
+    height: 70px;
+    z-index: 999;
+    transform: translateX(-50px);
 }
 
 .popup-nolife button.share {
@@ -1014,7 +984,7 @@ button.share img {
 
 .popup-nolife .share-sign {
     position: fixed;
-    top: 20px;
+    top: 25px;
 }
 
 
@@ -1031,7 +1001,7 @@ button.share img {
     display: block;
     width: 152px;
     height: 47px;
-    background: url(../images/share_tip_btn.png);
+    background: url(http://web.pythe.cn/images/game/emotion/share_tip_btn.png);
     background-size: cover;
     position: absolute;
     top: 300px;
@@ -1072,7 +1042,10 @@ button.share img {
 }
 
 .pinyin .pinyin {
-    display: inline-block;
+    display: inline;
+    height: 100%;
+    margin: 0;
+    line-height: 30px;
 }
 
 .pinyin-music-btn {
@@ -1080,7 +1053,7 @@ button.share img {
     display: block;
     width: 25px;
     height: 25px;
-    background: url(../images/pinyin_play_btn.png);
+    background: url(http://web.pythe.cn/images/game/emotion/pinyin_play_btn.png);
     background-size: cover;
     display: inline-block;
     position: relative;
@@ -1105,6 +1078,7 @@ button.share img {
 
     .popup {
         margin-top: 15%;
+        min-height: 50%;
         /*height: */
     }
 

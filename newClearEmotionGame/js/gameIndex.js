@@ -1,4 +1,4 @@
-// 防止页面后退
+﻿// 防止页面后退
 history.pushState(null, null, document.URL);
 window.addEventListener('popstate', function() {
   history.pushState(null, null, document.URL);
@@ -41,7 +41,7 @@ getQueryString('code');
 // 调用微信录音接口
 let initWXConfig = function() {
   $.ajax({
-    url: 'https://check.pythe.cn' + '/pythe-rest/rest/link/share/signature',
+    url: CONFIG.interfaceUrl1 + '/pythe-rest/rest/link/share/signature',
     type: 'POST',
     dataType: 'JSON',
     data: JSON.stringify({
@@ -136,12 +136,7 @@ function getMainValue(code) {
     contentType: "application/json",
     timeout: 5000,
     success: function(res) {
-      // if (res.hasOwnProperty('errcode')) {
-      //   window.location.href = 'speechEvaluationIndex.html';
-      // } else {
       saveUserDetail(res.unionid, res.openid, res.nickname, res.headimgurl);
-      // $('.challenge_userPhoto').attr('src', res.headimgurl);
-      // $('.challenge_userNick').text(res.nickname);
       $.cookie('wxOpenId', res.openid, {
         expires: 7
       });
@@ -149,12 +144,14 @@ function getMainValue(code) {
     },
 
     error: function(err) {
+      //alert('error')
       pytheLayOutObj.pytheLayOutFun({
         setTime: 3000,
         tips: '未知错误，请稍后重试'
       })
     },
     complete: function(status) {
+      //alert('159')
       if (status == 'timeout') {
         ajaxTimeOut.abort(); //取消请求
         pytheLayOutObj.pytheLayOutFun({

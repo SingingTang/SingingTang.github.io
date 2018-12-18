@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8" />
@@ -6,12 +6,15 @@
     <link rel="stylesheet" type="text/css" href="css/base.css">
     <link rel="stylesheet" type="text/css" href="css/speechEvaluation.css">
     <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/compositionDetail.js"></script>  
     <script type="text/javascript" src="js/vue.min.js"></script>   
     <script type="text/javascript" src='js/jweixin-1.4.0.js'></script>
-    <script type="text/javascript" src="js/compositionDetail.js"></script>  
     <script type="text/javascript" src="js/jquery.cookie.js"></script> 
     <script type="text/javascript" src="js/wxShare.js"></script> 
 	<title>万词王PK得分比较</title>
+	<script type="text/javascript">
+        checkCookieWXopenId();		
+	</script>
 </head>
 <body>
     
@@ -21,12 +24,12 @@
    	         <!-- 两个用户显示的结果不一样    -->
    	         <template>
                <!-- 该用户赢了 -->
-   	    	   <img src="images/pk_win_bg.png" alt="" class="got_score_decoration" v-if='currentUserDetail.record_score>otherUserDetail.record_score'>
+   	    	   <img src="http://web.pythe.cn/images/game/emotion/pk_win_bg.png" alt="" class="got_score_decoration" v-if='currentUserDetail.score>otherUserDetail.record_score'>
 
-   	    	   <img src="images/pk_ping_bg.png" alt="" class="got_score_decoration" v-else-if='currentUserDetail.record_score==otherUserDetail.record_score'>
+   	    	   <img src="http://web.pythe.cn/images/game/emotion/pk_ping_bg.png" alt="" class="got_score_decoration" v-else-if='currentUserDetail.score==otherUserDetail.record_score'>
 
                <!-- 该用户输了  -->
-   	    	   <img src="images/pk_lose_bg.png" alt="" class="got_score_decoration" v-else>
+   	    	   <img src="http://web.pythe.cn/images/game/emotion/pk_lose_bg.png" alt="" class="got_score_decoration" v-else>
 
    	         </template>
    	         
@@ -56,7 +59,7 @@
    	         <div class="pkScore_andUser clearFixed">
    	         	  <div class="userPK_info" >
    	         	  	 <h2 class="pk_userName"><span>{{currentUserDetail.username}}</span></h2>
-	   	         	 <h1 class="pk_contrastScore">{{currentUserDetail.record_score}}<span class="score_specialTxt">分</span></h1>
+	   	         	 <h1 class="pk_contrastScore">{{currentUserDetail.score}}<span class="score_specialTxt">分</span></h1>
    	         	  </div>
 
    	         	  <div class="userPK_info">
@@ -73,26 +76,26 @@
                 
                 <!-- 重新挑战 分享按钮-->
              	<div class="challengeAshare_btnContain clearFixed">
-	   	         	 <span class="challengeAshare_btn challenge_again_btn"><img src="images/btn_restart.png" alt="" class=""></span>
-	   	         	 <span class="challengeAshare_btn contain_share_btn"><img src="images/btn_share.png" alt="" class=""></span>
+	   	         	 <span class="challengeAshare_btn challenge_again_btn"><img src="http://web.pythe.cn/images/game/emotion/btn_restart.png" v-on:click='challengeAgain'></span>
+	   	         	 <span class="challengeAshare_btn contain_share_btn"><img src="http://web.pythe.cn/images/game/emotion/btn_share.png" v-on:click='commonShare'></span>
 	   	         </div>
 
 	   	         <!-- 邀请好友来PK -->
 	   	         <div class="invite_friend_pk">
-	   	         	 <img src="images/btn_pk.png" alt="" class="">
+	   	         	 <img src="http://web.pythe.cn/images/game/emotion/btn_pk.png" v-on:click='inviteChallenge'>
 	   	         </div>
 
 	   	         <!-- 错题本 词本-->
 	   	         <div class="seache_explain_contain">
 	   	         	 <div class="seache_explain_btn_contain clearFixed">
 	   	         	    <template>
-	   	         	 	  <img src="images/btn_note_wrongword_default.png" v-if='wordNote.wrongWordNote==0' v-on:click='wordNoteEvent()'>
-	   	         	 	  <img src="images/btn_note_wrongword_select.png" v-else>
+	   	         	 	  <img src="http://web.pythe.cn/images/game/emotion/btn_note_wrongword_default.png" v-if='wordNote.wrongWordNote==0' v-on:click='wordNoteEvent()'>
+	   	         	 	  <img src="http://web.pythe.cn/images/game/emotion/btn_note_wrongword_select.png" v-else>
 	   	         	 	</template>
 
 	   	         	 	<template>
-	   	         	    	<img src="images/btn_note_rightword_default.png" class="seache_explain_book" v-if='wordNote.rightWordNote==0' v-on:click='wordNoteEvent()'>
-	   	         	    	<img src="images/btn_note_rightword_select.png" class="seache_explain_book" v-else>	   	         	 		
+	   	         	    	<img src="http://web.pythe.cn/images/game/emotion/btn_note_rightword_default.png" class="seache_explain_book" v-if='wordNote.rightWordNote==0' v-on:click='wordNoteEvent()'>
+	   	         	    	<img src="http://web.pythe.cn/images/game/emotion/btn_note_rightword_select.png" class="seache_explain_book" v-else>	   	         	 		
 	   	         	 	</template>
 
 	   	         	 </div>
@@ -101,125 +104,26 @@
 
 	   	         	     <!-- 错题本ul -->
 	   	         	 	 <ul class="seache_explain_wordUl" v-if='wordNote.wrongWordNote==1'>
-	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	 <li class="seache_explain_wordLi" v-for='(item,index) in wrongWords'>
 	   	         	 	 	    <div class="clearFixed">
-	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <span class="seache_explain_index">{{index+1}}、</span>
 	   	         	 	 	 	  <div class="seache_explain_right">
-	   	         	 	 	 	 	 <h1 class="seache_explain_txt">博闻强识<span class="seache_explainBtn">（查看解释）</span></h1>
-	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">{{item.word}}<span class="seache_explainBtn" v-on:click="searchWordExplain(item.word.toString(),item.annotation.toString(),item.pinyin.toString(),item.audio)">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">{{item.pinyin}}</h1>
 	   	         	 	 	 	  </div>
 	   	         	 	 	 	 </div>
 	   	         	 	 	 </li>
 
-	   	         	 	 	 <li class="seache_explain_wordLi">
-	   	         	 	 	    <div class="clearFixed">
-	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
-	   	         	 	 	 	  <div class="seache_explain_right">
-	   	         	 	 	 	 	 <h1 class="seache_explain_txt">博闻强识<span class="seache_explainBtn">（查看解释）</span></h1>
-	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
-	   	         	 	 	 	  </div>
-	   	         	 	 	 	 </div>
-	   	         	 	 	 </li>
-
-	   	         	 	 	 <li class="seache_explain_wordLi">
-	   	         	 	 	    <div class="clearFixed">
-	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
-	   	         	 	 	 	  <div class="seache_explain_right">
-	   	         	 	 	 	 	 <h1 class="seache_explain_txt">博闻强识<span class="seache_explainBtn">（查看解释）</span></h1>
-	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
-	   	         	 	 	 	  </div>
-	   	         	 	 	 	 </div>
-	   	         	 	 	 </li>
-
-	   	         	 	 	 <li class="seache_explain_wordLi">
-	   	         	 	 	    <div class="clearFixed">
-	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
-	   	         	 	 	 	  <div class="seache_explain_right">
-	   	         	 	 	 	 	 <h1 class="seache_explain_txt">博闻强识<span class="seache_explainBtn">（查看解释）</span></h1>
-	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
-	   	         	 	 	 	  </div>
-	   	         	 	 	 	 </div>
-	   	         	 	 	 </li>
-
-	   	         	 	 	 <li class="seache_explain_wordLi">
-	   	         	 	 	    <div class="clearFixed">
-	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
-	   	         	 	 	 	  <div class="seache_explain_right">
-	   	         	 	 	 	 	 <h1 class="seache_explain_txt">博闻强识<span class="seache_explainBtn">（查看解释）</span></h1>
-	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
-	   	         	 	 	 	  </div>
-	   	         	 	 	 	 </div>
-	   	         	 	 	 </li>
-
-	   	         	 	 	 <li class="seache_explain_wordLi">
-	   	         	 	 	    <div class="clearFixed">
-	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
-	   	         	 	 	 	  <div class="seache_explain_right">
-	   	         	 	 	 	 	 <h1 class="seache_explain_txt">博闻强识<span class="seache_explainBtn">（查看解释）</span></h1>
-	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
-	   	         	 	 	 	  </div>
-	   	         	 	 	 	 </div>
-	   	         	 	 	 </li>
 	   	         	 	 </ul>
 
 	   	         	     <!-- 词本ul -->
 	   	         	 	 <ul class="seache_explain_wordUl" v-else>
-	   	         	 	 	 <li class="seache_explain_wordLi">
+	   	         	 	 	 <li class="seache_explain_wordLi" v-for='(item,index) in rightWords'>
 	   	         	 	 	    <div class="clearFixed">
-	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
+	   	         	 	 	 	  <span class="seache_explain_index">{{index+1}}、</span>
 	   	         	 	 	 	  <div class="seache_explain_right">
-	   	         	 	 	 	 	 <h1 class="seache_explain_txt">一字不落<span class="seache_explainBtn">（查看解释）</span></h1>
-	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
-	   	         	 	 	 	  </div>
-	   	         	 	 	 	 </div>
-	   	         	 	 	 </li>
-
-	   	         	 	 	 <li class="seache_explain_wordLi">
-	   	         	 	 	    <div class="clearFixed">
-	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
-	   	         	 	 	 	  <div class="seache_explain_right">
-	   	         	 	 	 	 	 <h1 class="seache_explain_txt">一字不落<span class="seache_explainBtn">（查看解释）</span></h1>
-	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
-	   	         	 	 	 	  </div>
-	   	         	 	 	 	 </div>
-	   	         	 	 	 </li>
-
-	   	         	 	 	 <li class="seache_explain_wordLi">
-	   	         	 	 	    <div class="clearFixed">
-	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
-	   	         	 	 	 	  <div class="seache_explain_right">
-	   	         	 	 	 	 	 <h1 class="seache_explain_txt">一字不落<span class="seache_explainBtn">（查看解释）</span></h1>
-	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
-	   	         	 	 	 	  </div>
-	   	         	 	 	 	 </div>
-	   	         	 	 	 </li>
-
-	   	         	 	 	 <li class="seache_explain_wordLi">
-	   	         	 	 	    <div class="clearFixed">
-	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
-	   	         	 	 	 	  <div class="seache_explain_right">
-	   	         	 	 	 	 	 <h1 class="seache_explain_txt">一字不落<span class="seache_explainBtn">（查看解释）</span></h1>
-	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
-	   	         	 	 	 	  </div>
-	   	         	 	 	 	 </div>
-	   	         	 	 	 </li>
-
-	   	         	 	 	 <li class="seache_explain_wordLi">
-	   	         	 	 	    <div class="clearFixed">
-	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
-	   	         	 	 	 	  <div class="seache_explain_right">
-	   	         	 	 	 	 	 <h1 class="seache_explain_txt">一字不落<span class="seache_explainBtn">（查看解释）</span></h1>
-	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
-	   	         	 	 	 	  </div>
-	   	         	 	 	 	 </div>
-	   	         	 	 	 </li>
-
-	   	         	 	 	 <li class="seache_explain_wordLi">
-	   	         	 	 	    <div class="clearFixed">
-	   	         	 	 	 	  <span class="seache_explain_index">1、</span>
-	   	         	 	 	 	  <div class="seache_explain_right">
-	   	         	 	 	 	 	 <h1 class="seache_explain_txt">一字不落<span class="seache_explainBtn">（查看解释）</span></h1>
-	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">bo wen qiang shi</h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">{{item.word}}<span class="seache_explainBtn" v-on:click="searchWordExplain(item.word.toString(),item.annotation.toString(),item.pinyin.toString(),item.audio)">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">{{item.pinyin}}</h1>
 	   	         	 	 	 	  </div>
 	   	         	 	 	 	 </div>
 	   	         	 	 	 </li>
@@ -230,11 +134,11 @@
              </div>
 
              <div class="about_pythe_app">
-             	  <img src="images/footer.png" alt="" class="">            	  
+             	  <img src="http://web.pythe.cn/images/game/emotion/footer.png" alt="" class="">            	  
              </div>
 
              <!-- <div class="about_pythe_app clearFixed">
-             	  <img src="images/icon_scan_wechat.png" alt="" class="pythe_app_wxCode">
+             	  <img src="http://web.pythe.cn/images/game/emotion/icon_scan_wechat.png" alt="" class="pythe_app_wxCode">
 
              	  <div class="pythe_app_txt">
              	     <div class="flex_column">
@@ -247,11 +151,49 @@
 
    	    </div>
 
+   	    <!-- 提示内容弹窗 -->
+   	    <div class="toast_model" v-bind:style="{'height':windowHeight+'px'}" v-if='isShowExplain'>
+	   	    <div class="popup">
+	        <span class="popup-title"><img src="./http://web.pythe.cn/images/game/emotion/popup_title_tip.png" /></span>
+	        <div class="popup-content">
+	            <div class="popup-tip-content">
+	                <label class="tip-phrase-selected" >{{wordExplain.word}} </label>
+                  <div class="clearFixed">
+	                   <span class="pinyin" style='float:left;'>{{wordExplain.pinyin}}</span>
+                     <template>
+                       <span class="playOrPauseBtn playingAudio" v-if='isPlayPinyin'></span>
+                       <span class="playOrPauseBtn" v-on:click='justPlayPinyin' v-else></span>
+                     </template>
+                  </div>
+	                <span class="annotation">{{wordExplain.explain}}</span>
+	                <button class="close" v-on:click='closeExplain'></button>
+                    <audio v-bind:src="wordExplain.audio" controls="controls" id='pinyinAudio'></audio>
+	             </div>
+	         </div>
+	        </div>
+       </div>
+
+       <!-- 分享弹窗 -->
+        <div class="toast_model" v-bind:style="{'height':windowHeight+'px'}" v-if='isShowShareLead'>
+          <div class="share_leader_contain">
+            <div class="leader_text">
+               <div class="clearFixed leadTop">
+                   <img src="http://web.pythe.cn/images/game/emotion/move_leader.gif" class="move_leader">
+                   <img src="http://web.pythe.cn/images/game/emotion/share_line.png" class="share_line_lead">
+               </div>
+               <!-- <img src="http://web.pythe.cn/images/game/emotion/share_guide.png" > -->
+               <img src="http://web.pythe.cn/images/game/emotion/share_guide.png" >     
+               <div class="closeShareLine"><img src="http://web.pythe.cn/images/game/emotion/share_tip_btn.png" class=""  v-on:click='closeShareLine' ></div>           
+            </div>
+          </div>
+       </div>
+       
+       <audio id='gameOver' src="./music/game_over_music.mp3" controls='controls' style='opacity:0;position:absolute;bottom:0;left:-9999px;z-index:0;'></audio> 
    </div>
    
    <script type="text/javascript">
    	  // $('.challenge_score').css('min-height',$(window).height());
-            
+          //$('#gameOverAudio')[0].play();  
    	  var challengeScore=new Vue({
    	  	  "el":'.challenge_score',
    	  	  data:{
@@ -266,9 +208,77 @@
    	  	  	},
    	  	  	wxOpenId:'',
    	  	  	currentUserDetail:{},
-   	  	  	otherUserDetail:{}
+   	  	  	otherUserDetail:{},
+
+   	  	  	isShowExplain:false,
+         	wrongWords:{},  //错词本
+         	rightWords:{} , //词本
+         	wordExplain:{},
+         	isPlayPinyin:false,
+
+         	// 是否显示指引弹窗
+         	isShowShareLead:false
    	  	  },
    	  	  methods:{
+   	  	  	// 普通分享按钮
+   	  	  	 commonShare:function(){
+                 this.isShowShareLead=true;
+   	  	  	 },
+
+   	  	  	 inviteChallenge:function(){
+             	window.location.href='pkOwnerPage.html?id='+$.cookie('wxOpenId')
+             },
+
+   	  	  	 closeShareLine:function(){
+                 this.isShowShareLead=false;
+   	  	  	 },
+
+   	  	  	 // 处理分数 词本 
+   	  	  	 handleScoreWord:function(){
+                // this.currentUserScore=$.cookie('score');
+                // this.wrongWords=JSON.parse(decodeURI($.cookie('wrongWord')));
+                // this.rightWords=JSON.parse(decodeURI($.cookie('rightWord')));
+                var that=this;
+                $.ajax({
+	              type: 'POST',
+	              url: interfaceUrl2+'/pythe-auto-task/rest/match/wcw/log/word/query',
+	              data: JSON.stringify({
+	                  wxOpenId:$.cookie('wxOpenId'),
+	              }),
+	              async:false,
+	              dataType:"json",
+	              contentType:"application/json",
+	              timeout:5000,
+	              success: function(res){                 
+	                 if(res.status==200){
+	                 	that.rightWords=res.data.right;
+	                 	that.wrongWords=res.data.wrong;
+	                 }else{
+	                    pytheLayOutObj.pytheLayOutFun({
+	                      setTime:3000,
+	                      tips:'没有数据'
+	                    }) 
+	                 }                                 
+	              },
+
+	              error:function(err){
+	                pytheLayOutObj.pytheLayOutFun({
+	                     setTime:3000,
+	                     tips:'数据获取失败，请稍后重试'
+	                })   
+	              },
+	              complete:function(status){
+	                if (status == 'timeout') {
+	                   ajaxTimeOut.abort(); //取消请求
+	                   pytheLayOutObj.pytheLayOutFun({
+	                     setTime:3000,
+	                     tips:'数据获取失败，请稍后重试'
+	                   })
+	                }
+	              }
+	            });
+   	  	  	 },
+
    	  	  	 initGetOpenId:function(){
    	  	  	  var correctComUrl=document.URL;
 		      var correctComId={};
@@ -297,11 +307,43 @@
                 }
              },
 
+             searchWordExplain:function(word,explain,pinyin,audio){
+                 var that=this;
+                 that.wordExplain.word= word;
+                 that.wordExplain.explain= explain;
+                 that.wordExplain.pinyin= pinyin;
+                 that.wordExplain.audio= audio;
+                 that.isPlayPinyin= false;
+             	   that.isShowExplain=true;
+
+             },
+
+             justPlayPinyin:function(){
+                var that=this;
+                this.isPlayPinyin= true;
+                document.getElementById("pinyinAudio").play();
+                timmer=setInterval(function(){
+                   if(document.getElementById("pinyinAudio").ended){
+                      that.isPlayPinyin= false;
+                      timmer=null;
+                   }
+                },500)
+             },
+
+             closeExplain:function(){
+             	this.isShowExplain=false;
+             },
+
+             // 点击重新挑战
+             challengeAgain:function(){
+               window.location.assign('clearEmotionGame.html?id='+this.wxOpenId);
+             },
+
              getOwnerDetail:function(){
              	var that=this;
                  $.ajax({
 	              type: 'POST',
-	              url: interfaceUrl2+'/pythe-auto-task/rest/match/wcw/participant/info',
+	              url: interfaceUrl2+'/pythe-auto-task/rest/match/wcw/query/last',
 	              data: JSON.stringify({
 	                  wxOpenId:$.cookie('wxOpenId'),
 	              }),
@@ -342,9 +384,9 @@
              	var that=this;
                  $.ajax({
 	              type: 'POST',
-	              url: interfaceUrl2+'/pythe-auto-task/rest/match/wcw/participant/info',
+	              url: interfaceUrl2+'/pythe-auto-task/rest/match/wcw/challenge/query',
 	              data: JSON.stringify({
-	                  wxOpenId:wxOpenId,
+	                  defender:wxOpenId,
 	              }),
 	              async:false,
 	              dataType:"json",
@@ -352,7 +394,7 @@
 	              timeout:5000,
 	              success: function(res){                 
 	                 if(res.status==200){
-	                 	that.otherUserDetail=res.data;
+	                 	that.otherUserDetail=res.data.defender;
 	                 }else{
 	                    pytheLayOutObj.pytheLayOutFun({
 	                      setTime:3000,
@@ -385,9 +427,13 @@
              }
    	  	  },
    	  	  mounted:function(){
-             this.windowHeight=window.innerHeight;
+             this.windowHeight=window.screen.height;
+             document.getElementById("gameOver").play();
+             setWxShare();            
+		     setWxShareInfo();
              this.initGetOpenId()
              this.getOwnerDetail();
+             this.handleScoreWord(); 
    	  	  }
    	  })
    </script>

@@ -3,13 +3,11 @@
 <head>
     <meta charset="utf-8">
     <title>成语大爆炸</title>
-    <link type="text/css" rel="stylesheet" href="css/style.css">
+    <link type="text/css" rel="stylesheet" href="css/newStyle.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <script src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./js/jweixin-1.4.0.js"></script>
-    <!-- <script src="./js/util.js"></script> -->
     <script type="text/javascript" src="./js/jquery.cookie.js"></script>
-    <!-- <script type="text/javascript" src="./js/gameIndex.js"></script> -->
    
 </head>
 
@@ -17,11 +15,6 @@
 
 
 
-      <!-- <audio src="./music.mp3" class="music" autoplay="autoplay" loop="loop" muted="muted">
-    </audio> -->
-
-    <!-- <audio src="./music.mp3" class="music" autoplay="autoplay" loop="loop" muted></audio>  -->
-    <!-- <span class="warm-tip" style="display: block; background: #000; color: red; width: 100px; height: 30px; position: fixed; top:20px ;left: 200px;z-index: 999">0</span> -->
 
     <audio controls class="music">
       <source src="./bullet_music.mp3" type="audio/mp3" />
@@ -59,10 +52,10 @@
         </span>
         <span class="game-progress">0/30</span>
         
-        <div class="phrase">
-          <i class="phrase-text"></i>
+        <div class="phrase phrase-bg1">
+          <i class="phrase-text">一五一十</i>
           <span class="phrase-indicator">长按读词</span>
-          <span class="phrase-layer"></span>
+          <span class="phrase-layer "></span>
         </div>
         <div class="phrase">
           <i class="phrase-text"></i>
@@ -96,35 +89,39 @@
               <div class="popup-tip">
                 <span class="explain">选择词语</span>
 
-                  <div>
-                    <input type="radio" name="tip-phrase" index=0 id="tip-phrase0"/>
-                    <label class="tip-phrase" for="tip-phrase0">
-                      第一个哈
-                    </label>
-                  </div>
-                  
-                  <div>
-                    <input type="radio" name="tip-phrase" index=1 id="tip-phrase1"/>
-                    <label class="tip-phrase" for="tip-phrase1">第一个哈</label>
-                  </div>
+                 <div class="tip-phrase-wrap">
+                    <div>
+                        <input type="radio" name="tip-phrase" index=0 id="tip-phrase0"/>
+                        <label class="tip-phrase" for="tip-phrase0">
+                          <img src="./images/btn_word_bg.png" />
+                          <span class="tip-phrase-text">第一个</span>
+                        </label>
+                    </div>
+                      
+                    <div>
+                        <input type="radio" name="tip-phrase" index=1 id="tip-phrase1"/>
+                        <label class="tip-phrase" for="tip-phrase1">
+                        <img src="./images/btn_word_bg.png" /><span class="tip-phrase-text">第一个</span></label>
+                    </div>
 
-                  <div>
-                    <input type="radio" name="tip-phrase" index=2 id="tip-phrase2"/>
-                    <label class="tip-phrase" for="tip-phrase2">第一个哈</label>
-                  </div>
+                    <div>
+                        <input type="radio" name="tip-phrase" index=2 id="tip-phrase2"/>
+                        <label class="tip-phrase" for="tip-phrase2"><img src="./images/btn_word_bg.png" /><span class="tip-phrase-text">第一个</span></label>
+                    </div>
 
-                  <div>
-                    <input type="radio" name="tip-phrase" index=3 id="tip-phrase3"/>
-                    <label class="tip-phrase" for="tip-phrase3"><img src="./images/btn_word_bg.png" /><span>第一个</span></label>
-                  </div>
+                    <div>
+                        <input type="radio" name="tip-phrase" index=3 id="tip-phrase3"/>
+                        <label class="tip-phrase" for="tip-phrase3"><img src="./images/btn_word_bg.png" /><span class="tip-phrase-text">第一个</span></label>
+                    </div>
 
-                 
+                 </div>
                  
                   <button class="tip-confirm" index=0>
                     <img class="tip-confirm-btn-bg" src="./images/popup_btn.png" />
                     <img class="tip-confirm-btn-text" src="./images/popup_btn_confirm.png" />
                   </button>
-                  <button class="close"></button>
+              <button class="close"><img src="./images/popup_btn_close.png" /></button>
+                  
               </div>
 
             <!-- 提示内容弹窗 -->
@@ -140,7 +137,8 @@
               <span class="annotation">
                 开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈开外挂哈哈
               </span>
-              <button class="close"></button>
+              <button class="close"><img src="./images/popup_btn_close.png" /></button>
+              
             </div>
 
             <!-- 活动规则弹窗 -->
@@ -152,7 +150,8 @@
                 <p>2.我们的防御脆弱！被万词王击中5次后将游戏失败；</p>
                 <p>3.关键时刻可以使用提示功能，万词王的弱点将暴露无遗！想要很多的提示？分享给微信朋友助力吧！</p>
               </div>
-              <button class="close"></button>
+              <button class="close"><img src="./images/popup_btn_close.png" /></button>
+              
             </div>
 
            <!-- 分享弹窗 -->
@@ -167,18 +166,19 @@
                   <p>获得一次翻身机会</p>
                 </div>
                 <!-- <button class="share"><img src="./images/popup_btn_share.png" /></button> -->
-                <button class="close"></button>
+              <button class="close"><img src="./images/popup_btn_close.png" /></button>
+                
               </div>
 
             <!-- 退出游戏弹窗 -->
             <div class="popup-quite">
-              <img src="./images/x_man.png" />
+              <div><img src="./images/x_man.png" /></div>
               <p class="quite-text">
                 嘤嘤嘤～你差点就成为万词王了！确定要退出吗？
               </p>
               <button class="quite-confirm"><img src="./images/popup_btn_quite.png" /></button>
               <button class="quite-cancel"><img src="./images/popup_btn_continue.png" /></button>
-              <button class="close"></button>
+              <button class="close"><img src="./images/popup_btn_close.png" /></button>
             </div>
 
 

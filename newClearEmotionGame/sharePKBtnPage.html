@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8" />
@@ -6,15 +6,15 @@
     <link rel="stylesheet" type="text/css" href="css/base.css">
     <link rel="stylesheet" type="text/css" href="css/speechEvaluation.css">
     <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="js/jquery.cookie.js"></script> 
-    <script type="text/javascript" src='js/jweixin-1.4.0.js'></script>
     <script type="text/javascript" src="js/compositionDetail.js"></script>  
+    <script type="text/javascript" src='js/jweixin-1.4.0.js'></script>
+    <script type="text/javascript" src="js/jquery.cookie.js"></script> 
     <script type="text/javascript" src="js/wxShare.js"></script> 
     <script type="text/javascript" src="js/vue.min.js"></script>   
 	  <title>万词王得分</title>
     <script type="text/javascript">
         checkCookieWXopenId();    
-   </script>
+    </script>
 </head>
 <body>
     
@@ -33,22 +33,14 @@
    	         <h1 class="show_score_number">{{currentUserScore}}<span class="score_sub">分</span></h1>
    	         
    	         <div class="search_score_sortContain">
-   	         	 <div class="search_score_sortBtn" v-on:click='rankSortList'>
-                  <img src="http://web.pythe.cn/images/game/emotion/btn_rank.png" alt="" class="">
-               </div>
+   	         	 <div class="search_score_sortBtn" v-on:click='rankSortList'></div>
    	         </div>
              
              <div class="for_padding">
-                
-                <!-- 重新挑战 分享按钮-->
-             	<div class="challengeAshare_btnContain clearFixed">
-	   	         	 <span class="challengeAshare_btn challenge_again_btn"><img src="http://web.pythe.cn/images/game/emotion/btn_restart.png" v-on:click='challengeAgain'></span>
-	   	         	 <span class="challengeAshare_btn contain_share_btn" v-on:click='commonShare'><img src="http://web.pythe.cn/images/game/emotion/btn_share.png" ></span>
-	   	         </div>
-
+              
 	   	         <!-- 邀请好友来PK -->
 	   	         <div class="invite_friend_pk">
-	   	         	 <img src="http://web.pythe.cn/images/game/emotion/btn_pk.png" alt="" class="" v-on:click='inviteChallenge'>
+	   	         	 <img src="http://web.pythe.cn/images/game/emotion/btn_pk.png" v-on:click='pkShareFn'>
 	   	         </div>
 
 	   	         <!-- 错题本 词本-->
@@ -74,7 +66,7 @@
 	   	         	 	 	    <div class="clearFixed">
 	   	         	 	 	 	  <span class="seache_explain_index">{{index+1}}、</span>
 	   	         	 	 	 	  <div class="seache_explain_right">
-	   	         	 	 	 	 	 <h1 class="seache_explain_txt">{{item.word}}<span class="seache_explainBtn" v-on:click="searchWordExplain(item.word.toString(),item.annotation.toString(),item.pinyin.toString(),item.audio)">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">{{item.word}}<span class="seache_explainBtn" v-on:click="searchWordExplain(item.word.toString(),item.annotation.toString(),item.pinyin.toString())">（查看解释）</span></h1>
 	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">{{item.pinyin}}</h1>
 	   	         	 	 	 	  </div>
 	   	         	 	 	 	 </div>
@@ -87,7 +79,7 @@
 	   	         	 	 	    <div class="clearFixed">
 	   	         	 	 	 	  <span class="seache_explain_index">{{index+1}}、</span>
 	   	         	 	 	 	  <div class="seache_explain_right">
-	   	         	 	 	 	 	 <h1 class="seache_explain_txt">{{item.word}}<span class="seache_explainBtn" v-on:click="searchWordExplain(item.word.toString(),item.annotation.toString(),item.pinyin.toString(),item.audio)">（查看解释）</span></h1>
+	   	         	 	 	 	 	 <h1 class="seache_explain_txt">{{item.word}}<span class="seache_explainBtn" v-on:click="searchWordExplain(item.word.toString(),item.annotation.toString(),item.pinyin.toString())">（查看解释）</span></h1>
 	   	         	 	 	 	 	 <h1 class="seache_explain_pinyin">{{item.pinyin}}</h1>
 	   	         	 	 	 	  </div>
 	   	         	 	 	 	 </div>
@@ -111,17 +103,10 @@
 	        <span class="popup-title"><img src="./http://web.pythe.cn/images/game/emotion/popup_title_tip.png" /></span>
 	        <div class="popup-content">
 	            <div class="popup-tip-content">
-	                <label class="tip-phrase-selected" >{{wordExplain.word}} </label>
-                  <div class="clearFixed">
-	                   <span class="pinyin" style='float:left;'>{{wordExplain.pinyin}}</span>
-                     <template>
-                       <span class="playOrPauseBtn playingAudio" v-if='isPlayPinyin'></span>
-                       <span class="playOrPauseBtn" v-on:click='justPlayPinyin' v-else></span>
-                     </template>
-                  </div>
+	                <label class="tip-phrase-selected" >{{wordExplain.word}}</label>
+	                <span class="pinyin">{{wordExplain.pinyin}}</span>
 	                <span class="annotation">{{wordExplain.explain}}</span>
 	                <button class="close" v-on:click='closeExplain'></button>
-                  <audio v-bind:src="wordExplain.audio" controls="controls" id='pinyinAudio'></audio>
 	             </div>
 	         </div>
 	        </div>
@@ -141,19 +126,11 @@
             </div>
           </div>
        </div>
-       
-       
-       <audio src="./music/game_over_music.mp3" controls='controls' id='gameOver' style='opacity:0;position:absolute;bottom:0;left:-9999px;z-index:0;'></audio>
-   
+   	    
    </div>
-   
    
    <script type="text/javascript">
    	  // $('.challenge_score').css('min-height',$(window).height());
-          //$(function(){
-            //$('#gameOverAudio')[0].play();
-          //});
-          
    	  var challengeScore=new Vue({
    	  	  "el":'.challenge_score',
    	  	  data:{
@@ -162,33 +139,34 @@
    	  	  		wrongWordNote:1,
    	  	  		rightWordNote:0
    	  	  	},
-   	  	  	
+   	  	  	shareDec:{
+               title:"万词王游戏PK赛",
+               dec:"你想来PK他吗？"
+         	},
+
          	currentUserScore:0, //分数
          	isShowExplain:false,
          	wrongWords:{},  //错词本
          	rightWords:{} , //词本
          	wordExplain:{},
-          isPlayPinyin:false,
-
-         	// 是否显示指引弹窗
-         	isShowShareLead:false
+          // 是否显示指引弹窗
+          isShowShareLead:false
    	  	  },
    	  	  methods:{
-   	  	  	 // 普通分享按钮
-   	  	  	 commonShare:function(){
-                 this.isShowShareLead=true;
-   	  	  	 },
 
-   	  	  	 closeShareLine:function(){
+            // 普通分享按钮
+             pkShareFn:function(){
+                 this.isShowShareLead=true;
+             },
+
+             closeShareLine:function(){
                  this.isShowShareLead=false;
-   	  	  	 },
- 
+             },
+
    	  	  	 // 处理分数 词本 
    	  	  	 handleScoreWord:function(){
                 this.currentUserScore=$.cookie('score');
-                // this.wrongWords=JSON.parse(decodeURI($.cookie('wrongWord')));
-                // this.rightWords=JSON.parse(decodeURI($.cookie('rightWord')));
-                var that=this; 
+                var that=this;
                 $.ajax({
                     type: 'POST',
                     url: interfaceUrl2+'/pythe-auto-task/rest/match/wcw/log/word/query',
@@ -227,20 +205,8 @@
                       }
                     }
                 });
-                
    	  	  	 },
-             
-             justPlayPinyin:function(){
-                var that=this;
-                this.isPlayPinyin= true;
-                document.getElementById("pinyinAudio").play();
-                timmer=setInterval(function(){
-                   if(document.getElementById("pinyinAudio").ended){
-                      that.isPlayPinyin= false;
-                      timmer=null;
-                   }
-                },500)
-             },
+
             
    	  	  	 // 切换词本、错题本
              wordNoteEvent:function(){
@@ -255,15 +221,12 @@
                 }
              },
 
-             searchWordExplain:function(word,explain,pinyin,audio){
+             searchWordExplain:function(word,explain,pinyin){
                  var that=this;
                  that.wordExplain.word= word;
                  that.wordExplain.explain= explain;
                  that.wordExplain.pinyin= pinyin;
-                 that.wordExplain.audio= audio;
-                 that.isPlayPinyin= false;
-             	   that.isShowExplain=true;
-
+               	 that.isShowExplain=true;
              },
 
              closeExplain:function(){
@@ -278,18 +241,13 @@
              // 点击排行榜
              rankSortList:function(){
              	window.location.href='challengeRankSort.html';
-             },
-
-             inviteChallenge:function(){
-             	window.location.href='pkOwnerPage.html?id='+$.cookie('wxOpenId');
              }
    	  	  },
    	  	  mounted:function(){
-             this.windowHeight=window.screen.height;
-             document.getElementById("gameOver").play();
+             this.windowHeight=window.innerHeight;
              // 右上角的分享
              setWxShare();            
-		         setWxShareInfo();
+		         setPKShareInfo(this.shareDec.title,this.shareDec.dec);
              this.handleScoreWord(); 
 
    	  	  }

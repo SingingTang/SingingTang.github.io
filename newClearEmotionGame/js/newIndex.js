@@ -44,18 +44,23 @@ var GAME = {
   },
 
   setWxShareInfo: function(wxWrite, dec, callback) {
-    pageUrl = 'https://check.pythe.cn/newClearEmotionGame/clearEmotionGame.html';
+    pageUrl = CONFIG.interfaceUrl3 + '/newClearEmotionGame/clearEmotionGame.html';
     wx.ready(function() {
       var wxShareInfo = {
         title: wxWrite, // 分享标题
         desc: dec, // 分享描述
         link: pageUrl,
-        imgUrl: 'https://check.pythe.cn/newClearEmotionGame/images/icon_xman.png', // 分享图标
+        imgUrl: CONFIG.interfaceUrl3 + '/newClearEmotionGame/images/icon_xman.png', // 分享图标
         type: '', // 分享类型,music、video或link，不填默认为link
         dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
         success: function(res) {
-          // alert(JSON.stringify(res))
           callback && callback();
+        },
+        fail: function(res) {
+          alert('fail')
+        },
+        cancel: function(res) {
+          alert('cancel')
         }
       }
       wx.onMenuShareTimeline(wxShareInfo);
@@ -73,8 +78,6 @@ var GAME = {
 
   // 修改游戏的状态 
   setStatus: function(status) {
-    // alert('76')
-    // alert(status);
     switch (status) {
       case 'over':
         if (this.status === 'over') break;
@@ -95,11 +98,8 @@ var GAME = {
         // 获得一个新生命
       case 'reborn':
         this.status = 'reborn';
-        // alert('97');
-        // alert(this.curTip)
         this.reBorn()
         // this.continueAnimation();
-        // alert('100');
         break;
       case 'playing':
         this.status = 'playing';
@@ -108,22 +108,15 @@ var GAME = {
   },
 
   reBorn: function() {
-     this.setStatus('playing');
-    // $('.popup-container').css('visibility', 'hidden');
-    // $('.popup-nolife').css('display', 'none');
-    // alert(this.status);
-    // alert($('.popup-container').css('visibility'));
+    this.setStatus('playing');
+    
     this.phrases.forEach(phrase => {
-      phrase.init();
+      phrase.init(1);
     });
   },
 
   continueAnimation: function() {
     this.setStatus('playing');
-    // $('.popup-container').css('visibility', 'hidden');
-    // $('.popup-nolife').css('display', 'none');
-    // alert(this.status);
-    // alert($('.popup-container').css('visibility'));
     this.phrases.forEach(phrase => {
       cancelAnimationFrame(phrase.animation)
       requestAnimationFrame(phrase.fall.bind(phrase));
@@ -179,6 +172,7 @@ var GAME = {
   // 上传PK结果
   updatePk: function() {
     const self = this;
+
     $.ajax({
       url: CONFIG.interfaceUrl2 + '/pythe-auto-task/rest/match/wcw/challenge/record',
       type: 'POST',
@@ -191,7 +185,6 @@ var GAME = {
       timeout: 4000,
       contentType: 'application/json',
       success: function(res) {
-        // alert(JSON.stringify(res));
         window.location.href = `./userPKChallengeScorePage.html?id=${self.id}`
 
       },
@@ -238,7 +231,6 @@ var GAME = {
       timeout: 4000,
       contentType: 'application/json',
       success: function(res) {
-        // alert('217 '+ JSON.stringify(res))
         wx.config({
           debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
           appId: 'wx49e51570a28eef81', // 必填，公众号的唯一标识
@@ -261,7 +253,6 @@ var GAME = {
         });
       },
       fail: function() {
-        // alert('fail');
       },
       complete: function(status) {
         if (status == 'timeout') {
@@ -273,8 +264,6 @@ var GAME = {
 
 
   initPhrase: function(callback) {
-    // alert('301 ' + JSON.stringify(CONFIG['phraseArrayLevel2']))
-    // 初始化成语数组
     var phraseNode = document.querySelectorAll('.phrase');
     // 设定游戏状态为开始
     this.setStatus('playing');
@@ -289,6 +278,8 @@ var GAME = {
   bindAction: function() {
 
     const self = this;
+
+    this.setWxShare();
 
     $('.tip').click(() => {
       self.setStatus('stop')
@@ -316,7 +307,7 @@ var GAME = {
 
     $('.close').click((event) => {
       // 隐藏父元素内容
-      $(event.target).parent().css('display', 'none');
+      $(event.target).parent().parent().css('display', 'none');
       // 隐藏提示弹窗
       $('.popup-container').css('visibility', 'hidden');
       // 游戏继续
@@ -327,11 +318,27 @@ var GAME = {
         if (self.curTipShare > 0) {
           $('.tip').css('display', 'none');
           $('button.share').css('display', 'flex');
-          $('button.share img').attr('src', `./images/btn_text_share_tips_${self.curTipShare}.png`)
+          $('button.share img').attr('src', `http://web.pythe.cn/images/game/emotion/btn_text_share_tips_${self.curTipShare}.png`);
+          self.setWxShareInfo('快来帮我PK万词王！', '这个万词非常不得了，我怼不过他的成语攻击，你们快来帮我怼他！', () => {
+            // 分享提示次数-1
+            self.curTipShare--;
+            // 提示次数+1
+            self.curTip++;
+            // 按钮变成提示
+            $('.tip').css('display', 'flex');
+            $('button.share').css('display', 'none');
+            // 如果此时游戏处于暂停状态,则继续游戏 
+            if (self.status === 'stop' ){
+              self.setStatus('continue')
+            }
+            // layer消失
+            $('.share.layer').css('display', 'none');
+          });
         } else {
           // 如果此时的剩余分享次数为0
-          $('.tip img').attr('src', './images/btn_text_rule.png');
-          // $('.tip img').attr('src', './images/popup_btn_share.png');
+          $('.tip img').attr('src', 'http://web.pythe.cn/images/game/emotion/btn_text_rule.png');
+          self.setWxShareInfo('挑战万词王', '万词王即将输出一波成语攻击，让我们一起来对抗他吧！');
+          // $('.tip img').attr('src', 'http://web.pythe.cn/images/game/emotion/popup_btn_share.png');
         }
 
       }
@@ -343,6 +350,10 @@ var GAME = {
       this.setStatus('continue');
     })
 
+    // $('.popup-quite .close').click(() => {
+    //   $('.popup-quite').css('display', 'none');
+    // })
+
     // 没有提示时，点击分享获取提示
     $('button.share').click(() => {
       // 游戏暂停
@@ -350,21 +361,21 @@ var GAME = {
       // 出现提示layer
       $('.share.layer').css('display', 'block');
       // 在该页面设置分享获取一条生命值
-      self.setWxShareInfo('万词王游戏', '请求再给我一个成语提示吧！', () => {
-        // 分享提示次数-1
-        self.curTipShare--;
-        // 提示次数+1
-        self.curTip++;
-        // 按钮变成提示
-        $('.tip').css('display', 'flex');
-        $('button.share').css('display', 'none');
-        // layer消失
-        $('.share.layer').css('display', 'none');
-        // 继续游戏
-        self.setStatus('continue');
-        // 后续再分享，没用
-        self.setWxShareInfo('万词王游戏', '一起来挑战')
-      });
+      // self.setWxShareInfo('万词王游戏', '请求再给我一个成语提示吧！', () => {
+      //   // 分享提示次数-1
+      //   self.curTipShare--;
+      //   // 提示次数+1
+      //   self.curTip++;
+      //   // 按钮变成提示
+      //   $('.tip').css('display', 'flex');
+      //   $('button.share').css('display', 'none');
+      //   // layer消失
+      //   $('.share.layer').css('display', 'none');
+      //   // 继续游戏
+      //   self.setStatus('continue');
+      //   // 后续再分享，没用
+      //   self.setWxShareInfo('万词王游戏', '一起来挑战')
+      // });
     })
 
     // 没有生命值时的分享按钮
@@ -411,17 +422,17 @@ var GAME = {
     $('.pinyin-music-btn').click(() => {
       // 切换图片
       $('.pinyin-music-btn').css({
-        'background': 'url(./images/pinyin_play.gif)',
+        'background': 'url(http://web.pythe.cn/images/game/emotion/pinyin_play.gif)',
         'background-size': 'cover'
       });
       // 停止背景音乐 
       $('.gameStartMusic')[0].pause();
       $('.pinyin-music')[0].play();
       setTimeout(() => {
-        $('.gameStartMusic')[0].play();
+        // $('.gameStartMusic')[0].play();
         // $('.pinyin-music')[0].pause()
         $('.pinyin-music-btn').css({
-          'background': 'url(./images/pinyin_play_btn.png)',
+          'background': 'url(http://web.pythe.cn/images/game/emotion/pinyin_play_btn.png)',
           'background-size': 'cover'
         });
       }, 3000)
@@ -430,9 +441,8 @@ var GAME = {
     $("input[type='radio']").each(function() {
       const self = this;
       $(this).click(function() {
-        $('.tip-phrase img').attr('src', './images/btn_word_bg.png');
-        // alert('点击')
-        $(self).parent().children('label').children('img').attr('src', './images/btn_word_bg_select.png');
+        $('.tip-phrase img').attr('src', 'http://web.pythe.cn/images/game/emotion/btn_word_bg.png');
+        $(self).parent().children('label').children('img').attr('src', 'http://web.pythe.cn/images/game/emotion/btn_word_bg_select.png');
 
       });
     });
@@ -442,7 +452,6 @@ var GAME = {
 
   getPinyinMusic: function(text, callback) {
     var url = 'http://39.104.162.93:8005/tts?user_id=speech&domain=1&language=zh&speed=4&voice_name=1&text=' + text;
-    // alert(url);
     $.ajax({
       url: url,
       type: 'GET',
@@ -453,12 +462,9 @@ var GAME = {
         callback && callback(res.data);
       },
       fail: function() {
-        alert(' 446 fail');
       },
       complete: function(status) {
-        // alert(JSON.stringify(status))
         if (status == 'timeout') {
-          alert('timeout')
           ajaxTimeOut.abort(); //取消请求                     
         }
       }
@@ -466,7 +472,7 @@ var GAME = {
   },
 
   getAnnotation: function(id, callback) {
-    var url = 'https://teacher.pythe.cn/pythe-auto-task/rest/chengyu/select';
+    var url = CONFIG.interfaceUrl2 + '/pythe-auto-task/rest/chengyu/select';
     $.ajax({
       url: url,
       type: 'POST',
@@ -477,21 +483,39 @@ var GAME = {
       contentType: 'application/json',
       timeout: 4000,
       success: function(res) {
-        // alert(JSON.stringify(res.data))
-        // alert(JSON.stringify(res.data))
         callback && callback(res.data.annotation, res.data.audio);
       },
       fail: function() {
-        // alert(' 446 fail');
       },
       complete: function(status) {
         if (status == 'timeout') {
-          alert('timeout')
           ajaxTimeOut.abort(); //取消请求                     
         }
       }
     });
   },
+
+  setWxShare: function() {
+    const self = this;
+    // 判断当前是否处于没有提示的状态 且 有分享获取提示的机会
+
+    if (this.curTip < 1 && this.curTipShare > 1) {
+      // 如果是,则分享给朋友可以获得多一个提示
+      self.setWxShareInfo('万词王游戏', '请求再给我一个成语提示吧！', () => {
+        // 分享提示次数-1
+        self.curTipShare--;
+        // 提示次数+1
+        self.curTip++;
+        // 按钮变成提示
+        $('.tip').css('display', 'flex');
+        $('button.share').css('display', 'none');
+        // layer消失
+        $('.share.layer').css('display', 'none');
+      });
+    }
+  },
+
+
 
   // 根据当前所在位置即高度排序
   sortPhrase: function() {
@@ -505,7 +529,7 @@ var GAME = {
         // phraseIndex.push(index)
       }
     })
-    // alert('492 ' + phraseTop.length)
+    
     // 降序排列
     phraseTop.sort((a, b) => {
       if (parseInt(a.$node.css('top')) > parseInt(b.$node.css('top'))) {
@@ -526,14 +550,14 @@ var GAME = {
         $('.gameStartMusic')[0].pause()
         // 显示提示弹窗
         // 设置title
-        $('.popup-title img').attr('src', './images/popup_title_tip.png');
+        $('.popup-title img').attr('src', 'http://web.pythe.cn/images/game/emotion/popup_title_tip.png');
         // 显示提示弹窗
         $('.popup-container').css('visibility', 'visible');
         // 显示弹窗内容
         $('.phrase-container').css('display', 'flex');
         $('.popup-tip').css('display', 'flex')
         var first = true;
-        $('.popup-tip .tip-phrase').css('display', 'none')
+        $('.popup-tip .tip-phrase').css('visibility', 'hidden')
         var radioIndex = 0;
         var sortP = self.sortPhrase();
         // $('.')
@@ -547,12 +571,12 @@ var GAME = {
 
             // 设置radio值
             var label = $($('.popup-tip .tip-phrase')[radioIndex]);
-            label.css('display', 'block');
+            label.css('visibility', 'visible');
             var input = $($('input[type="radio"]')[radioIndex]);
             input.attr('index', item.index)
             // input.attr('checked', 'checked');
             // input.pop('checked', 'checked')
-            // alert(498)
+            
             label.parent().css('display', 'flex')
             // label.addClass('show');
             label.children('.tip-phrase-text').text(item.phrase.word)
@@ -564,17 +588,14 @@ var GAME = {
         // 默认第一个选中
         $('input[type="radio"]').attr('checked', '')
         $('input[type="radio"]:checked').removeAttr('checked');
-        $('.tip-phrase img').attr('src', './images/btn_word_bg.png');
+        $('.tip-phrase img').attr('src', 'http://web.pythe.cn/images/game/emotion/btn_word_bg.png');
         $($('input[type="radio"]')[0]).attr('checked', 'checked')
-        $($('.tip-phrase img')[0]).attr('src', './images/btn_word_bg_select.png');
-        // alert($($('.tip-phrase img')[0]).attr('src'))
+        $($('.tip-phrase img')[0]).attr('src', 'http://web.pythe.cn/images/game/emotion/btn_word_bg_select.png');
         break;
 
 
       case 'tipContent':
         // 获取到具体被选中的成语的index
-        // alert($('input[type="radio"]:checked'))
-        // alert($('input[type="radio"]:checked').length)
         var input = $('input[type="radio"]:checked').length ? $('input[type="radio"]:checked') : $('input[type="radio"]')
 
         var phraseIndex = parseInt(input.attr('index'));
@@ -600,7 +621,6 @@ var GAME = {
         })
         // 显示内容
         this.getAnnotation(phrase.id, (annotation, audio) => {
-          // alert('557')
           $('.popup-tip-content .annotation').text('释义: ' + annotation);
           document.querySelector('.pinyin-music').src = audio;
           $('.popup-tip-content .pinyin-music source').attr('src', audio);
@@ -612,15 +632,15 @@ var GAME = {
 
       case 'rule':
         $('.popup-container').css('visibility', 'visible');
-        $('.popup-title').attr('src', './images/popup_title_gamerule.png')
+        $('.popup-title').attr('src', 'http://web.pythe.cn/images/game/emotion/popup_title_gamerule.png')
         $('.popup-rule').css('display', 'block')
         break;
 
       case 'nolife':
         this.setStatus('stop');
-        $('.popup-title img').attr('src', './images/popup_title_nolife.png');
+        $('.popup-title img').attr('src', 'http://web.pythe.cn/images/game/emotion/popup_title_nolife.png');
         $('.popup-container').css('visibility', 'visible');
-        $('.popup-title').attr('src', './images/popup_title_nolife.png');
+        $('.popup-title').attr('src', 'http://web.pythe.cn/images/game/emotion/popup_title_nolife.png');
         $('.nolife-text').text(`您有${CONFIG.rebornTotal - self.reborn}次翻身机会，分享即可获得一个生命值，继续游戏。冲吖!`)
         $('.popup-nolife').css('display', 'flex');
 
@@ -636,20 +656,17 @@ var GAME = {
           $('.popup-container').css('visibility', 'hidden');
           $('.popup-nolife').css('display', 'none');
           // 继续游戏
-          // alert('625');
           self.setStatus('reborn');
           // self.setStatus('continue')
-          // alert('629')
           // 后续再分享没用了
-          self.setWxShareInfo('万词王游戏', '一起来挑战')
+          self.setWxShareInfo('万词王游戏', '一起来挑战成词王');
         });
         break;
 
       case 'quite':
         $('.popup-container').css('visibility', 'visible');
-        $('.popup-title img').attr('src', './images/popup_title_quite.png');
+        $('.popup-title img').attr('src', 'http://web.pythe.cn/images/game/emotion/popup_title_quite.png');
         $('.popup-quite').css('display', 'flex');
-        // alert('')
         break;
 
       default:
@@ -672,8 +689,7 @@ var GAME = {
     this.curLife--;
     // 如果生命值为0，则停止动画，出现分享界面
     if (this.curLife <= 0) {
-      // 没有血了
-      // alert('没有血了');
+      
       this.stopAnimation();
       // 判断当前可分享次数
       if (this.reborn === CONFIG.rebornTotal) {
@@ -712,29 +728,30 @@ class Phrase {
     this.$node.on({
       touchstart: this.onStartRecord.bind(this),
       touchend: this.onTouchEnd.bind(this),
+      touchcancel: this.onTouchEnd.bind(this)
     })
     this.init();
   }
 
   // 初始化成语的相关位置及文本信息
-  init() {
+  init(topInit) {
     // 
     // if(this.GAME.status === 'stop') {
 
     // // }
-    // alert('init')
+    
     // 重设游戏参数
-    this.reset();
+    
+    this.reset(topInit);
     // 初始化的时候会删除动画
     cancelAnimationFrame(this.animation);
     this.fall();
   }
 
-  reset() {
+  reset(topInit) {
     // 每重置一次,则生成一个成语,则phraseNum+1
     this.GAME.phraseNum++;
     $('.warm-tip').text(this.GAME.phraseNum);
-    // alert(this.GAME.phraseNum)
     // 重置时，设show为false
     this.show = false;
     // 初始为不可见状态
@@ -748,7 +765,6 @@ class Phrase {
     this.phrase = phraseArray[index];
     // 删除被选中的成语
     phraseArray.splice(index, 1);
-    // alert(CONFIG.phraseArrayLevel1.length)
     // 随机生成的文本
     let text = this.phrase.word;
 
@@ -761,9 +777,14 @@ class Phrase {
     let left = parseInt(Math.random() * gameWidth / 4) + gameWidth / 4 * n;
     // let left = parseInt(Math.random() * gameWidth);
     // 随机设置上边距
-    let top = parseInt(Math.random() * -200);
+    let top =  parseInt(Math.random() * - 200*this.index);
     // 如果是第一个成语，直接落下
-    this.GAME.phraseNum === 1 && (top = 92);
+    if ( this.GAME.phraseNum === 1 || topInit ) {
+      if(this.index === 0) {
+        top = 92;
+      }
+    }
+
     // top = 180;
 
     // 随机设置成语的背景图片
@@ -815,7 +836,7 @@ class Phrase {
       return
     }
 
-    if(this.GAME.status != 'playing') {
+    if (this.GAME.status != 'playing') {
       return;
     }
 
@@ -835,8 +856,8 @@ class Phrase {
     if (this.show === false && parseInt(this.$node.css('top')) > 92) {
 
       // 此时，让光晕可见，且1秒之后设为不可见
-      $('.halo').css('display', 'block').attr('src', './images/halo.gif');
-      setTimeout(() => $('.halo').css('display', 'none').attr('src', ''), 1000);
+      $('.halo').css('display', 'block').attr('src', 'http://web.pythe.cn/images/game/emotion/halo.gif');
+      setTimeout(() => $('.halo').css('display', 'none').attr('src', ''), 800);
       this.show = true;
       this.$node.css('visibility', 'visible')
     }
@@ -879,7 +900,7 @@ class Phrase {
     $('.gameStartMusic')[0].pause();
     // 保护层显示
     self.$node.children('.phrase-layer').css({
-      'background': 'url(./images/icon_protect_bg.gif)',
+      'background': 'url(http://web.pythe.cn/images/game/emotion/icon_protect_bg.gif)',
       'background-size': 'cover',
       'display': 'block'
     })
@@ -907,7 +928,7 @@ class Phrase {
     $('.music')[0].play();
     // 发送子弹
     $('.bullet').css('display', 'block');
-    // alert('854')
+    
     // 子弹666ms后消失
     setTimeout(() => {
       $('.bullet').css('display', 'none')
@@ -959,7 +980,6 @@ class Phrase {
 
   onCheckRecord(serverId) {
     const self = this;
-    // alert('950')
     $.ajax({
       type: 'POST',
       url: CONFIG.interfaceUrl2 + '/pythe-auto-task/rest/audio/iat',
@@ -977,6 +997,7 @@ class Phrase {
         $('.warm-tip').text('录音上传中...,请耐心等候');
       },
       success: function(res) {
+        
         if (null != res) {
           if (res.status == 200) {
             $('.warm-tip').text('读对了');
@@ -996,7 +1017,7 @@ class Phrase {
 
             // 设置爆炸效果
             self.$node.children('.phrase-layer').css({
-              'background': 'url(./images/icon_boom.gif)',
+              'background': 'url(http://web.pythe.cn/images/game/emotion/icon_boom.gif)',
               'background-size': 'cover',
               'display': 'block'
             })
@@ -1025,13 +1046,12 @@ class Phrase {
 
       error: function(err) {
         // 恢复动画
-        // alert('错了')
         self.regainFall();
         $('.warm-tip').text('发生错误 412');
 
       },
 
-      complete: function() {
+      complete: function(e) {
         if (status == 'timeout') {
           ajaxTimeOut.abort(); //取消请求                             
           $('.warm-tip').text('网络状态不好');
@@ -1042,23 +1062,21 @@ class Phrase {
   }
 
   regainFall() {
-    // if(this.GAME.status != 'playing') {
-    //   return;
-    // }
-    // alert(this.GAME.status)
-    // alert('1035')
     this.animationLock = false;
-    this.animation = requestAnimationFrame(this.fall.bind(this));
+    // this.animation = requestAnimationFrame(this.fall.bind(this));
     var id = this.$node.prop('id');
     // 保护层消失
     this.$node.children('.phrase-layer').css({
-      'background': 'url(./images/icon_protect_bg.gif)',
+      'background': 'url(http://web.pythe.cn/images/game/emotion/icon_protect_bg.gif)',
       'background-size': 'cover',
       'display': 'none'
     });
     // this.$node.append(`<style>#${id}::before{display: none}</style>`);
     // 修改指示牌上的文字
     this.$node.children('.phrase-indicator').text('读音有误');
+    if (this.GAME.status === 'playing') {
+      this.animation = requestAnimationFrame(this.fall.bind(this));
+    }
     // this.$node.append(`<style>#${id}::after{content: '读音有误'}</style>`);
     setTimeout(() => this.$node.children('.phrase-indicator').text('长按读词'), 1000);
   }

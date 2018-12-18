@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+	  <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" type="text/css" href="css/base.css">
     <link rel="stylesheet" type="text/css" href="css/swiper-3.4.2.min.css">
@@ -13,67 +13,49 @@
     <script type="text/javascript" src='js/jweixin-1.4.0.js'></script>
     <script type="text/javascript" src="js/compositionDetail.js"></script>  
     <script type="text/javascript" src="js/wxShare.js"></script> 
-    <title>万词王分享</title>
-    <script type="text/javascript">
-        checkCookieWXopenId();
-        var correctComUrl=document.URL;
-        var correctComId={},specialId;
-
-        // 从url中获取传过来的作文id
-        if(correctComUrl.indexOf('?')!=-1){
-            correctComUrl=correctComUrl.split('?')[1];
-            correctComUrl=correctComUrl.split('&');
-            for(var i=0;i<correctComUrl.length;i++){
-               correctComId[(correctComUrl[i].split('='))[0]]=(correctComUrl[i].split('=')[1]);
-            }
-            specialId=correctComId.id; 
-
-            if($.cookie('wxOpenId')==specialId){
-               window.location.assign('pkOwnerPage.html?id='+specialId)
-            }            
-        };
-    </script>
+	  <title>万词王分享</title>
+    
 </head>
 <body>
     
    <div class="pkChallengeShare"  v-bind:style="{'min-height':windowHeight+'px'}" v-cloak>
-        <div class="challenge_rankSort_title">
-          <img src="http://web.pythe.cn/images/game/emotion/share_pk_bg.png" class="">
+   	    <div class="challenge_rankSort_title">
+        	<img src="http://web.pythe.cn/images/game/emotion/share_pk_bg.png" class="">
         </div>
 
        <div style='padding-left: 0.1rem;position:relative;z-index:3;margin-top:0rem;'>
-          <div class="challenge_rankSort_dot">
-                          
-            <div class="challenge_rank_containpadding" style='padding-right:0;'>
-              <div class="pkAchievement_contain">
-                 <div class="user_pk_Achievement">
-                   <div class="userPK_photo ">
-                      <div class="userPK_img">
-                         <img v-bind:src="currentUserDetail.user_img" >
-                      </div>
-                     </div>
-                   <h1 class="challenger_original_score">{{currentUserDetail.username}}获得了{{currentUserDetail.record_score}}分</h1>
-                 </div>
+	   	    <div class="challenge_rankSort_dot">
+	                        
+	   	    	<div class="challenge_rank_containpadding" style='padding-right:0;'>
+	   	    		<div class="pkAchievement_contain">
+	   	    			 <div class="user_pk_Achievement">
+	   	    			 	 <div class="userPK_photo ">
+			   	         	 	<div class="userPK_img">
+			   	         	 		 <img v-bind:src="currentUserDetail.user_img" >
+			   	         	 	</div>
+			   	         	 </div>
+	   	    			 	 <h1 class="challenger_original_score">{{currentUserDetail.username}}获得了{{currentUserDetail.record_score}}分</h1>
+	   	    			 </div>
                  
-                 <div class="chagllenge_guys_contain" v-if='challengersData.length>=1'>  
-                  <h1 class="chagllenge_guys">迎战小伙伴</h1>                
-                  <!-- <div class="swiper-container" id='chagllenge_guys_container'>
-                    <div class="swiper-wrapper chagllenge_guys_list">
-                        <div class="swiper-slide" v-for='item in challengersData'>
+	   	    			 <div class="chagllenge_guys_contain" v-if='challengersData.length>=1'>	 
+	   	    			  <h1 class="chagllenge_guys">迎战小伙伴</h1>  	    			 	
+	   	    			 	<!-- <div class="swiper-container" id='chagllenge_guys_container'>
+  							    <div class="swiper-wrapper chagllenge_guys_list">
+  							        <div class="swiper-slide" v-for='item in challengersData'>
                               <div class="guys_img">
                                 <img src='http://web.pythe.cn/images/game/emotion/share_pk_win.png'  class="user_icon_cap" v-if='item.challenger_score>currentUserDetail.record_score'>
                                 <img src='http://web.pythe.cn/images/game/emotion/share_pk_ping.png' class="user_icon_cap" v-else-if='item.challenger_score==currentUserDetail.record_score'>
                                 <img src='http://web.pythe.cn/images/game/emotion/share_pk_lose.png' class="user_icon_cap" v-else>
-                                <div class="chagllenge_guys_img">
+                              	<div class="chagllenge_guys_img">
                                     <img v-bind:src="item.user_img" class=""> 
                                 </div>
                               </div>
                               <h1 class="per_challenger_name">{{item.username}}</h1>
                               <h2 class="per_challenger_score">{{item.challenger_score}}分</h2>
-                        </div>
-                    </div>
-                  </div> -->
-                 </div>
+  							        </div>
+  							    </div>
+  							  </div> -->
+	   	    			 </div>
 
                  <div class="swiper-container" id='chagllenge_guys_container'>
                     <div class="swiper-wrapper chagllenge_guys_list" >
@@ -91,33 +73,55 @@
                       </div>                     
                     </div>
                     <!-- Add Pagination -->
-                    <!-- <div class="swiper-pagination"></div> -->
+                    <div class="swiper-pagination"></div>
                  </div>
 
-                 <div class="is_acceptChallenge">
-                   <img src="http://web.pythe.cn/images/game/emotion/btn_share_accept_pk.png" class="" v-on:click='acceptChallenge'>
-                   <img src="http://web.pythe.cn/images/game/emotion/btn_share_playalone.png" class="" v-on:click='denyChallenge'>
-                 </div>
-              </div>
-            </div> 
-          </div> 
-       </div> 
+	   	    			 <div class="is_acceptChallenge">
+	   	    			 	 <img src="http://web.pythe.cn/images/game/emotion/btn_share_invite_pk.png" class="" v-on:click='inviteOtherChallenge'>
+	   	    			 	 <img src="http://web.pythe.cn/images/game/emotion/btn_share_onmore.png" class="" v-on:click='oneMoreChallenge'>
+	   	    			 </div>
+	   	    		</div>
+	   	    	</div> 
+	   	    </div> 
+   	   </div> 
 
+       <!-- 分享弹窗 -->
+        <div class="toast_model" v-bind:style="{'height':windowHeight+'px'}" v-if='isShowShareLead'>
+          <div class="share_leader_contain">
+            <div class="leader_text">
+               <div class="clearFixed leadTop">
+                   <img src="http://web.pythe.cn/images/game/emotion/move_leader.gif" class="move_leader">
+                   <img src="http://web.pythe.cn/images/game/emotion/share_line.png" class="share_line_lead">
+               </div>
+               <!-- <img src="http://web.pythe.cn/images/game/emotion/share_guide.png" > -->
+               <img src="http://web.pythe.cn/images/game/emotion/share_guide.png" >     
+               <div class="closeShareLine"><img src="http://web.pythe.cn/images/game/emotion/share_tip_btn.png" class=""  v-on:click='closeShareLine' ></div>           
+            </div>
+          </div>
+       </div>
+       
+       
    </div>
    
    <script type="text/javascript">
-      // $('.challenge_score').css('min-height',$(window).height());
+   	  // $('.challenge_score').css('min-height',$(window).height());
 
-      var challengeScore=new Vue({
-          "el":'.pkChallengeShare',
-          data:{
-            windowHeight:0,
-            isShowVocalConcertTips:false,
+   	  var challengeScore=new Vue({
+   	  	  "el":'.pkChallengeShare',
+   	  	  data:{
+   	  	  	windowHeight:0,
+   	  	  	isShowVocalConcertTips:false,
             wxOpenId:'',
             currentUserDetail:{},
-            challengersData:[]
-          },
-          methods:{
+            challengersData:[],
+            // 是否显示指引弹窗
+            isShowShareLead:false,
+            shareDec:{
+               title:"挑战万词王",
+               dec:"万词王即将输出一波成语攻击，让我们一起来对抗他吧！"
+            },
+   	  	  },
+   	  	  methods:{
               initGetOpenId:function(){
                 var correctComUrl=document.URL;
                 var correctComId={};
@@ -149,11 +153,9 @@
                     timeout:5000,
                     success: function(res){                 
                        if(res.status==200){
-                        that.currentUserDetail=res.data.defender;
-                        that.challengersData=res.data.challengers;
-                        
-                         
-
+                         that.currentUserDetail=res.data.defender;
+                         that.challengersData=res.data.challengers;
+                                              
                        }else{
                           pytheLayOutObj.pytheLayOutFun({
                             setTime:3000,
@@ -180,30 +182,33 @@
                  });
              },
 
-             // 显示弹窗
+   	  	  	 // 显示弹窗
              showVocalConcertTip:function(){
-              this.isShowVocalConcertTips=true;
+             	this.isShowVocalConcertTips=true;
              },
              // 关闭弹窗
              hideVocalConcertTip:function(){
-              this.isShowVocalConcertTips=false;
+             	this.isShowVocalConcertTips=false;
              },
 
-             // 接受挑战  isPK=1是pk
-             acceptChallenge:function(){
-                 window.location.href='clearEmotionGame.html?id='+this.wxOpenId+'&isPK=1';
+             // 接受挑战
+             inviteOtherChallenge:function(){
+                 this.isShowShareLead=true;                 
              },
-             
-             // isPK=0是单人
-             denyChallenge:function(){
+
+             closeShareLine:function(){
+                 this.isShowShareLead=false;
+             },
+
+             oneMoreChallenge:function(){
                  window.location.href='clearEmotionGame.html?isPK=0';              
              }
-          },
-          mounted:function(){
+   	  	  },
+   	  	  mounted:function(){
              this.windowHeight=window.innerHeight;
+             setWxShare();            
+             setPKShareInfo(this.shareDec.title,this.shareDec.dec);            
              this.initGetOpenId();
-             setWxShare();
-             setWxShareInfo();
              var mySwiper = new Swiper ('#chagllenge_guys_container', {
                 // pagination : '.swiper-pagination', 
                 centeredSlides: false,
@@ -216,9 +221,9 @@
              });
              setTimeout(function()  {
                 mySwiper.slideTo(0, 50, false);
-             }, 50);
-          }
-      })
+            }, 50);
+   	  	  }
+   	  })
    </script>
 </body>
 </html>

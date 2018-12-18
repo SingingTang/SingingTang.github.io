@@ -1,0 +1,266 @@
+@charset "utf-8";
+html{font-size:625%;}
+@media screen and (min-width:311px) and (max-width:340px){html{font-size:90px}}
+@media screen and (min-width:340px) and (max-width:370px){html{font-size:100px}}
+@media screen and (min-width:371px) and (max-width:600px){html{font-size:110px}}
+body{min-width:320px;max-width:600px;margin:0 auto;font-size:0.14rem;font-family: '微软雅黑';}
+.clearFixed:after{
+	content:'';visibility: visible;display: table;clear:both;
+}
+.clearFixed{zoom:1;}
+[v-cloak]{
+	display: none;
+}
+.challenge_score{width:100%;background:url(http://web.pythe.cn/images/game/emotion/over_highscore_decoration_01.png) no-repeat 50% top,url(http://web.pythe.cn/images/game/emotion/decoration.png) no-repeat 50% 0.38rem,url(http://web.pythe.cn/images/game/emotion/page_02_decoration.png) no-repeat 50% -0.45rem;background-size:100%;background-color: #ffd53b; }
+.got_score_contain {padding-top:0.17rem;}
+.got_score_contain .got_score_decoration{display: block;width:80%;margin:0 auto;max-width:2.6rem;}
+
+/*分数*/
+.for_padding{padding:0 0.2rem;}
+.show_score_number{font-size:0.7rem;color:#fff;margin-top:0.07rem;-webkit-text-stroke:2px black;font-weight:bold;font-family:STYuanti-SC-Bold,impact;text-align:center;line-height:0.9;}
+.show_score_number .score_sub{font-size:0.25rem;}
+.search_score_sortContain{margin-top:0.21rem;}
+.search_score_sortBtn{margin:0 auto;padding:0 0.2rem;}
+.search_score_sortBtn img{display:block;width:100%;}
+.challengeAshare_btnContain {margin-top:0.2rem;}
+.challengeAshare_btnContain img{display: block;width:85%;max-width:1.3rem;}
+.challengeAshare_btnContain .challengeAshare_btn{float:left;width:50%;/*width:1.53rem;height:0.59rem;background:url(http://web.pythe.cn/images/game/emotion/btn_restart.png) no-repeat 50% 50%;background-size:cover;*/ }
+.challengeAshare_btnContain .contain_share_btn img{float:right; }
+
+/*邀请好友来挑战*/
+.invite_friend_pk{margin-top:0.2rem;}
+.invite_friend_pk>img{display: block;width:100%;margin:0 auto;}
+
+/*错题本 词本*/
+.seache_explain_wordContain{padding:0 0.15rem;height:2.95rem;overflow-y:scroll;}
+.seache_explain_contain{ margin-top:0.31rem;background-color: #fff;border:2px solid black;border-radius:0.15rem;overflow: hidden;box-shadow:0 6px rgba(0,0,0,0.3);margin-bottom:0.06rem; }
+.seache_explain_btn_contain{padding:0.2rem 0.25rem;background-color: #fff;}
+.seache_explain_btn_contain img{float: left;width:40%;max-width:1.25rem;}
+.seache_explain_btn_contain img.seache_explain_book{float: right;}
+.seache_explain_wordUl{margin-top:0.04rem;font-size:0.15rem;line-height:1;}
+.seache_explain_wordLi{margin-bottom:0.15rem;}
+.seache_explain_index{float:left;}
+.seache_explain_right{padding-left:0.3rem;width:100%;box-sizing:border-box;}
+.seache_explain_txt{margin-bottom:0.08rem;}
+.seache_explain_pinyin{font-size:0.14rem;}
+.seache_explain_txt .seache_explainBtn{color:#0920ED;}
+
+/*底部*/
+.about_pythe_app{line-height:1;font-size:0.17rem;color:#fff;height: 0.9rem;}
+.about_pythe_app .pythe_app_wxCode{float:left;width:0.72rem;height:0.72rem;display:block;}
+.flex_column{display: flex;flex-direction:column;height:100%;}
+.pythe_app_txt{float:right;display:inline-block;height:0.72rem;}
+.pythe_app_txt span{margin:auto 0 auto;}
+.about_pythe_app img{display:block;width:100%;}
+
+/*pk赛*/
+#userPK_challenge .got_score_contain{padding-top:0.07rem;}
+#userPK_challenge .got_score_decoration{width:66%;margin:0 auto;}
+.userPK_photoContain{width:2.88rem;margin:0.07rem auto 0;background:url(http://web.pythe.cn/images/game/emotion/vs.png) no-repeat 50% 50%;background-size:0.8rem;}
+.pkScore_andUser{width:2.88rem;margin:0.1rem auto 0;}
+.userPK_info{float:left;text-align:center;}
+.userPK_photoContain .userPK_photo{position:relative;width:0.98rem;height:0.98rem;}
+.userPK_photoContain .second_challenge{float:right;}
+.userPK_photoContain .userPK_photo:after{
+	content:'';position:absolute;left:50%;bottom:-6px;width:0.92rem;height:0.92rem;margin-left:-0.46rem;z-index:2;border-radius:50%;background-color:rgba(0,0,0,0.3);
+}
+.userPK_photo .userPK_img{position:absolute;top:0;left:0;z-index:3;overflow:hidden;width:100%;height:100%;border-radius:50%;border:0.04rem solid #fff;background-color:#f5f5f5;box-sizing:border-box;}
+.pk_userName{font-size:0.15rem;margin:0 0 0.1rem;color:#000;display: inline-block;}
+.pk_userName span{display: block;text-align:left;white-space: nowrap;}
+.pk_contrastScore{font-size:0.4rem;color:#fff;-webkit-text-stroke:2px black;font-family:STYuanti-SC-Bold,impact,impact;position:relative;left:50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    width:150%;
+}
+.pk_contrastScore .score_specialTxt{font-size:0.15rem;-webkit-text-stroke:1px black;}
+.pkScore_andUser .userPK_info{float:left;width:0.98rem;line-height:1;}
+.pkScore_andUser .userPK_info:nth-child(2){float:right;}
+.userPK_img img{width:100%;height:100%;display: block;background:url(http://web.pythe.cn/images/game/emotion/icon_xman.png) no-repeat 50% 0;background-size: 100%;}
+
+/*排行榜*/
+.challenge_rankSort_title{position:relative;z-index:2;}
+.challenge_rankSort_title img{width:100%;display: block;}
+.challenge_rankSort{background:url(http://web.pythe.cn/images/game/emotion/sort_dot.png) repeat-y;background-size:100%;background-color: #67D1B9;position: relative;}
+.challenge_rankSort_dot{padding-bottom:0.8rem;}
+.challenge_rank_containpadding{padding:0 0.04rem;}
+.challenge_rank_contain{background-color: #FFDD55;border:2px solid #000;border-radius:0.3rem;padding:0.13em 0.13rem;}
+.about_userRank_sort{color:#010101;text-align:center;font-size:0.15rem;margin-top:0.15rem;line-height:1;height:0.15rem;}
+.challenge_rank_ul{margin-top:0.15rem;}
+.challenge_rank_ul .challenge_rank_li{font-size:0.14rem;color:#000;line-height:0.5rem;margin-bottom:0.1rem;padding:0.05rem 0.1rem;border:2px solid #000;border-radius:0.15rem;background-color: #80D4FF;}
+.challenge_rank_li .sort_index{float:left;width:0.25rem;}
+.challenge_rank_li .sort_beforeThree{margin-top:0.08rem;height:0.33rem;background:url(http://web.pythe.cn/images/game/emotion/rank_01.png) no-repeat 50% 50%;background-size:0.25rem;}
+.challenge_rank_li:nth-child(2) .sort_beforeThree{background-image:url(http://web.pythe.cn/images/game/emotion/rank_02.png);}
+.challenge_rank_li:nth-child(3) .sort_beforeThree{background-image:url(http://web.pythe.cn/images/game/emotion/rank_03.png);}
+.challenge_rank_li .sort_indexStyle{width:0.21rem;height:0.21rem;margin-top:0.14rem;font-family:STYuanti-SC-Bold,impact;border-radius:50%;background-color: #5559FF;color:#fff;line-height:0.22rem;text-align:center;}
+.challenge_rank_li .challenge_rank_photo{float:left;margin:0 0.06rem 0 0.11rem;overflow:hidden;width:0.5rem;height:0.5rem;border-radius:50%;border:2px solid #fff;box-sizing:border-box;}
+.challenge_rank_li .challenge_rank_photo img{display: block;width: 100%;height:100%;background:url(http://web.pythe.cn/images/game/emotion/icon_xman.png) no-repeat 50% 0;background-size: 100%;}
+.challenge_rank_li .challenge_rankScore{float:right;font-size:0.25rem;}
+.challenge_rank_userName{white-space: nowrap;text-overflow: ellipsis;overflow: hidden;padding-right: 0.06rem;}
+.vocal_concert_ticket{position:fixed;width:100%;max-width:5rem;bottom:0;left:50%;z-index:4;padding:0 0.14rem;box-sizing:border-box;
+                      -webkit-transform:translateX(-50%);
+                      transform:translateX(-50%);   
+}
+.vocal_concert_ticket img{width: 100%;display: block;}
+
+/*抽奖提示弹窗*/
+.vocal_concert_luckDraw{position:fixed;z-index:10;top:0;left:0;width:100%;background-color:rgba(0,0,0,0.5);}
+.vocal_concert_ld{width:100%;height:100%;display:flex;flex-direction:column;}
+.vocal_concert_content{width:85%;margin:auto auto;position:relative;}
+.vocal_concert_content img{display: block;width:100%;}
+.close_vc_contain{position:absolute;left:50%;bottom:-0.3rem;width:0.54rem;height:0.54rem;background:url(http://web.pythe.cn/images/game/emotion/popup_btn_close.png) no-repeat 0 0;background-size:cover;
+                  -webkit-transform:translateX(-50%);
+                  transform:translateX(-50%);
+}
+
+/*pk挑战分享*/
+.pkChallengeShare{background:url(http://web.pythe.cn/images/game/emotion/sort_dot.png) repeat-y 0 0;background-size:100%;background-color: #F9D55B;}
+.pkChallengeShare .challenge_rankSort_dot{padding-bottom:0rem;}
+.user_pk_Achievement img{display: block;width:100%;}
+.user_pk_Achievement .userPK_photo{margin:0 auto;position: relative;width: 0.74rem;height: 0.74rem;}
+.user_pk_Achievement .userPK_photo:after{    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
+    width: 0.7rem;
+    height: 0.7rem;
+    z-index: 2;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    border-radius: 50%;
+    background-color: rgba(195,151,0,1);}
+.challenger_original_score{font-size:0.17rem;line-height:1;margin-top:0.13rem;color:#332C56;text-align:center;font-weight: bold;letter-spacing: 1px;text-indent: 1px;}
+.chagllenge_guys_contain{margin-top:0.21rem;}
+.chagllenge_guys{font-size:0.17rem;color:#332C56;padding-left:0.15rem;font-weight: bold;line-height: 1;}
+.chagllenge_guys_list .guys_img{position:relative;margin:0 auto;width:0.44rem;height:0.44rem;border-radius:50%;}
+.chagllenge_guys_list .guys_img:after{content:'';position:absolute;left:50%;margin-left:-0.2rem;bottom:-0.03rem;z-index:1;width:0.4rem;height:0.4rem;background-color:#C39700;border-radius:50%;}
+.user_icon_cap{position:absolute;width:0.4rem;display: block;top:-0.25rem;left:0;margin:0 auto;z-index:4;}
+.chagllenge_guys_img{position:absolute;overflow:hidden;width:100%;height:100%;top:0;left:0;z-index:2;border-radius:50%;background-color: #fff;border:2px solid #fff;box-sizing:border-box;}
+.chagllenge_guys_img img{width:100%;height:100%;display: block;background:url(http://web.pythe.cn/images/game/emotion/icon_xman.png) no-repeat 50% 0;background-size: 100%;border-radius:50%;}
+.swiper-container{padding:0.33rem 0 0.1rem;font-size:0.12rem;}
+#chagllenge_guys_container{text-align:center;line-height:1;}
+#chagllenge_guys_container .swiper-slide{width:20%;}
+.per_challenger_name{white-space:nowrap;overflow: hidden;text-overflow: ellipsis;margin:0.08rem 0 0.05rem;}
+.is_acceptChallenge {margin-top:0.25rem;}
+.is_acceptChallenge img{width:90%;display: block;max-width:5rem;margin:0.1rem auto 0;}
+
+.turnToLogin{
+position:fixed;left:50%;bottom:30%;
+-webkit-transform: translateX(-50%);
+transform: translateX(-50%);z-index:10;
+}
+.lay-centent-content{background-color: rgba(255,255,255,0.9);padding:10px 20px;border-radius:6px;}
+ 
+/*弹窗解释*/
+.toast_model{position:fixed;top:0;left:0;width:100%;background-color: rgba(0,0,0,0.5);z-index:11;}
+.popup-tip-content {
+    display: block;
+    width: 100%;
+    justify-content: space-around;
+    height: 150px;
+    flex-wrap: wrap;
+    padding: 0 36px;
+}
+
+.popup-tip-content .tip-phrase-selected {
+    display: block;
+    margin-top: 60px;
+    margin-bottom: 17px;
+    width: 85px;
+    height: 45px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background: url('http://web.pythe.cn/images/game/emotion/btn_word_bg_select.png');
+    background-size: cover;
+}
+
+.popup-tip-content .pinyin, .popup-tip-content .annotation{
+    display: block;
+    margin: 17px 0;
+    color: width: 85px;
+    max-height: 174px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    font-size: 17px;
+    font-weight: bold;
+    color: #203E94;
+    text-align: left;
+    line-height: 25px;
+    overflow-y:scroll; 
+}
+
+.close {
+    position: absolute;
+    display: block;
+    width: 54px;
+    height: 54px;
+    background: url(http://web.pythe.cn/images/game/emotion/popup_btn_close.png);
+    background-size: cover;
+    border: none;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -70px;
+}
+
+.popup {
+    display: flex;
+    width: 331px;
+    height: 383px;
+    flex-wrap: wrap;
+    position: fixed;
+    background: #888;
+    margin-top: 30px;
+    background: url(http://web.pythe.cn/images/game/emotion/popup_bg.png) no-repeat;
+    background-size: cover;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-60%);
+}
+
+.popup-title {
+    display: block;
+    width: 209px;
+    height: 56px;
+    background: url(http://web.pythe.cn/images/game/emotion/popup_title_bg.png);
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.popup-title img {
+    position: absolute;
+    display: block;
+    width: 58px;
+    height: 28px;
+    left: 50%;
+    top: 45%;
+    transform: translate(-50%, -50%);
+}
+
+.popup-content {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    /*margin-top: 130px;*/
+    height: 150px;
+    flex-wrap: wrap;
+}
+
+.share_leader_contain{width:100%;height:100%;box-sizing:border-box;background-color: rgba(0,0,0,0.7);}
+.leader_text{color:#fff;margin:0 auto;text-align:right;font-size:0.18rem;line-height:2;letter-spacing: 1.5px;text-indent: 1.5px;}
+.leader_text img{width:100%;display:block;}
+.closeShareLine {margin-top:0.44rem;}
+.leadTop{padding-top:0.1rem;}
+.leadTop img{float:right;display: block;width:30%;margin:0 auto;max-width:1.1rem;}
+.closeShareLine img{width:40%;display: block;margin:0 auto;max-width: 1.5rem;}
+.rank_prize_explain{margin-top:0.17rem;font-size:0.14rem;line-height:0.25rem;text-align:justify;}
+.playOrPauseBtn{float:left;margin-left:0.15rem;margin-top:17px;display:inline-block;width:0.22rem;height:0.22rem;background:url(http://web.pythe.cn/images/game/emotion/pinyin_play_btn.png) no-repeat 50% 0;background-size:cover;}
+.playOrPauseBtn.playingAudio{background-image: url(http://web.pythe.cn/images/game/emotion/pinyin_play.gif);}
+#pinyinAudio{position:absolute;left:0;top:0;opacity: 0;}

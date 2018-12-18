@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	  <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/swiper-3.4.2.min.css">
+    <link rel="stylesheet" type="text/css" href="css/speechEvaluation.css">
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/vue.min.js"></script>   
+    <script type="text/javascript" src="js/swiper-3.4.2.jquery.min.js"></script>       
+    <script type="text/javascript" src='js/jweixin-1.4.0.js'></script>
+    <script type="text/javascript" src="js/compositionDetail.js"></script>  
+    <script type="text/javascript" src="js/jquery.cookie.js"></script> 
+    <script type="text/javascript" src="js/wxShare.js"></script> 
+	<title>pk</title>
+	<style type="text/css">
+         #handIn{width:200px;height:36px;text-align: center;line-height:36px;color:#fff;background-color: #f93;margin:200px auto;}
+	</style>
+</head>
+<body>
+    <div id="handIn">提交</div>
+    <script type="text/javascript">
+       var challengerOpenId;
+       function initGetOpenId(){
+	        var correctComUrl=document.URL;
+	        var correctComId={};
+	        // 从url中获取传过来的作文id
+	        if(correctComUrl.indexOf('?')!=-1){
+	            correctComUrl=correctComUrl.split('?')[1];
+	            correctComUrl=correctComUrl.split('&');
+	            for(var i=0;i<correctComUrl.length;i++){
+	               correctComId[(correctComUrl[i].split('='))[0]]=(correctComUrl[i].split('=')[1]);
+	            }
+	            challengerOpenId=correctComId.id; 
+	        };
+	    };
+	    initGetOpenId();
+
+	    $('#handIn').click(function(){
+	         finishedPK(challengerOpenId);
+	         window.location.href='userPKChallengeScorePage.html?id='+challengerOpenId;
+	    })
+
+       function finishedPK(id){
+          alert($.cookie('wxOpenId')+':'+challengerOpenId)
+          $.ajax({
+            type: 'POST',
+            url: interfaceUrl2+'/pythe-auto-task/rest/match/wcw/challenge/record',
+            data: JSON.stringify({
+                challenger:$.cookie('wxOpenId'),
+                challengerScore:200,
+                defender:id
+            }),
+            async:false,
+            dataType:"json",
+            contentType:"application/json",
+            timeout:5000,
+            success: function(res){                 
+               if(res.status==200){
+	    	         alert('测试：你参与了pk赛，暂时给定你的分数是200分')
+
+               }else{
+                  pytheLayOutObj.pytheLayOutFun({
+                    setTime:3000,
+                    tips:'上传分数失败'
+                  }) 
+               }                                 
+            },
+
+            error:function(err){
+              pytheLayOutObj.pytheLayOutFun({
+                   setTime:3000,
+                   tips:'上传分数失败'
+              })   
+            },
+            complete:function(status){
+              if (status == 'timeout') {
+                 ajaxTimeOut.abort(); //取消请求
+                 pytheLayOutObj.pytheLayOutFun({
+                   setTime:3000,
+                   tips:'上传分数超时，请稍后重试'
+                 })
+              }
+            }
+          });
+       }
+    </script>
+</body>
+</html>

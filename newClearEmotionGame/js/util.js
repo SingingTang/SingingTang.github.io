@@ -1,8 +1,12 @@
-
+﻿
 // 游戏相关配置
 var CONFIG = {
-  interfaceUrl1: 'https://check.pythe.cn',
-  interfaceUrl2: 'https://teacher.pythe.cn',
+  interfaceUrl1: 'https://app.pythe.cn', // 用来获取微信用户个人信息
+  interfaceUrl2: 'https://auto.pythe.cn', //接口
+  //用来线上地址
+  // 比如 interfaceUrl3 + /newClearEmotionGame/clearEmotionGame.html
+  // 相当于 'https://check.pythe.cn/newClearEmotionGame/clearEmotionGame.html
+  interfaceUrl3: 'https://app.pythe.cn',  
   phraseArrayLevel1: ['A'],
   phraseArrayLevel2: [],
   phraseNumTotal: 30,
