@@ -7,6 +7,8 @@
     <link type="text/css" rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/main-style.css">
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/clipboard.min.js"></script>
 </head>
 
 <body>
@@ -75,9 +77,25 @@
                         学习前端相关知识，如HTML、CSS、JS，以及前端相关框架，如jQuery、react，并使用WEB端开发工具，能够使用git,npm,webpack工具进行打包处理在此期间也做了几个小项目，如，模拟朋友圈，射击小游戏，口袋豆瓣
                     </p>
                 </li>
+                 <li class="work-item">
+                    <span class="item-circle"></span>
+                    <p class="item-time">2018.10 —— 至今</p>
+                    <p class="item-company">广州大策科技有限公司实习</p>
+                    <p class="item-text">
+                        负责公司的H5部分
+                    </p>
+                </li>
+
                 <li class="work-item">
                     <span class="item-circle"></span>
                     <p class="item-time">项目经验</p>
+                    <p class="item-company"><a href="./newClearEmotionGame/clearEmotionGame.html">万词王游戏</a></p>
+                    <span class="copy-tip">复制成功</span>
+                    <p class="item-text">
+                        屏幕随机下落成语，长按可以读成语，判断是否读对。需要在微信环境下打开。
+                        <input class="copy-text"  value="https://singingtang.github.io/newClearEmotionGame/clearEmotionGame.html" readonly="readonly" />
+                        <button class="copy-btn" data-clipboard-action="copy" data-clipboard-target=".copy-text">(点击复制游戏链接)</button>
+                    </p>
                     <p class="item-company"><a href="./moment/moments.html">模拟朋友圈</a></p>
                     <p class="item-text">
                         用jquery实现了朋友圈基本消息的展示以及基本功能。点赞、评论、放大图片等功能。
@@ -134,4 +152,18 @@
     </div>
 
 </body>
+<script type="text/javascript">
+    var clipboard = new Clipboard('.copy-btn');
+  clipboard.on('success', function(e) {
+    $('.copy-tip').css('display', 'block');
+    console.log(e)
+    setTimeout(() => $('.copy-tip').css('display', 'none'), 2000)
+    // document.body.removeChild(input); s 
+  });
+
+  clipboard.on('error', function(e) {
+
+  });
+
+</script>
 </html>
