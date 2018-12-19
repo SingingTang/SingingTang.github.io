@@ -88,13 +88,13 @@
 
                 <li class="work-item">
                     <span class="item-circle"></span>
-                    <p class="item-time">项目经验</p>
-                    <p class="item-company"><a href="./newClearEmotionGame/clearEmotionGame.html">万词王游戏</a></p>
+                    <p class="item-time">项目经验（点击项目名称均可跳转）</p>
+                    <p class="item-company"><a href="https://app.pythe.cn/newClearEmotionGame/clearEmotionGame.html">万词王游戏</a></p>
                     <span class="copy-tip">复制成功</span>
                     <p class="item-text">
                         屏幕随机下落成语，长按可以读成语，判断是否读对。需要在微信环境下打开。
                         <input class="copy-text"  value="https://app.pythe.cn/newClearEmotionGame/clearEmotionGame.html" readonly="readonly" />
-                        <button class="copy-btn" data-clipboard-action="copy" data-clipboard-target=".copy-text">(点击复制游戏链接)</button>
+                        <button class="copy-btn" data-clipboard-action="copy" data-clipboard-target=".copy-text">(打开游戏)</button>
                     </p>
                     <p class="item-company"><a href="./moment/moments.html">模拟朋友圈</a></p>
                     <p class="item-text">
@@ -150,16 +150,9 @@
 
 </body>
 <script type="text/javascript">
-    var clipboard = new Clipboard('.copy-btn');
-  clipboard.on('success', function(e) {
-    $('.copy-tip').css('display', 'block');
-    console.log(e)
-    setTimeout(() => $('.copy-tip').css('display', 'none'), 2000)
-  });
-
-  clipboard.on('error', function(e) {
-
-  });
+    $('.copy-btn').click(() => {
+        window.location.href = 'https://app.pythe.cn/newClearEmotionGame/clearEmotionGame.html'
+    })
 
 </script>
 </html>
